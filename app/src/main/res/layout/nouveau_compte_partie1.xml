@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vue du 2ème fragment (et donc aussi du 2ème onglet) : correction des propositions -->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/onglet_correction"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/nouveau_compte_suivant"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_compte_suivant" />
+
+        <Button
+            android:id="@+id/nouveau_compte_connecter"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_compte_connecter" />
+
+    </LinearLayout>
+
+</ScrollView>
