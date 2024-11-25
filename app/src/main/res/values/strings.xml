@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PassPar2</string>
+    <string name="emailaddress">adresse mail</string>
 </resources>
