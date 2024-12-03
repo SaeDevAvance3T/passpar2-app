@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Vue de la partie 1 de la création de compte -->
+<!-- Vue de la partie 2 de la création de compte -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,7 +24,6 @@
             android:layout_gravity="center" />
 
         <TextView
-            android:id="@+id/titre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/marge_verticale"
@@ -43,36 +42,44 @@
             android:text="@string/nouveau_compte_titre2" />
 
         <EditText
-            android:id="@+id/saisieNom"
+            android:id="@+id/saisiePays"
             android:maxLines="1"
             android:maxLength="35"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
-            android:hint="@string/nouveau_compte_placeholder_nom" />
+            android:hint="@string/nouveau_compte_placeholder_pays" />
 
         <EditText
-            android:id="@+id/saisiePrenom"
+            android:id="@+id/saisieVille"
             android:maxLines="1"
             android:maxLength="35"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
-            android:hint="@string/nouveau_compte_placeholder_prenom" />
+            android:hint="@string/nouveau_compte_placeholder_ville" />
 
         <EditText
-            android:id="@+id/saisieMail"
+            android:id="@+id/saisieCodePostal"
             android:maxLines="1"
             android:maxLength="35"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
-            android:hint="@string/nouveau_compte_placeholder_mail" />
+            android:hint="@string/nouveau_compte_placeholder_code_postal" />
 
         <EditText
-            android:id="@+id/saisieMdp"
+            android:id="@+id/saisieRue"
             android:maxLines="1"
             android:maxLength="35"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
-            android:hint="@string/nouveau_compte_placeholder_mdp" />
+            android:hint="@string/nouveau_compte_placeholder_rue" />
+
+        <EditText
+            android:id="@+id/saisieComplement"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_complement" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/nouveau_compte_suivant"
@@ -84,8 +91,7 @@
             android:id="@+id/nouveau_compte_connecter"
             style="@style/nouveau_compte_suivant"
             android:text="@string/nouveau_compte_connecter"
-            android:layout_marginBottom="45dp"
-            android:onClick="clicRechercherEnChaine"/>
+            android:layout_marginBottom="45dp"/>
 
     </LinearLayout>
 
