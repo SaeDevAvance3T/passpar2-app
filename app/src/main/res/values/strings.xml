@@ -2,4 +2,8 @@
     <string name="app_name">PassPar2</string>
     <string name="emailaddress">adresse mail</string>
     <string name="password">mot de passe</string>
+    <string name="forgotten_password">Mot de passe oublié ?</string>
+    <string name="api_check">API appelée</string>
+    <string name="missing_data">Données manquantes. Réessayez</string>
+    <string name="missed_connexion">API introuvable</string>
 </resources>
