@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -55,6 +56,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         emailArea = findViewById(R.id.emailaddress);
         passwordArea = findViewById(R.id.password);
         responseArea = findViewById(R.id.responsetext);
+        bodyRequest = new String[2];
     }
 
     public void createAccountClick(View view) {
@@ -64,12 +66,14 @@ public class AuthenticationActivity extends AppCompatActivity {
     public void authenticationClick(View view) {
         emailText = emailArea.getText().toString();
         passwordText = passwordArea.getText().toString();
-        if (emailText == null || passwordText == null) {
+        if (emailText.isEmpty() || passwordText.isEmpty()) {
             responseArea.setText(R.string.missing_data);
         } else {
-            url = "";
-            bodyRequest[1] = emailText;
-            bodyRequest[2] = passwordText;
+            Toast.makeText(this, emailText + passwordText, Toast.LENGTH_LONG)
+                    .show();
+            url = "https://postman-echo.com/post";
+            bodyRequest[0] = emailText;
+            bodyRequest[1] = passwordText;
             sendData(url, bodyRequest);
         }
     }
@@ -79,8 +83,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         toutOk = true;
         JSONObject objectSent = new JSONObject();
         try {
-            objectSent.put("EMAIL", body[1]);
-            objectSent.put("PASSWORD", body[2]);
+            objectSent.put("EMAIL", body[0]);
+            objectSent.put("PASSWORD", body[1]);
         } catch(JSONException e) {
             toutOk = false;
         }
@@ -94,7 +98,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     },
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
-
+                            responseArea.setText("erreur");
                         }
                     })
 
@@ -108,5 +112,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
             };
         }
+    }
+
+    public void forgottenPasswordClick(View view) {
+        Toast.makeText(this, "un mail vous a été envoyé à l'adresse mail renseignée", Toast.LENGTH_LONG)
+                .show();
     }
 }
