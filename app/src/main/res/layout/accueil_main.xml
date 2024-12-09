@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vue de l'activité principale de l'accueil
+ Elle est gérée par un LinearLayout vertical car elle contient :
+ - un TabLayout qui contiendra les fragments, chacun sera accessible via
+ un clic sur le bouton de l'onglet
+ - un ViewPager dont le rôle sera d'afficher différents
+ fragments, selon le défilement effectué par l'utilisateur -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <!-- conteneur qui permet d'afficher des onglets
+    tabTextColor : couleur du texte des boutons d'onglet
+    tabBackground : couleur de fond des boutons d'onglet
+    tabSelectedTextColor : couleur du texte du bouton de l'onglet actif
+    tabIndicatorColor : couleur du trait qui souligne le nom du
+    bouton de l'onglet actif -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        app:tabTextColor="@color/black"
+        app:tabBackground="@color/vert"
+        app:tabSelectedTextColor="@color/black"
+        app:tabIndicatorColor="@color/white"
+        android:layout_height="wrap_content" />
+    <!-- ViewPager qui va gérer le défilement via un "glisser" entre les onglets -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/activity_main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

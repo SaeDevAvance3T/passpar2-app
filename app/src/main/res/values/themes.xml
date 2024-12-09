@@ -5,5 +5,40 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.PassPar2" parent="Base.Theme.PassPar2" />
+    <style name="app_theme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/vert</item>
+    </style>
+
+    <style name="Theme.PassPar2" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <!-- Style nouveau_compte -->
+    <style name="nouveau_compte_suivant" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginRight">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginTop">@dimen/marge_horizontale</item>
+        <item name="android:layout_marginBottom">@dimen/marge_horizontale</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/nouveau_compte_suivant</item>
+    </style>
+
+    <style name="nouveau_compte_saisie" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nouveau_compte_hauteur_saisie</item>
+        <item name="android:layout_marginLeft">@dimen/grande_marge_horizontale</item>
+        <item name="android:layout_marginRight">@dimen/grande_marge_horizontale</item>
+        <item name="android:layout_marginTop">@dimen/marge_verticale</item>
+        <item name="android:layout_marginBottom">@dimen/marge_verticale</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/placeHolder</item>
+        <item name="android:paddingLeft">@dimen/padding_texte</item>
+        <item name="android:paddingRight">@dimen/padding_texte</item>
+        <item name="android:background">@drawable/nouveau_compte_saisie</item>
+    </style>
+
 </resources>

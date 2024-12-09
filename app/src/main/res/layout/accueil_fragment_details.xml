@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/black"
+    android:layout_height="wrap_content"
+    tools:context="Accueil_fragment_details">
+
+    <LinearLayout
+        android:id="@+id/onglet_correction"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/saisieNom"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_nom" />
+
+        <EditText
+            android:id="@+id/saisiePrenom"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_prenom" />
+
+        <EditText
+            android:id="@+id/saisieMail"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_mail" />
+
+        <EditText
+            android:id="@+id/saisieMdp"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_mdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_suivant"
+            style="@style/nouveau_compte_suivant"
+            android:background="@color/vert"
+            android:text="@string/nouveau_compte_suivant" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_connecter"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_compte_connecter"
+            android:layout_marginBottom="45dp"
+            android:onClick="clicRechercherEnChaine"/>
+
+    </LinearLayout>
+
+</ScrollView>

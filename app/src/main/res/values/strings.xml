@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">PassPar2</string>
+
+    <string name="nouveau_compte_titre">Création de compte</string>
+    <string name="nouveau_compte_titre2">Informations générales</string>
+    <string name="nouveau_compte_titre2_2">Adresse personnelle</string>
+    <string name="nouveau_compte_suivant">Suivant</string>
+    <string name="nouveau_compte_connecter">Se connecter</string>
+
+    <!-- Ensemble des strings pour la partie 1 de la création de compte-->
+    <string name="nouveau_compte_placeholder_nom">Nom</string>
+    <string name="nouveau_compte_placeholder_prenom">Prenom</string>
+    <string name="nouveau_compte_placeholder_mail">Adresse mail</string>
+    <string name="nouveau_compte_placeholder_mdp">Mot de passe</string>
+
+    <!-- Ensemble des strings pour la partie 2 de la création de compte-->
+    <string name="nouveau_compte_placeholder_pays">Pays</string>
+    <string name="nouveau_compte_placeholder_ville">Ville</string>
+    <string name="nouveau_compte_placeholder_code_postal">Code postal</string>
+    <string name="nouveau_compte_placeholder_rue">Rue</string>
+    <string name="nouveau_compte_placeholder_complement">Complément</string>
 </resources>
