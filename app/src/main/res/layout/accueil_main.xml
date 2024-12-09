@@ -19,9 +19,9 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        app:tabTextColor="@color/black"
-        app:tabBackground="@color/vert"
-        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/white"
+        app:tabBackground="@color/black"
+        app:tabSelectedTextColor="@color/vert"
         app:tabIndicatorColor="@color/white"
         android:layout_height="wrap_content" />
     <!-- ViewPager qui va gérer le défilement via un "glisser" entre les onglets -->

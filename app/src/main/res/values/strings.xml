@@ -19,4 +19,7 @@
     <string name="nouveau_compte_placeholder_code_postal">Code postal</string>
     <string name="nouveau_compte_placeholder_rue">Rue</string>
     <string name="nouveau_compte_placeholder_complement">Complément</string>
+
+    <string name="nouveau_compte_onglet_parcours">Parcours</string>
+    <string name="nouveau_compte_onglet_details">Details</string>
 </resources>

@@ -34,7 +34,7 @@ public class Accueil_fragment_parcours extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // On récupère la vue (le layout) associée au fragment un
-        View vueDuFragment = inflater.inflate(R.layout.accueil_fragment_details, container, false);
+        View vueDuFragment = inflater.inflate(R.layout.accueil_fragment_parcours, container, false);
 
         return vueDuFragment;
     }

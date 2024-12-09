@@ -7,6 +7,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.passpar2.Accueil_adaptateur_fragments;
 import com.example.passpar2.R;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * Cette classe activité gère 3 fragments qui seront affichés via un ViewPager
@@ -17,18 +19,50 @@ import com.example.passpar2.R;
  * @author C. Servières
  */
 public class Accueil_main extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil_main);
-        // on récupère un accès sur le ViewPager défini dans la vue (le fichier layout)
-        ViewPager2 pager = findViewById(R.id.activity_main_viewpager);
+        /*
+         * on récupère un accès sur le ViewPager défini dans la vue
+         * ainsi que sur le TabLayout qui gèrera les onglets
+         */
+        ViewPager2 gestionnairePagination = findViewById(R.id.activity_main_viewpager);
+        TabLayout gestionnaireOnglet = findViewById(R.id.tab_layout);
         /*
          * on associe au ViewPager un adaptateur (c'est lui qui organise le
          * défilement entre les fragments à afficher)
-         * La classe AdaptateurPage a été codée par le développeur (elle hérite de
-         * FragmentStateAdapter)
          */
-        pager.setAdapter(new Accueil_adaptateur_fragments(this)) ;
+        gestionnairePagination.setAdapter(new Accueil_adaptateur_fragments(this)) ;
+        /*
+         * On regroupe dans un tableau les intitulés des boutons d'onglet
+         */
+        String[] titreOnglet = {getString(R.string.nouveau_compte_onglet_parcours),
+                getString(R.string.nouveau_compte_onglet_details)};
+        /*
+         * On crée une instance de type TabLayoutMediator qui fera le lien entre
+         * le gestionnaire de pagination et le gestionnaire des onglets
+         * La méthode onConfigureTab permet de préciser quel intitulé de bouton
+         * d'onglets correspond à tel ou tel onglet, selon la position de celui-ci
+         * L'instance TabLayoutMediator est attachée à l'activité courante
+         *
+         */
+        new TabLayoutMediator(gestionnaireOnglet, gestionnairePagination,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override public void onConfigureTab(TabLayout.Tab tab,
+                                                         int position) {
+                        tab.setText(titreOnglet[position]);
+                    }
+                }).attach();
+        /*
+         * Le code ci-dessus peut être écrit de manière plus concise en utilisant
+         * des lambda :
+         *
+         * new TabLayoutMediator(gestionnaireOnglet, gestionnairePagination,
+         * (tab, position) -> tab.setText(titreOnglet[position])
+         * ).attach();
+         *
+         */
     }
 }
