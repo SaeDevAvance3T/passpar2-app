@@ -22,4 +22,9 @@
 
     <string name="nouveau_compte_onglet_parcours">Parcours</string>
     <string name="nouveau_compte_onglet_details">Details</string>
+    <string name="menu_compte">Mon compte</string>
+    <string name="menu_clients">Mes clients</string>
+    <string name="menu_itineraire">Mes itinéraires</string>
+    <string name="menu_parcours">Mes parcours</string>
+    <string name="gestion_clients_titre">Mes clients</string>
 </resources>

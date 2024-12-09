@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="wrap_content"
+    tools:context="Accueil_fragment_details">
+
+    <LinearLayout
+        android:id="@+id/onglet_correction"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/gestion_clients_titre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_titre"
+            android:textColor="@color/white"
+            android:text="@string/gestion_clients_titre" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_connecter"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_compte_connecter"
+            android:layout_marginBottom="45dp"
+            android:onClick="clicRechercherEnChaine"/>
+
+    </LinearLayout>
+
+</ScrollView>

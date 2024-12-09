@@ -1,6 +1,12 @@
 package com.example.passpar2;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -24,6 +30,20 @@ public class Accueil_main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil_main);
+
+        // Configuration de la Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);  // Définit cette Toolbar comme ActionBar
+
+        // Si nécessaire, vous pouvez ajouter un bouton "retour" ou d'autres options
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Supprimer la flèche de retour
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);  // Désactive la flèche de retour
+            getSupportActionBar().setTitle("");
+        }
+
         /*
          * on récupère un accès sur le ViewPager défini dans la vue
          * ainsi que sur le TabLayout qui gèrera les onglets
@@ -64,5 +84,34 @@ public class Accueil_main extends AppCompatActivity {
          * ).attach();
          *
          */
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Charge le menu de l'Activity
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Gérer les clics des items
+        int id = item.getItemId();
+
+        if (id == R.id.action_account) {
+            Toast.makeText(this, "Compte sélectionné", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_path) {
+            Toast.makeText(this, "Parcours sélectionné", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_clients) {
+            Toast.makeText(this, "Clients sélectionné", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_iti) {
+            Toast.makeText(this, "Itinéraires sélectionné", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

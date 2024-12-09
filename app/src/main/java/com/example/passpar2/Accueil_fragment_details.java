@@ -2,6 +2,7 @@ package com.example.passpar2;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -34,16 +35,13 @@ public class Accueil_fragment_details extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false); // N'utilise pas de menu car celui-ci est dans l'activité principale
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // On récupère la vue (le layout) associée au fragment un
         View vueDuFragment = inflater.inflate(R.layout.accueil_fragment_details, container, false);
-
-        Toolbar toolbar = vueDuFragment.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         return vueDuFragment;
     }
@@ -53,25 +51,8 @@ public class Accueil_fragment_details extends Fragment implements View.OnClickLi
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Charger le menu
-        ((AppCompatActivity) getActivity()).getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics des items
-        int id = item.getItemId();
-
-        if (id == R.id.action_account) {
-            Toast.makeText(getContext(), "Compte sélectionné", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_path) {
-            Toast.makeText(getContext(), "Parcours sélectionné", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -14,15 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#000000"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:titleTextColor="#FFFFFF" />
-            <!--app:logo="@drawable/logo_passpar2"-->
-
         <ImageView
             android:id="@+id/GfG_full_logo"
             android:layout_width="wrap_content"

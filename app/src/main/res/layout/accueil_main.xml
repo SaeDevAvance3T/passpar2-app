@@ -16,6 +16,15 @@
     tabSelectedTextColor : couleur du texte du bouton de l'onglet actif
     tabIndicatorColor : couleur du trait qui souligne le nom du
     bouton de l'onglet actif -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#000000"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:logo="@drawable/logo_passpar2"
+        app:titleTextColor="#FFFFFF" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"

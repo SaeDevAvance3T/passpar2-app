@@ -13,15 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#000000"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:titleTextColor="#FFFFFF" />
-        <!--app:logo="@drawable/logo_passpar2"-->
-
         <EditText
             android:id="@+id/saisieNom"
             android:maxLines="1"
