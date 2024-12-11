@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Gestion_clients"
+            android:name=".Clients_afficher"
             android:exported="true">
         </activity>
     </application>

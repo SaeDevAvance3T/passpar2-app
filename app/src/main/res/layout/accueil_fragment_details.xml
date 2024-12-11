@@ -8,7 +8,7 @@
     tools:context="Accueil_fragment_details">
 
     <LinearLayout
-        android:id="@+id/onglet_correction"
+        android:id="@+id/accueil_fragment_details"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="wrap_content"
+    tools:context="Accueil_fragment_parcours">
+
+    <LinearLayout
+        android:id="@+id/clients_creer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/clients_titre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_titre"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre2" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisieNom"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_nom" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisieDescription"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_description" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre3" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisiePays"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_pays" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisieVille"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_ville" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisieCodePostal"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_code_postal" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisieRue"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_rue" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisieComplement"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_complement" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre4" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisieNomContact"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_nomcontact" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisiePrenomContact"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_prenomcontact" />
+
+        <EditText
+            android:id="@+id/nouveau_client_saisietelephoneContact"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_telephonecontact" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_suivant"
+            style="@style/nouveau_compte_suivant"
+            android:background="@color/vert"
+            android:text="@string/nouveau_compte_suivant" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_connecter"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_compte_connecter"
+            android:layout_marginBottom="45dp"
+            android:onClick="clicRechercherEnChaine"/>
+
+    </LinearLayout>
+
+</ScrollView>

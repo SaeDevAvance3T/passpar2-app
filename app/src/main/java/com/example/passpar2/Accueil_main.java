@@ -109,7 +109,7 @@ public class Accueil_main extends AppCompatActivity {
             // création d'une intention
             Intent intention =
                     new Intent(Accueil_main.this,
-                            Gestion_clients.class);
+                            Clients_afficher.class);
             // lancement de l'activité fille
             startActivity(intention);
             return true;

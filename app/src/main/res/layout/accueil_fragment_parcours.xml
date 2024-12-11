@@ -9,7 +9,7 @@
     tools:context="Accueil_fragment_parcours">
 
     <LinearLayout
-        android:id="@+id/onglet_correction"
+        android:id="@+id/accueil_fragment_parcours"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
