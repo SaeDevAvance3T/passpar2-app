@@ -42,4 +42,6 @@
     <string name="nouveau_client_placeholder_telephonecontact">Telephone du contact</string>
     <string name="nouveau_client_placeholder_prenomcontact">Prénom du contact</string>
     <string name="nouveau_client_placeholder_nomcontact">Nom du contact</string>
+    <string name="nouveau_client_valider">Valider</string>
+    <string name="nouveau_client_annuler">Annuler</string>
 </resources>

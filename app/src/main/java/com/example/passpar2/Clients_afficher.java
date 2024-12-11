@@ -56,10 +56,19 @@ public class Clients_afficher extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        // Ajouter un client
+//        // Ajouter un client
+//        findViewById(R.id.clients_ajouter_bouton).setOnClickListener(v -> {
+//            clients.add("Nouveau Client");
+//            adapter.notifyItemInserted(clients.size() - 1);
+//        });
+
         findViewById(R.id.clients_ajouter_bouton).setOnClickListener(v -> {
-            clients.add("Nouveau Client");
-            adapter.notifyItemInserted(clients.size() - 1);
+            // création d'une intention
+            Intent intention =
+                    new Intent(Clients_afficher.this,
+                            Clients_creer.class);
+            // lancement de l'activité fille
+            startActivity(intention);
         });
     }
 

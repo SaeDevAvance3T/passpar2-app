@@ -14,6 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#000000"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:logo="@drawable/logo_passpar2"
+            app:titleTextColor="#FFFFFF" />
+
         <TextView
             android:id="@+id/clients_titre"
             android:layout_width="wrap_content"
@@ -132,15 +141,14 @@
             android:hint="@string/nouveau_client_placeholder_telephonecontact" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/nouveau_compte_suivant"
+            android:id="@+id/nouveau_client_valider"
             style="@style/nouveau_compte_suivant"
-            android:background="@color/vert"
-            android:text="@string/nouveau_compte_suivant" />
+            android:text="@string/nouveau_client_valider" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/nouveau_compte_connecter"
-            style="@style/nouveau_compte_suivant"
-            android:text="@string/nouveau_compte_connecter"
+            android:id="@+id/nouveau_client_annuler"
+            style="@style/bouton_annuler"
+            android:text="@string/nouveau_client_annuler"
             android:layout_marginBottom="45dp"
             android:onClick="clicRechercherEnChaine"/>
 
