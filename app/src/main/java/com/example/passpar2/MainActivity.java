@@ -18,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * URL de l'API à interroger
      */
-    private static final String URL_FILM = "http://10.0.2.2:8080/api/customers";
+    private static final String URL_FILM = "http://10.2.14.36:8080/api/customers";
 
     /** Zone de saisie du titre recherché */
     private EditText zoneTitre;
@@ -72,8 +73,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private RequestQueue getFileRequete() {
         if (fileRequete == null) {
-            fileRequete = Volley.newRequestQueue(this);
+
+            // notez en argument la présence d'un objet pour gérer le proxy
+            fileRequete = Volley.newRequestQueue(this, new GestionProxy());
         }
+        // sinon
         return fileRequete;
     }
 
@@ -106,13 +110,28 @@ public class MainActivity extends AppCompatActivity {
 
         String urlPrete = URL_FILM;
 
-        JsonObjectRequest requeteVolley = new JsonObjectRequest(
-                Request.Method.GET, urlPrete, null,
-                new Response.Listener<JSONObject>() {
+        StringRequest requeteVolley = new StringRequest(
+                Request.Method.GET, urlPrete,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject reponse) {
-
-                        setZoneResultatAvecObjetJson(reponse);
+                    public void onResponse(String reponseBrute) {
+                        Log.d("Response", "Réponse brute : " + reponseBrute);
+                        // Vérifie si la réponse est bien un JSON avant de la traiter
+                        if (reponseBrute.startsWith("{") && reponseBrute.endsWith("}")) {
+                            try {
+                                JSONObject reponseJson = new JSONObject(reponseBrute);
+                                setZoneResultatAvecObjetJson(reponseJson);
+                            } catch (JSONException e) {
+                                Log.e("JSONError", "Erreur lors de l'analyse du JSON", e);
+                                Toast.makeText(MainActivity.this, "Erreur lors de l'analyse du JSON", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            // La réponse n'est pas un JSON, afficher un message d'erreur
+                            Log.e("ResponseError", "La réponse n'est pas un JSON : " + reponseBrute);
+                            Toast.makeText(MainActivity.this, "Réponse non JSON reçue", Toast.LENGTH_LONG).show();
+                            zoneResultat.setText("Erreur : Réponse non JSON");
+                            zoneResultat.setText(reponseBrute);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -122,10 +141,9 @@ public class MainActivity extends AppCompatActivity {
                         zoneResultat.setText(erreur.toString());
                         Toast.makeText(MainActivity.this, erreur.toString(), Toast.LENGTH_SHORT).show();
                     }
-                });
-
-        // Ajout de la requête à la file d'attente de Volley
-        Volley.newRequestQueue(this).add(requeteVolley);
+                }
+        );
+        getFileRequete().add(requeteVolley);
     }
 
     /**
@@ -141,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 resultatFormate.append("Nom non disponible");
             }
             zoneResultat.setText(resultatFormate.toString());
+            zoneResultat.setText(reponse.toString());
         } catch (JSONException erreur) {
             Log.e("JSONError", "Erreur lors de l'analyse du JSON", erreur);
             Toast.makeText(this, "Erreur lors de l'analyse du JSON", Toast.LENGTH_LONG).show();
