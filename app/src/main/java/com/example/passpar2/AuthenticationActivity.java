@@ -27,6 +27,16 @@ import java.util.Map;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
+    private static final String EXTRA_LOGIN = "EMAIL_KEY";
+
+    private static final String EXTRA_PASSWORD = "PASSWORD_KEY";
+
+    /** Contient l'url de l'appel à l'API */
+    private static final String url = "https://postman-echo.com/post";
+
+    private String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+
     /** Contient le champ email du formulaire */
     private EditText emailArea;
 
@@ -42,11 +52,13 @@ public class AuthenticationActivity extends AppCompatActivity {
     /** Contient la chaine de caractères du champ mot de passe */
     private String passwordText;
 
-    /** Contient l'url de l'appel à l'API */
-    private String url;
-
     /** Contient les paramètres du corps de la requête */
     private String[] bodyRequest;
+
+    /**
+     * File d'attente pour les requêtes Web (en lien avec l'utilisation de Volley)
+     */
+    private RequestQueue fileRequete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +73,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     public void createAccountClick(View view) {
         //Intent intention = new Intent(AuthenticationActivity.class, )
+        //
     }
 
     public void authenticationClick(View view) {
@@ -68,10 +81,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         passwordText = passwordArea.getText().toString();
         if (emailText.isEmpty() || passwordText.isEmpty()) {
             responseArea.setText(R.string.missing_data);
+        } else if (!emailText.matches(emailRegex)){
+            responseArea.setText(R.string.invalid_email);
         } else {
             Toast.makeText(this, emailText + passwordText, Toast.LENGTH_LONG)
                     .show();
-            url = "https://postman-echo.com/post";
             bodyRequest[0] = emailText;
             bodyRequest[1] = passwordText;
             sendData(url, bodyRequest);
@@ -79,6 +93,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     public void sendData(String url, String[] body) {
+
         boolean toutOk;
         toutOk = true;
         JSONObject objectSent = new JSONObject();
@@ -88,34 +103,56 @@ public class AuthenticationActivity extends AppCompatActivity {
         } catch(JSONException e) {
             toutOk = false;
         }
-
         if (toutOk) {
             JsonObjectRequest volleyRequest = new JsonObjectRequest(Request.Method.POST, url, objectSent,
                     new Response.Listener<JSONObject>() {
+                        @Override
                         public void onResponse(JSONObject reponse) {
                             responseArea.setText(R.string.api_check);
+                            //Intent intention = new Intent(AuthenticationActivity.class, );
+                            //intention.putExtra(EXTRA_LOGIN, emailText);
+                            //intention.putExtra(EXTRA_PASSWORD, passwordText);
+                            //startActivity(intention);
                         }
                     },
                     new Response.ErrorListener() {
+                        @Override
                         public void onErrorResponse(VolleyError error) {
-                            responseArea.setText("erreur");
+                            responseArea.setText(error.toString());
                         }
+
                     })
 
-            {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<>();
+                    {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> headers = new HashMap<>();
 
-                    //headers.put();
-                    return headers;
-                }
-            };
-        }
+                            //headers.put();
+                            return headers;
+                    }
+                };
+                getFileRequete().add(volleyRequest);
+            }
     }
 
     public void forgottenPasswordClick(View view) {
         Toast.makeText(this, "un mail vous a été envoyé à l'adresse mail renseignée", Toast.LENGTH_LONG)
                 .show();
+    }
+
+    /**
+     * Renvoie la file d'attente pour les requêtes Web :
+     * - si la file n'existe pas encore : elle est créée puis renvoyée
+     * - si une file d'attente existe déjà : elle est renvoyée
+     * On assure ainsi l'unicité de la file d'attente
+     * @return RequestQueue une file d'attente pour les requêtes Volley
+     */
+    private RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this, new GestionProxy());
+        }
+        // sinon
+        return fileRequete;
     }
 }

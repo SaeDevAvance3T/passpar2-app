@@ -12,7 +12,11 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo"
+            android:layout_marginBottom="100dp"/>
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -51,7 +55,7 @@
             android:layout_height="wrap_content"
             android:text="@string/forgotten_password"
             android:textColor="@color/white"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="150dp"
             android:textSize="10dp"
             android:onClick="forgottenPasswordClick"/>
 
