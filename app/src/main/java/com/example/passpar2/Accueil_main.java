@@ -1,5 +1,6 @@
 package com.example.passpar2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -105,7 +106,12 @@ public class Accueil_main extends AppCompatActivity {
             Toast.makeText(this, "Parcours sélectionné", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_clients) {
-            Toast.makeText(this, "Clients sélectionné", Toast.LENGTH_SHORT).show();
+            // création d'une intention
+            Intent intention =
+                    new Intent(Accueil_main.this,
+                            Gestion_clients.class);
+            // lancement de l'activité fille
+            startActivity(intention);
             return true;
         } else if (id == R.id.action_iti) {
             Toast.makeText(this, "Itinéraires sélectionné", Toast.LENGTH_SHORT).show();

@@ -13,6 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#000000"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:logo="@drawable/logo_passpar2"
+            app:titleTextColor="#FFFFFF" />
+
         <TextView
             android:id="@+id/gestion_clients_titre"
             android:layout_width="wrap_content"
