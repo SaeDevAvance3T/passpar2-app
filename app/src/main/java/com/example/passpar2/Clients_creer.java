@@ -5,10 +5,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +41,7 @@ public class Clients_creer extends AppCompatActivity {
             getSupportActionBar().setTitle("");
         }
 
+        Button boutonValider = findViewById(R.id.nouveau_client_valider);
     }
 
     @Override
@@ -69,6 +76,50 @@ public class Clients_creer extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Méthode appelée automatiquement lors du clic sur le bouton "Valider"
+     * Permet si toutes les informations sont renseignées de créer un client
+     * @param bouton bouton cliqué
+     */
+    public void clicValider(View bouton) {
+        // Récupérer les informations du formulaire
+        String nomEntreprise = ((EditText) findViewById(R.id.nouveau_client_saisieNomEntreprise)).getText().toString().trim();
+        String description = ((EditText) findViewById(R.id.nouveau_client_saisieDescriptionEntreprise)).getText().toString().trim();
+        String pays = ((EditText) findViewById(R.id.nouveau_client_saisiePays)).getText().toString().trim();
+        String ville = ((EditText) findViewById(R.id.nouveau_client_saisieVille)).getText().toString().trim();
+        String codepostal = ((EditText) findViewById(R.id.nouveau_client_saisieCodePostal)).getText().toString().trim();
+        String rue = ((EditText) findViewById(R.id.nouveau_client_saisieRue)).getText().toString().trim();
+        String complement = ((EditText) findViewById(R.id.nouveau_client_saisieComplement)).getText().toString().trim();
+        String nomContact = ((EditText) findViewById(R.id.nouveau_client_saisieNomContact)).getText().toString().trim();
+        String prenomContact = ((EditText) findViewById(R.id.nouveau_client_saisiePrenomContact)).getText().toString().trim();
+        String telephoneContact = ((EditText) findViewById(R.id.nouveau_client_saisietelephoneContact)).getText().toString().trim();
+
+        // Validation des champs
+        if (!nomEntreprise.isEmpty() && !description.isEmpty() && !pays.isEmpty() && !ville.isEmpty()
+                && !codepostal.isEmpty() && !rue.isEmpty() && !complement.isEmpty()
+                && !nomContact.isEmpty() && !prenomContact.isEmpty() && !telephoneContact.isEmpty()) {
+
+            // Créer un Intent pour renvoyer les données à MainActivity
+            Intent intentionRetour = new Intent();
+            intentionRetour.putExtra("nomEntreprise", nomEntreprise);
+            intentionRetour.putExtra("description", description);
+            intentionRetour.putExtra("pays", pays);
+            intentionRetour.putExtra("ville", ville);
+            intentionRetour.putExtra("codepostal", codepostal);
+            intentionRetour.putExtra("rue", rue);
+            intentionRetour.putExtra("complement", complement);
+            intentionRetour.putExtra("nomContact", nomContact);
+            intentionRetour.putExtra("prenomContact", prenomContact);
+            intentionRetour.putExtra("telephoneContact", telephoneContact);
+
+            // Renvoyer le résultat avec les données et terminer l'activité
+            setResult(Activity.RESULT_OK, intentionRetour);
+            finish();  // Retourne à MainActivity
+        } else {
+            Toast.makeText(Clients_creer.this, "Les infos sont pas complètes", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
