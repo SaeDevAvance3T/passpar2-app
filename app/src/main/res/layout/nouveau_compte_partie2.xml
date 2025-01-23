@@ -82,15 +82,15 @@
             android:hint="@string/nouveau_compte_placeholder_complement" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/nouveau_compte_suivant"
+            android:id="@+id/nouveau_compte_inscrire"
             style="@style/nouveau_compte_suivant"
             android:background="@color/vert"
-            android:text="@string/nouveau_compte_suivant" />
+            android:text="@string/nouveau_compte_inscrire" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/nouveau_compte_connecter"
-            style="@style/nouveau_compte_suivant"
-            android:text="@string/nouveau_compte_connecter"
+            android:id="@+id/nouveau_compte_retour"
+            style="@style/nouveau_compte_retour"
+            android:text="@string/nouveau_compte_retour"
             android:layout_marginBottom="45dp"/>
 
     </LinearLayout>

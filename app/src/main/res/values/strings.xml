@@ -6,6 +6,8 @@
     <string name="nouveau_compte_titre2_2">Adresse personnelle</string>
     <string name="nouveau_compte_suivant">Suivant</string>
     <string name="nouveau_compte_connecter">Se connecter</string>
+    <string name="nouveau_compte_inscrire">S\'inscrire</string>
+    <string name="nouveau_compte_retour">Retour</string>
 
     <!-- Ensemble des strings pour la partie 1 de la création de compte-->
     <string name="nouveau_compte_placeholder_nom">Nom</string>

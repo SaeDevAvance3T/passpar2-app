@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView zoneResultat;
 
     private AppCompatButton boutonConnecter;
+    private AppCompatButton boutonSuivant;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +60,39 @@ public class MainActivity extends AppCompatActivity {
         zoneResultat = findViewById(R.id.titre);
         boutonConnecter = findViewById(R.id.nouveau_compte_connecter);
 
+        boutonSuivant = findViewById(R.id.nouveau_compte_suivant);
+
         boutonConnecter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clicRechercherEnChaine(v);
             }
         });
+
+        boutonSuivant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nom = ((EditText) findViewById(R.id.saisieNom)).getText().toString().trim();
+                String prenom = ((EditText) findViewById(R.id.saisiePrenom)).getText().toString().trim();
+                String mail = ((EditText) findViewById(R.id.saisieMail)).getText().toString().trim();
+                String motdepasse = ((EditText) findViewById(R.id.saisieMdp)).getText().toString().trim();
+                if (!nom.isEmpty() && !prenom.isEmpty() && !mail.isEmpty() && !motdepasse.isEmpty()){
+                    // création d'une intention
+                    Intent intention =
+                            new Intent(MainActivity.this,
+                                    ActiviteCreationComptePartie2.class);
+                    // lancement de l'activité fille
+                    intention.putExtra("listeInfo",nom);
+                    intention.putExtra("listeInfo",prenom);
+                    intention.putExtra("listeInfo",mail);
+                    intention.putExtra("listeInfo",motdepasse);
+                    startActivity(intention);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Les informations sont incomplètes", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     /**

@@ -27,6 +27,17 @@
         <item name="android:background">@drawable/nouveau_compte_suivant</item>
     </style>
 
+    <style name="nouveau_compte_retour" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginRight">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginTop">@dimen/marge_horizontale</item>
+        <item name="android:layout_marginBottom">@dimen/marge_horizontale</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/nouveau_compte_retour</item>
+    </style>
+
     <style name="nouveau_compte_saisie" parent="Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/nouveau_compte_hauteur_saisie</item>
