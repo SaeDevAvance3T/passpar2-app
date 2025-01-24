@@ -65,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
         boutonConnecter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clicRechercherEnChaine(v);
+
+                // redirigé vers authentification
+                //clicRechercherEnChaine(v);
+                Toast.makeText(getApplicationContext(), "Redirection vers authentification", Toast.LENGTH_SHORT).show();
             }
         });
 
