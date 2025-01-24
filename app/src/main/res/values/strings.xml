@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PassPar2</string>
+    <string name="confirm">Valider</string>
+    <string name="check_button">Valider</string>
+    <string name="create_route">Créer un itinéraire</string>
+    <string name="search_text">Rechercher</string>
 </resources>
