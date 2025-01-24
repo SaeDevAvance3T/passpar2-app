@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     /** Zone pour afficher le résultat de la recherche */
     private TextView zoneResultat;
 
+    /** Boutons de connection et vers la page suivante*/
     private AppCompatButton boutonConnecter;
     private AppCompatButton boutonSuivant;
 
@@ -54,14 +56,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nouveau_compte_partie1); // Assure-toi que ce layout existe
+        //Récupération du layout de la page
+        setContentView(R.layout.nouveau_compte_partie1);
 
+        //Récupération du titre, résultat, bouton de connexion et suivant
         zoneTitre = findViewById(R.id.saisieNom);
         zoneResultat = findViewById(R.id.titre);
         boutonConnecter = findViewById(R.id.nouveau_compte_connecter);
 
         boutonSuivant = findViewById(R.id.nouveau_compte_suivant);
 
+        //Ecouteur de clic sur le bouton connecter
         boutonConnecter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,28 +77,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Ecouteur de clic sur le bouton suivant
         boutonSuivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Récupération des informations saisies par l'utilisateur
                 String nom = ((EditText) findViewById(R.id.saisieNom)).getText().toString().trim();
                 String prenom = ((EditText) findViewById(R.id.saisiePrenom)).getText().toString().trim();
                 String mail = ((EditText) findViewById(R.id.saisieMail)).getText().toString().trim();
                 String motdepasse = ((EditText) findViewById(R.id.saisieMdp)).getText().toString().trim();
-                if (!nom.isEmpty() && !prenom.isEmpty() && !mail.isEmpty() && !motdepasse.isEmpty()){
+
+                //Si données complètes
+                if (!nom.isEmpty() && !prenom.isEmpty() && !mail.isEmpty() && !motdepasse.isEmpty()
+                        && Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").matcher(mail).matches()){
                     // création d'une intention
-                    Intent intention =
-                            new Intent(MainActivity.this,
-                                    ActiviteCreationComptePartie2.class);
-                    // lancement de l'activité fille
-                    intention.putExtra("listeInfo",nom);
-                    intention.putExtra("listeInfo",prenom);
-                    intention.putExtra("listeInfo",mail);
-                    intention.putExtra("listeInfo",motdepasse);
-                    startActivity(intention);
-                }else {
+                    Intent intention = new Intent(MainActivity.this, ActiviteCreationComptePartie2.class);
+
+                    // Envoie des informations dans l'intention
+                    intention.putExtra("nom", nom);
+                    intention.putExtra("prenom", prenom);
+                    intention.putExtra("mail", mail);
+                    intention.putExtra("motdepasse", motdepasse);
+
+                    startActivity(intention); // Lancement activité fille
+                } else {
                     Toast.makeText(getApplicationContext(), "Les informations sont incomplètes", Toast.LENGTH_SHORT).show();
                 }
             }
+
         });
 
     }
