@@ -19,6 +19,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:src="@drawable/ic_arrow_left"
                 android:background="@color/black"
                 app:tint="@android:color/white"/>
@@ -38,11 +39,11 @@
             android:paddingLeft="50dp"
             android:hint="@string/search_text"
             android:textColorHint="@color/white"
-            android:textSize="15dp"/>
+            android:textSize="18dp"/>
         <ListView
             android:id="@+id/enterpriselist"
             android:layout_width="match_parent"
-            android:layout_height="400dp"/>
+            android:layout_height="300dp"/>
         <TextView
             android:id="@+id/displayed_enterprises"
             android:layout_width="match_parent"
@@ -54,7 +55,8 @@
             android:background="@color/green"
             android:text="@string/check_button"
             android:layout_marginTop="40dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:onClick="checkClick"/>
 
     </LinearLayout>
 

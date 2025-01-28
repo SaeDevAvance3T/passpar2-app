@@ -6,6 +6,6 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:textColor="@color/white"
+    android:buttonTint="@color/white"
     android:textSize="18sp"
-    android:gravity="center_vertical"
-    android:onClick="displayEnterprise"/>
+    android:gravity="center_vertical"/>
