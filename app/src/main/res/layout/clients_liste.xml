@@ -17,6 +17,14 @@
         android:textSize="16sp" />
 
     <ImageButton
+        android:id="@+id/modify_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_edit"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="Modify" />
+
+    <ImageButton
         android:id="@+id/delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

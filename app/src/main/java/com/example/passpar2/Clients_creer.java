@@ -1,5 +1,6 @@
 package com.example.passpar2;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -101,25 +102,42 @@ public class Clients_creer extends AppCompatActivity {
                 && !codepostal.isEmpty() && !rue.isEmpty() && !complement.isEmpty()
                 && !nomContact.isEmpty() && !prenomContact.isEmpty() && !telephoneContact.isEmpty()) {
 
-            // Créer un Intent pour renvoyer les données à MainActivity
-            Intent intentionRetour = new Intent();
-            intentionRetour.putExtra("nomEntreprise", nomEntreprise);
-            intentionRetour.putExtra("description", description);
-            intentionRetour.putExtra("pays", pays);
-            intentionRetour.putExtra("ville", ville);
-            intentionRetour.putExtra("codepostal", codepostal);
-            intentionRetour.putExtra("rue", rue);
-            intentionRetour.putExtra("complement", complement);
-            intentionRetour.putExtra("nomContact", nomContact);
-            intentionRetour.putExtra("prenomContact", prenomContact);
-            intentionRetour.putExtra("telephoneContact", telephoneContact);
+            // Créer un AlertDialog pour confirmer la création du client
+            new AlertDialog.Builder(Clients_creer.this)
+                    .setTitle("Confirmer la création du client")
+                    .setMessage("Êtes-vous sûr de vouloir enregistrer ces informations ?")
+                    .setPositiveButton("Oui", (dialog, which) -> {
+                        // Créer un Intent pour renvoyer les données à MainActivity
+                        Intent intentionRetour = new Intent();
+                        intentionRetour.putExtra("nomEntreprise", nomEntreprise);
+                        intentionRetour.putExtra("description", description);
+                        intentionRetour.putExtra("pays", pays);
+                        intentionRetour.putExtra("ville", ville);
+                        intentionRetour.putExtra("codepostal", codepostal);
+                        intentionRetour.putExtra("rue", rue);
+                        intentionRetour.putExtra("complement", complement);
+                        intentionRetour.putExtra("nomContact", nomContact);
+                        intentionRetour.putExtra("prenomContact", prenomContact);
+                        intentionRetour.putExtra("telephoneContact", telephoneContact);
 
-            // Renvoyer le résultat avec les données et terminer l'activité
-            setResult(Activity.RESULT_OK, intentionRetour);
-            finish();  // Retourne à MainActivity
+                        // Renvoyer le résultat avec les données et terminer l'activité
+                        setResult(Activity.RESULT_OK, intentionRetour);
+                        finish();  // Retourne à MainActivity
+                    })
+                    .setNegativeButton("Non", null)  // Si "Non", on ne fait rien
+                    .show();  // Afficher l'AlertDialog
         } else {
             Toast.makeText(Clients_creer.this, "Les infos sont pas complètes", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Méthode appelée automatiquement lors du clic sur le bouton "Annuler"
+     * Permet d'annuler l'ajout et renvoie donc vers la page précédente
+     * @param bouton bouton cliqué
+     */
+    public void clicAnnuler(View bouton) {
+        finish();
     }
 
 }

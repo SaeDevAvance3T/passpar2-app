@@ -150,6 +150,7 @@
             android:id="@+id/nouveau_client_annuler"
             style="@style/bouton_annuler"
             android:text="@string/nouveau_client_annuler"
+            android:onClick="clicAnnuler"
             android:layout_marginBottom="45dp" />
 
     </LinearLayout>
