@@ -81,6 +81,15 @@
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_compte_placeholder_complement" />
 
+        <TextView
+            android:id="@+id/texteapi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/white"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/nouveau_compte_inscrire"
             style="@style/nouveau_compte_suivant"
