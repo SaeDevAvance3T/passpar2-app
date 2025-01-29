@@ -7,20 +7,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import com.example.passpar2.CallbackListener;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CheckboxAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> items; // Liste des données
-    private CallbackListener callbackListener; // Interface de communication
+    private List<String> items;
+    private Set<Integer> selectedPositions = new HashSet<>(); // Stocke les positions cochées
+    private CheckboxSelectionListener selectionListener;
 
-    public CheckboxAdapter(Context context, List<String> items, CallbackListener callbackListener) {
+    public CheckboxAdapter(Context context, List<String> items, CheckboxSelectionListener selectionListener) {
         this.context = context;
         this.items = items;
-        this.callbackListener = callbackListener;
+        this.selectionListener = selectionListener;
     }
 
     @Override
@@ -47,17 +49,20 @@ public class CheckboxAdapter extends BaseAdapter {
         CheckBox checkBox = convertView.findViewById(R.id.checkbox);
         checkBox.setText(items.get(position));
 
-        // Configurer l'état initial si nécessaire
-        checkBox.setChecked(false);
+        // Rétablir l'état précédent si l'utilisateur fait défiler la liste
+        checkBox.setChecked(selectedPositions.contains(position));
 
-        // Définir un écouteur sur la Checkbox
+        // Gérer le clic sur la Checkbox
         checkBox.setOnClickListener(v -> {
-            boolean isChecked = checkBox.isChecked();
-            String content = items.get(position);
+            if (checkBox.isChecked()) {
+                selectedPositions.add(position);
+            } else {
+                selectedPositions.remove(position);
+            }
 
-            // Transmettre l'information via le callback
-            if (callbackListener != null) {
-                callbackListener.onCheckboxClicked(content, isChecked);
+            // Envoyer la mise à jour à l’activité principale
+            if (selectionListener != null) {
+                selectionListener.onCheckboxSelectionChanged(selectedPositions);
             }
         });
 

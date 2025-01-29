@@ -26,8 +26,10 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-public class NewRouteActivity extends AppCompatActivity implements CallbackListener {
+public class NewRouteActivity extends AppCompatActivity implements CheckboxSelectionListener {
 
     /** Contient l'URL appelant l'API  */
     private final String URL_ENTERPRISES = "blablabla";
@@ -60,6 +62,8 @@ public class NewRouteActivity extends AppCompatActivity implements CallbackListe
         setContentView(R.layout.new_route_layout);
 
         enterpriseList = findViewById(R.id.enterpriselist);
+
+        displayedEnterprises = findViewById(R.id.displayed_enterprises);
 
         getEnterpriseList();
 
@@ -131,7 +135,7 @@ public class NewRouteActivity extends AppCompatActivity implements CallbackListe
                                 enterpriseValues.add(jsonObject.getString("\"" + i + "\""));
                             }
                         } catch(JSONException erreur) {
-
+                            // TODO coder en cas d'erreur
                         }
                     }
                 },
@@ -150,12 +154,12 @@ public class NewRouteActivity extends AppCompatActivity implements CallbackListe
      *
      * @param view
      */
-    public void checkClick(View view) {
-        if (selectedEnterprises.size() != 0) {
-            //Intent intention = new Intent(NewRouteActivity.class, )
-            //intention.putExtra(EXTRA_ENTERPRISE, selectedEnterprises);
-        }
-    }
+    //public void checkClick(View view) {
+    //    if (selectedEnterprises.size() != 0) {
+    //        //Intent intention = new Intent(NewRouteActivity.class, )
+    //        //intention.putExtra(EXTRA_ENTERPRISE, selectedEnterprises);
+    //    }
+    //}
 
     /**
      * Renvoie la file d'attente pour les requêtes Web :
@@ -172,20 +176,23 @@ public class NewRouteActivity extends AppCompatActivity implements CallbackListe
         return fileRequete;
     }
 
-    // Implémentation du callback
+    // Met à jour la TextView avec les Checkbox sélectionnées
     @Override
-    public void onCheckboxClicked(String checkboxContent, boolean isChecked) {
-        // Afficher un message ou effectuer une action
-        String message = checkboxContent + " est " + (isChecked ? "cochée" : "décochée");
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        // TODO ajouter ou retirer l'entreprise à la liste des entreprises sélectionnées en temps réel
-        //if (isChecked) {
-        //    selectedEnterprises.add(checkboxContent);
-        //} else {
-        //    selectedEnterprises.remove(checkboxContent);
-        //}
-        //for(int i = 0; i < selectedEnterprises.size(); i++) {
-        //    displayedEnterprises.setText(selectedEnterprises.get(i) + ", ");
-        //}
+    public void onCheckboxSelectionChanged(Set<Integer> selectedItems) {
+        Log.d("MainActivity", "onCheckboxSelectionChanged exécuté avec : " + selectedItems);
+        String selectedEnterprises;
+        selectedEnterprises = "";
+        if (selectedItems.size() != 0) {
+            for (int i = 0; i < selectedItems.size(); i++) {
+                selectedEnterprises += enterpriseValues.get((Integer) selectedItems.toArray()[i]);
+                if (i != selectedItems.size()-1) {
+                    selectedEnterprises += ", ";
+                }
+            }
+            displayedEnterprises.setText(selectedEnterprises);
+        } else {
+            displayedEnterprises.setText("");
+        }
+
     }
 }
