@@ -8,18 +8,26 @@
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
 <<<<<<< HEAD
+<<<<<<< HEAD
             <value value="C:\Users\thomas.izard\.android\avd\Pixel_7_API_24_2.avd" />
 =======
             <value value="C:\Users\thomas.lemaire\.android\avd\Pixel_5_API_24.avd" />
 >>>>>>> feature/modifier-compte
+=======
+            <value value="C:\Users\thomas.izard\.android\avd\Pixel_7_Pro_API_24_1.avd" />
+>>>>>>> feature/nouveau-compte
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <timeTargetWasSelectedWithDropDown value="2025-01-28T13:51:02.512973400Z" />
 =======
     <timeTargetWasSelectedWithDropDown value="2024-11-27T15:40:37.426900Z" />
 >>>>>>> feature/modifier-compte
+=======
+    <timeTargetWasSelectedWithDropDown value="2024-12-10T14:46:40.712559500Z" />
+>>>>>>> feature/nouveau-compte
   </component>
 </project>

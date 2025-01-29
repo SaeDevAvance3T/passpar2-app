@@ -5,10 +5,7 @@
 
 package com.example.passpar2;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.Volley;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;

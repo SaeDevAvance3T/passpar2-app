@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/red"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/authentication_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:text="Se connecter"
             android:onClick="authenticationClick"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/create_account_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"

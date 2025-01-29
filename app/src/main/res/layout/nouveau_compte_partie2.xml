@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vue de la partie 2 de la création de compte -->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/black"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/onglet_correction"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/GfG_full_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/grande_marge_verticale"
+            android:layout_marginRight="@dimen/grande_marge_verticale"
+            android:src="@drawable/logo_passpar2"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_titre"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_compte_titre" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_compte_titre2" />
+
+        <EditText
+            android:id="@+id/saisiePays"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_pays" />
+
+        <EditText
+            android:id="@+id/saisieVille"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_ville" />
+
+        <EditText
+            android:id="@+id/saisieCodePostal"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_code_postal" />
+
+        <EditText
+            android:id="@+id/saisieRue"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_rue" />
+
+        <EditText
+            android:id="@+id/saisieComplement"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_complement" />
+
+        <TextView
+            android:id="@+id/texteapi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/white"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_inscrire"
+            style="@style/nouveau_compte_suivant"
+            android:background="@color/vert"
+            android:text="@string/nouveau_compte_inscrire" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_retour"
+            style="@style/nouveau_compte_retour"
+            android:text="@string/nouveau_compte_retour"
+            android:layout_marginBottom="45dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
