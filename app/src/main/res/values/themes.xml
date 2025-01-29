@@ -52,4 +52,23 @@
         <item name="android:background">@drawable/nouveau_compte_saisie</item>
     </style>
 
+    <!-- Style nouveau_compte -->
+    <style name="clients_ajouter" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/bouton_bas_de_page</item>
+    </style>
+
+    <style name="bouton_annuler" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginRight">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginTop">@dimen/marge_horizontale</item>
+        <item name="android:layout_marginBottom">@dimen/marge_horizontale</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/nouveau_client_annuler</item>
+    </style>
+
 </resources>

@@ -9,6 +9,7 @@
             <type value="VIRTUAL_DEVICE_PATH" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <value value="C:\Users\thomas.izard\.android\avd\Pixel_7_API_24_2.avd" />
 =======
             <value value="C:\Users\thomas.lemaire\.android\avd\Pixel_5_API_24.avd" />
@@ -16,10 +17,14 @@
 =======
             <value value="C:\Users\thomas.izard\.android\avd\Pixel_7_Pro_API_24_1.avd" />
 >>>>>>> feature/nouveau-compte
+=======
+            <value value="C:\Users\thomas.izard\.android\avd\Pixel_6_API_23.avd" />
+>>>>>>> feature/nouveau-client
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <timeTargetWasSelectedWithDropDown value="2025-01-28T13:51:02.512973400Z" />
@@ -29,5 +34,8 @@
 =======
     <timeTargetWasSelectedWithDropDown value="2024-12-10T14:46:40.712559500Z" />
 >>>>>>> feature/nouveau-compte
+=======
+    <timeTargetWasSelectedWithDropDown value="2024-12-10T14:43:24.855691900Z" />
+>>>>>>> feature/nouveau-client
   </component>
 </project>

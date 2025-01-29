@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="wrap_content"
+    tools:context="Accueil_fragment_parcours">
+
+    <LinearLayout
+        android:id="@+id/accueil_fragment_parcours"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/GfG_full_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/grande_marge_verticale"
+            android:layout_marginRight="@dimen/grande_marge_verticale"
+            android:src="@drawable/logo_passpar2"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/titre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_titre"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_compte_titre" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_compte_titre2" />
+
+        <EditText
+            android:id="@+id/saisieNom"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_nom" />
+
+        <EditText
+            android:id="@+id/saisiePrenom"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_prenom" />
+
+        <EditText
+            android:id="@+id/saisieMail"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_mail" />
+
+        <EditText
+            android:id="@+id/saisieMdp"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_compte_placeholder_mdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_suivant"
+            style="@style/nouveau_compte_suivant"
+            android:background="@color/vert"
+            android:text="@string/nouveau_compte_suivant" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_compte_connecter"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_compte_connecter"
+            android:layout_marginBottom="45dp"
+            android:onClick="clicRechercherEnChaine"/>
+
+    </LinearLayout>
+
+</ScrollView>
