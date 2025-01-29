@@ -3,34 +3,16 @@ package com.example.passpar2;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity {
+public class ActiviteCreationComptePartie1 extends AppCompatActivity {
 
     /** Zone de saisie du titre recherché */
     private EditText zoneTitre;
@@ -81,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!nom.isEmpty() && !prenom.isEmpty() && !mail.isEmpty() && !motdepasse.isEmpty()
                         && Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").matcher(mail).matches()){
                     // création d'une intention
-                    Intent intention = new Intent(MainActivity.this, ActiviteCreationComptePartie2.class);
+                    Intent intention = new Intent(ActiviteCreationComptePartie1.this, ActiviteCreationComptePartie2.class);
 
                     // Envoie des informations dans l'intention
                     intention.putExtra("nom", nom);
