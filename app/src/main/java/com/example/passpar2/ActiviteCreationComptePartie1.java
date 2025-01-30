@@ -42,10 +42,12 @@ public class ActiviteCreationComptePartie1 extends AppCompatActivity {
         boutonConnecter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ActiviteCreationComptePartie1.this, AuthenticationActivity.class);
+                startActivity(intent);
+                finish(); // Facultatif : ferme l'activité actuelle
                 // redirigé vers authentification
                 //clicRechercherEnChaine(v);
-                Toast.makeText(getApplicationContext(), "Redirection vers authentification", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Redirection vers authentification", Toast.LENGTH_SHORT).show();
             }
         });
 

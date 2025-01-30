@@ -206,7 +206,11 @@ public class ActiviteCreationComptePartie2 extends AppCompatActivity {
                                 // Vérifier la réponse et afficher un message adapté
                                 String status = reponseJson.getString("status");
                                 if ("CREATED".equals(status)) {
-                                    zoneResultat.setText("Inscription réussie!");
+                                    Intent intent = new Intent(ActiviteCreationComptePartie2.this, Accueil_main.class);
+                                    startActivity(intent);
+                                    finish(); // Facultatif : ferme l'activité actuelle
+                                    Toast.makeText(getApplicationContext(), "Inscription réussie", Toast.LENGTH_SHORT).show();
+                                    //zoneResultat.setText("Inscription réussie!");
                                 } else {
                                     zoneResultat.setText("Erreur :");
                                 }

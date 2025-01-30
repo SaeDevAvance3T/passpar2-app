@@ -1,5 +1,6 @@
 package com.example.passpar2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,10 +32,20 @@ public class AccountActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_account) {
-            Toast.makeText(this, "Compte sélectionné", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_path) {
             Toast.makeText(this, "Parcours sélectionné", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_clients) {
+            // création d'une intention
+            Intent intention =
+                    new Intent(AccountActivity.this,
+                            Clients_afficher.class);
+            // lancement de l'activité fille
+            startActivity(intention);
+            return true;
+        } else if (id == R.id.action_iti) {
+            Toast.makeText(this, "Itinéraires sélectionné", Toast.LENGTH_SHORT).show();
             return true;
         }
 

@@ -261,7 +261,12 @@ public class Clients_afficher extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_account) {
-            Toast.makeText(this, "Compte sélectionné", Toast.LENGTH_SHORT).show();
+            // création d'une intention
+            Intent intention =
+                    new Intent(Clients_afficher.this,
+                            AccountActivity.class);
+            // lancement de l'activité fille
+            startActivity(intention);
             return true;
         } else if (id == R.id.action_path) {
             // création d'une intention

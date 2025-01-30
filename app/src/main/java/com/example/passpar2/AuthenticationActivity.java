@@ -51,7 +51,9 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     public void createAccountClick(View view) {
-        // L'intention pour créer un compte n'est pas encore définie
+        Intent intent = new Intent(AuthenticationActivity.this, ActiviteCreationComptePartie1.class);
+        startActivity(intent);
+        finish(); // Facultatif : ferme l'activité actuelle
     }
 
     public void authenticationClick(View view) {
@@ -108,24 +110,32 @@ public class AuthenticationActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                JSONObject responseData = response.getJSONObject("response");
+                                // Vérifier si le status est "OK"
+                                String status = response.getString("status");
+                                if (status.equals("OK")) {
+                                    // Récupérer les données de l'utilisateur
+                                    JSONObject responseData = response.getJSONObject("response");
+                                    int id = responseData.getInt("id");
+                                    String firstName = responseData.getString("firstName");
+                                    String lastName = responseData.getString("lastName");
+                                    String email = responseData.getString("email");
 
-                                // Extraire les données de l'objet "response"
-                                int id = responseData.getInt("id");
-                                String firstName = responseData.getString("firstName");
-                                String lastName = responseData.getString("lastName");
-                                String email = responseData.getString("email");
-
-                                // Construire le message à afficher dans l'UI
-                                String message = "ID: " + id + "\n" +
-                                        "First Name: " + firstName + "\n" +
-                                        "Last Name: " + lastName + "\n" +
-                                        "Email: " + email;
-
-                                // Afficher les données dans la TextView
-                                responseArea.setText(message);
+                                    // Démarrer une nouvelle activité et passer les données
+                                    Intent intent = new Intent(AuthenticationActivity.this, Accueil_main.class);
+                                    //intent.putExtra("id", id);
+                                    //intent.putExtra("firstName", firstName);
+                                    //intent.putExtra("lastName", lastName);
+                                    //intent.putExtra("email", email);
+                                    startActivity(intent);
+                                    finish(); // Facultatif : ferme l'activité actuelle
+                                    Toast.makeText(getApplicationContext(), "Connexion réussie !", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Échec de l'authentification !", Toast.LENGTH_SHORT).show();
+                                    //responseArea.setText("Échec de l'authentification.");
+                                }
                             } catch (JSONException e) {
-                                responseArea.setText("Erreur lors de la lecture de la réponse.");
+                                Toast.makeText(getApplicationContext(), "Erreur lors de la lecture de la réponse !", Toast.LENGTH_SHORT).show();
+                                //responseArea.setText("Erreur lors de la lecture de la réponse.");
                             }
                         }
                     },

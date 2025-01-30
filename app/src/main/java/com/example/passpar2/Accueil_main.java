@@ -100,7 +100,12 @@ public class Accueil_main extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_account) {
-            Toast.makeText(this, "Compte sélectionné", Toast.LENGTH_SHORT).show();
+            // création d'une intention
+            Intent intention =
+                    new Intent(Accueil_main.this,
+                            AccountActivity.class);
+            // lancement de l'activité fille
+            startActivity(intention);
             return true;
         } else if (id == R.id.action_path) {
             Toast.makeText(this, "Parcours sélectionné", Toast.LENGTH_SHORT).show();
