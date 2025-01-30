@@ -119,7 +119,12 @@ public class Accueil_main extends AppCompatActivity {
             startActivity(intention);
             return true;
         } else if (id == R.id.action_iti) {
-            Toast.makeText(this, "Itinéraires sélectionné", Toast.LENGTH_SHORT).show();
+            // création d'une intention
+            Intent intention =
+                    new Intent(Accueil_main.this,
+                            NewRouteActivity.class);
+            // lancement de l'activité fille
+            startActivity(intention);
             return true;
         }
 

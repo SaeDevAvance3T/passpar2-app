@@ -56,4 +56,10 @@
     <string name="nouveau_client_placeholder_nomcontact">Nom du contact</string>
     <string name="nouveau_client_valider">Valider</string>
     <string name="nouveau_client_annuler">Annuler</string>
+
+    <string name="confirm">Valider</string>
+    <string name="check_button">Valider</string>
+    <string name="create_route">Créer un itinéraire</string>
+    <string name="search_text">Rechercher</string>
+    <string name="no_enterprises_founded">Veuillez créer une entreprise</string>
 </resources>

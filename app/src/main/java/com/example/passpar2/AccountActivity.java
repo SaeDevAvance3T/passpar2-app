@@ -45,7 +45,12 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intention);
             return true;
         } else if (id == R.id.action_iti) {
-            Toast.makeText(this, "Itinéraires sélectionné", Toast.LENGTH_SHORT).show();
+            // création d'une intention
+            Intent intention =
+                    new Intent(AccountActivity.this,
+                            Clients_afficher.class);
+            // lancement de l'activité fille
+            startActivity(intention);
             return true;
         }
 

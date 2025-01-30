@@ -280,7 +280,12 @@ public class Clients_afficher extends AppCompatActivity {
             Toast.makeText(this, "Déjà sur client", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_iti) {
-            Toast.makeText(this, "Itinéraires sélectionné", Toast.LENGTH_SHORT).show();
+            // création d'une intention
+            Intent intention =
+                    new Intent(Clients_afficher.this,
+                            Clients_afficher.class);
+            // lancement de l'activité fille
+            startActivity(intention);
             return true;
         }
 
