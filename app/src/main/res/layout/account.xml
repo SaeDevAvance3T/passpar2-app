@@ -106,7 +106,7 @@
                 <TextView
                     android:id="@+id/account_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:text="***************"
                     android:textColor="#FFFFFF" />
 
@@ -114,8 +114,8 @@
 
             <ImageView
                 android:id="@+id/eye_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/icon_eye_off"
                 android:contentDescription="Afficher/Masquer mot de passe" />

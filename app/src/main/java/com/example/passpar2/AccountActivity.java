@@ -1,5 +1,6 @@
 package com.example.passpar2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -49,6 +52,8 @@ public class AccountActivity extends AppCompatActivity {
 
     private String motdepasse;
 
+    private ActivityResultLauncher<Intent> lanceurFille;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,10 @@ public class AccountActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        lanceurFille = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::resultatModificationUser);
 
         // Désactiver la vérification du certificat SSL pour les tests
         TrustManager[] trustAllCertificates = new TrustManager[]{
@@ -127,7 +136,7 @@ public class AccountActivity extends AppCompatActivity {
 
     public void clicModifier(View v) {
         Intent intention = new Intent(AccountActivity.this, EditAccount.class);
-        startActivity(intention);
+        lanceurFille.launch(intention);
     }
 
 
@@ -144,6 +153,16 @@ public class AccountActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Pas de connexion Internet", Toast.LENGTH_SHORT).show();
             return false;
+        }
+    }
+
+    private void resultatModificationUser(ActivityResult resultat) {
+        // on récupère l'intention envoyée par la fille
+        Intent intent = resultat.getData();
+        // si le code retour indique que tout est ok
+        if (resultat.getResultCode() == Activity.RESULT_OK) {
+            // Recharger les informations pour la mise à jour
+            requestData();
         }
     }
 

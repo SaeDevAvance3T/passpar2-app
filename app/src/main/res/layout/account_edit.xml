@@ -44,7 +44,7 @@
         <EditText
             android:id="@+id/account_edit_nom"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_nom" />
@@ -52,7 +52,7 @@
         <EditText
             android:id="@+id/account_edit_prenom"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_prenom" />
@@ -60,7 +60,7 @@
         <EditText
             android:id="@+id/account_edit_email"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_email" />
@@ -68,7 +68,7 @@
         <EditText
             android:id="@+id/account_edit_motdepasse"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_motdepasse" />
@@ -85,7 +85,7 @@
         <EditText
             android:id="@+id/account_edit_pays"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_pays" />
@@ -93,7 +93,7 @@
         <EditText
             android:id="@+id/account_edit_ville"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_ville" />
@@ -101,7 +101,7 @@
         <EditText
             android:id="@+id/account_edit_codepostal"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_codepostal" />
@@ -109,7 +109,7 @@
         <EditText
             android:id="@+id/account_edit_rue"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_rue" />
@@ -117,7 +117,7 @@
         <EditText
             android:id="@+id/account_edit_complement"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/account_edit_complement" />
@@ -134,7 +134,6 @@
             android:text="@string/nouveau_client_annuler"
             android:onClick="clicAnnuler"
             android:layout_marginBottom="45dp" />
-
     </LinearLayout>
 
 </ScrollView>

@@ -127,7 +127,7 @@ public class EditAccount extends AppCompatActivity {
         boutonValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //createCustomer(v);
+                updateUser(v);
             }
         });
     }
@@ -165,8 +165,8 @@ public class EditAccount extends AppCompatActivity {
                             JSONObject addressJson = userJson.getJSONObject("address");
 
                             // Récupérer les informations de l'utilisateur
-                            id = userJson.optString("id", "id non disponible");
-                            String country = addressJson.optString("firstName", "Pays non disponible");
+                            id = addressJson.optString("id", "id non disponible");
+                            String country = addressJson.optString("country", "Pays non disponible");
                             String street = addressJson.optString("street", "Rue non disponible");
                             String city = addressJson.optString("city", "Ville non disponible");
                             String postalCode = addressJson.optString("postalCode", "Code postal non disponible");
@@ -253,99 +253,90 @@ public class EditAccount extends AppCompatActivity {
         return true;
     }
 
-    public void createCustomer(View bouton) {
+    public void updateUser(View bouton) {
         // Vérifier la connexion Internet avant d'envoyer la requête
         if (!estConnecteInternet()) {
             return;
         }
 
-        // Récupérer les informations du formulaire
-        //String nomEntreprise = ((EditText) findViewById(R.id.nouveau_client_saisieNomEntreprise)).getText().toString().trim();
-        //String description = ((EditText) findViewById(R.id.nouveau_client_saisieDescriptionEntreprise)).getText().toString().trim();
-        //String pays = ((EditText) findViewById(R.id.nouveau_client_saisiePays)).getText().toString().trim();
-        //String ville = ((EditText) findViewById(R.id.nouveau_client_saisieVille)).getText().toString().trim();
-        //String codepostal = ((EditText) findViewById(R.id.nouveau_client_saisieCodePostal)).getText().toString().trim();
-        //String rue = ((EditText) findViewById(R.id.nouveau_client_saisieRue)).getText().toString().trim();
-        //String complement = ((EditText) findViewById(R.id.nouveau_client_saisieComplement)).getText().toString().trim();
-        //String nomContact = ((EditText) findViewById(R.id.nouveau_client_saisieNomContact)).getText().toString().trim();
-        //String prenomContact = ((EditText) findViewById(R.id.nouveau_client_saisiePrenomContact)).getText().toString().trim();
-        //String telephoneContact = ((EditText) findViewById(R.id.nouveau_client_saisietelephoneContact)).getText().toString().trim();
+        //Récupérer les informations du formulaire
+        String firstName = ((EditText) findViewById(R.id.account_edit_prenom)).getText().toString().trim();
+        String lastName = ((EditText) findViewById(R.id.account_edit_nom)).getText().toString().trim();
+        String email = ((EditText) findViewById(R.id.account_edit_email)).getText().toString().trim();
+        String password = ((EditText) findViewById(R.id.account_edit_motdepasse)).getText().toString().trim();
+        String country = ((EditText) findViewById(R.id.account_edit_pays)).getText().toString().trim();
+        String street = ((EditText) findViewById(R.id.account_edit_rue)).getText().toString().trim();
+        String postalCode = ((EditText) findViewById(R.id.account_edit_codepostal)).getText().toString().trim();
+        String city = ((EditText) findViewById(R.id.account_edit_ville)).getText().toString().trim();
+        String supplement = ((EditText) findViewById(R.id.account_edit_complement)).getText().toString().trim();
+        //Vérifier si toutes les informations sont remplies
+        if (!firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !password.isEmpty()
+                && !country.isEmpty() && !street.isEmpty() && !postalCode.isEmpty()
+                && !city.isEmpty() && !supplement.isEmpty()) {
 
-        // Vérifier si toutes les informations sont remplies
-        //if (!nomEntreprise.isEmpty() && !description.isEmpty() && !pays.isEmpty() && !ville.isEmpty()
-        //        && !codepostal.isEmpty() && !rue.isEmpty() && !complement.isEmpty()
-        //        && !nomContact.isEmpty() && !prenomContact.isEmpty() && !telephoneContact.isEmpty()) {
-//
-        //    // Créer l'objet JSON pour la requête
-        //    JSONObject requeteJson = new JSONObject();
-        //    try {
-        //        // Ajouter les informations de l'entreprise
-        //        requeteJson.put("name", nomEntreprise);
-        //        requeteJson.put("description", description);
-        //        requeteJson.put("userId", 12);
-//
-        //        // Créer l'objet 'contacts' et y ajouter les informations de contact
-        //        JSONArray contactsArray = new JSONArray();
-        //        JSONObject contact = new JSONObject();
-        //        contact.put("firstName", prenomContact);
-        //        contact.put("lastName", nomContact);
-        //        contact.put("phone", telephoneContact);
-//
-        //        contactsArray.put(contact);
-        //        requeteJson.put("contacts", contactsArray);
-//
-        //        JSONObject address = new JSONObject();
-        //        address.put("country", pays);
-        //        address.put("city", ville);
-        //        address.put("street", rue);
-        //        address.put("postalCode", codepostal);
-        //        address.put("supplement", complement);
-//
-        //        requeteJson.put("address", address);
-        //    } catch (JSONException e) {
-        //        e.printStackTrace();
-        //        Toast.makeText(getApplicationContext(), "Erreur lors de la création du JSON", Toast.LENGTH_SHORT).show();
-        //        return;
-        //    }
-//
-        //    // Créer la requête POST avec l'objet JSON
-        //    JsonObjectRequest requeteVolley = new JsonObjectRequest(
-        //            Request.Method.POST, urlAPI, requeteJson,
-        //            new Response.Listener<JSONObject>() {
-        //                @Override
-        //                public void onResponse(JSONObject reponseJson) {
-        //                    try {
-        //                        // Vérifier la réponse et afficher un message adapté
-        //                        String status = reponseJson.getString("status");
-        //                        if ("CREATED".equals(status)) {
-        //                            // Créer un Intent pour renvoyer les données à MainActivity
-        //                            Intent intentionRetour = new Intent();
-        //                            // Renvoyer le résultat avec les données et terminer l'activité
-        //                            setResult(Activity.RESULT_OK, intentionRetour);
-        //                            finish();
-        //                            Toast.makeText(getApplicationContext(), "Client créé avec succès", Toast.LENGTH_SHORT).show();
-        //                        } else {
-        //                            Toast.makeText(getApplicationContext(), "Erreur lors de la création du client", Toast.LENGTH_SHORT).show();
-        //                        }
-        //                    } catch (JSONException e) {
-        //                        Toast.makeText(getApplicationContext(), "Erreur lors du traitement de la réponse.", Toast.LENGTH_SHORT).show();
-        //                    }
-        //                }
-        //            },
-        //            new Response.ErrorListener() {
-        //                @Override
-        //                public void onErrorResponse(VolleyError erreur) {
-        //                    erreur.printStackTrace();
-        //                    Toast.makeText(getApplicationContext(), "Erreur lors de l'appel API : " + erreur.toString(), Toast.LENGTH_SHORT).show();
-        //                }
-        //            }
-        //    );
-//
-        //    // Ajouter la requête à la file d'attente
-        //    getFileRequete().add(requeteVolley);
-        //} else {
-        //    Toast.makeText(getApplicationContext(), "Les informations sont incomplètes", Toast.LENGTH_SHORT).show();
-        //}
+            // Créer l'objet JSON pour la requête
+            JSONObject requeteJson = new JSONObject();
+            try {
+                // Ajouter les informations de l'entreprise
+                requeteJson.put("firstName", firstName);
+                requeteJson.put("lastName", lastName);
+                requeteJson.put("email", email);
+                requeteJson.put("password", password);
+
+                JSONObject address = new JSONObject();
+                address.put("id",id);
+                address.put("country", country);
+                address.put("city", city);
+                address.put("street", street);
+                address.put("postalCode", postalCode);
+                address.put("supplement", supplement);
+
+                requeteJson.put("address", address);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Erreur lors de la création du JSON", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Créer la requête PUT avec l'objet JSON
+            JsonObjectRequest requeteVolley = new JsonObjectRequest(
+                    Request.Method.PUT, urlAPI, requeteJson,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject reponseJson) {
+                            try {
+                                // Vérifier la réponse et afficher un message adapté
+                                String status = reponseJson.getString("status");
+                                if ("OK".equals(status)) {
+                                    // Créer un Intent pour renvoyer les données à MainActivity
+                                    Intent intentionRetour = new Intent();
+                                    // Renvoyer le résultat avec les données et terminer l'activité
+                                    setResult(Activity.RESULT_OK, intentionRetour);
+                                    finish();
+                                    Toast.makeText(getApplicationContext(), "Client créé avec succès", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Erreur lors de la création du client", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(getApplicationContext(), "Erreur lors du traitement de la réponse.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError erreur) {
+                            erreur.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "Erreur lors de l'appel API : " + erreur.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+
+            // Ajouter la requête à la file d'attente
+            getFileRequete().add(requeteVolley);
+        } else {
+            Toast.makeText(getApplicationContext(), "Les informations sont incomplètes", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
