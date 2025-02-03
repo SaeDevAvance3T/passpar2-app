@@ -18,15 +18,15 @@
     <string name="nouveau_compte_retour">Retour</string>
 
     <!-- Ensemble des strings pour la partie 1 de la création de compte-->
-    <string name="nouveau_compte_placeholder_nom">Nom</string>
-    <string name="nouveau_compte_placeholder_prenom">Prenom</string>
-    <string name="nouveau_compte_placeholder_mail">Adresse mail</string>
-    <string name="nouveau_compte_placeholder_mdp">Mot de passe</string>
+    <string name="nouveau_compte_placeholder_nom">Nom *</string>
+    <string name="nouveau_compte_placeholder_prenom">Prenom *</string>
+    <string name="nouveau_compte_placeholder_mail">Adresse mail *</string>
+    <string name="nouveau_compte_placeholder_mdp">Mot de passe *</string>
 
     <!-- Ensemble des strings pour la partie 2 de la création de compte-->
-    <string name="nouveau_compte_placeholder_pays">Pays</string>
-    <string name="nouveau_compte_placeholder_ville">Ville</string>
-    <string name="nouveau_compte_placeholder_code_postal">Code postal</string>
+    <string name="nouveau_compte_placeholder_pays">Pays *</string>
+    <string name="nouveau_compte_placeholder_ville">Ville *</string>
+    <string name="nouveau_compte_placeholder_code_postal">Code postal *</string>
     <string name="nouveau_compte_placeholder_rue">Rue</string>
     <string name="nouveau_compte_placeholder_complement">Complément</string>
 
@@ -66,11 +66,11 @@
     <string name="account_edit_client">Modifier vos informations</string>
     <string name="account_edit_complement">Complement d\'adresse</string>
     <string name="account_edit_rue">Rue</string>
-    <string name="account_edit_codepostal">Code postal</string>
-    <string name="account_edit_ville">Ville</string>
-    <string name="account_edit_pays">Pays</string>
-    <string name="account_edit_motdepasse">Mot de passe</string>
-    <string name="account_edit_email">Email</string>
-    <string name="account_edit_prenom">Prenom</string>
-    <string name="account_edit_nom">Nom</string>
+    <string name="account_edit_codepostal">Code postal *</string>
+    <string name="account_edit_ville">Ville *</string>
+    <string name="account_edit_pays">Pays *</string>
+    <string name="account_edit_motdepasse">Mot de passe *</string>
+    <string name="account_edit_email">Email *</string>
+    <string name="account_edit_prenom">Prenom *</string>
+    <string name="account_edit_nom">Nom *</string>
 </resources>

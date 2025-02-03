@@ -2,19 +2,37 @@ package com.example.passpar2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -25,6 +43,12 @@ public class AccountActivity extends AppCompatActivity {
 
     private String urlAPI = "https://2bet.fr/api/customers";
 
+    private boolean motdepasseVisible = false;  // Contrôler l'état du mot de passe
+
+    private TextView viewPassword;
+
+    private String motdepasse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +56,56 @@ public class AccountActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Désactiver la vérification du certificat SSL pour les tests
+        TrustManager[] trustAllCertificates = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+
+        // Installer un gestionnaire de confiance pour tous les certificats
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCertificates, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Enregistrer l'ID dans SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("userId", 12);  // Enregistrer l'ID de l'utilisateur
+        editor.apply();  // Appliquer les changements
+
+        ImageView eyeIcon = findViewById(R.id.eye_icon);  // Votre icône d'œil (assurez-vous qu'elle est dans votre layout)
+        viewPassword = findViewById(R.id.account_password);
+
+        eyeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (motdepasseVisible) {
+                    // Masquer le mot de passe
+                    viewPassword.setText("***************");  // Afficher des astérisques
+                    eyeIcon.setImageResource(R.drawable.icon_eye_off);  // Icône œil barré
+                } else {
+                    // Afficher le mot de passe
+                    viewPassword.setText(motdepasse);  // Afficher le mot de passe en clair
+                    eyeIcon.setImageResource(R.drawable.icon_eye);  // Icône œil
+                }
+                motdepasseVisible = !motdepasseVisible;
+            }
+        });
+
+        requestData();
     }
 
     /**
@@ -71,6 +145,64 @@ public class AccountActivity extends AppCompatActivity {
             Toast.makeText(this, "Pas de connexion Internet", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    private void requestData() {
+        // Vérifier la connexion Internet avant de lancer la requête
+        if (!estConnecteInternet()) {
+            return;  // Si pas de connexion, on ne fait rien
+        }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
+
+        String urlAPI = "https://2bet.fr/api/users/" + userId;
+
+        // Créer la requête GET
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, urlAPI, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject userJson = response.getJSONObject("response");
+
+                            // Récupérer les informations de l'utilisateur
+                            String nom = userJson.optString("lastName", "Nom non disponible");
+                            String prenom = userJson.optString("firstName", "Prénom non disponible");
+                            String email = userJson.optString("email", "Email non disponible");
+                            motdepasse = userJson.optString("passwordHash", "Mot de passe non disponible");
+
+                            JSONObject addressJson = userJson.getJSONObject("address");
+                            String country = addressJson.optString("country", "Pays non disponible");
+                            String street = addressJson.optString("street", "Rue non disponible");
+                            String city = addressJson.optString("city", "Ville non disponible");
+                            String postalCode = addressJson.optString("postalCode", "Code postal non disponible");
+
+                            // Remplir les champs du formulaire avec les données récupérées
+                            TextView viewName = findViewById(R.id.account_name);
+                            TextView viewEmail = findViewById(R.id.account_email);
+                            TextView viewAddress = findViewById(R.id.account_address);
+
+                            viewName.setText(nom + " " + prenom);
+                            viewEmail.setText(email);
+                            viewAddress.setText(street + ",\n" + postalCode + " " + city + ",\n" + country);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(AccountActivity.this, "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        Toast.makeText(AccountActivity.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Ajouter la requête à la file d'attente
+        getFileRequete().add(jsonObjectRequest);
     }
 
     @Override

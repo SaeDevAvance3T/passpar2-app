@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -63,6 +64,9 @@ public class EditAccount extends AppCompatActivity {
     private EditText saisieCodepostal;
     private EditText saisieRue;
     private EditText saisieComplement;
+
+    /* Id de l'adresse du client en cours de mofification*/
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +138,10 @@ public class EditAccount extends AppCompatActivity {
             return;  // Si pas de connexion, on ne fait rien
         }
 
-        urlAPI += "12";
-        Toast.makeText(EditAccount.this, urlAPI, Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
+
+        urlAPI += userId;
 
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -154,13 +160,28 @@ public class EditAccount extends AppCompatActivity {
                             String nom = userJson.optString("lastName", "Nom non disponible");
                             String prenom = userJson.optString("firstName", "Prénom non disponible");
                             String email = userJson.optString("email", "Email non disponible");
-                            String motdepasse = userJson.optString("passwordHash", "Mot de passe non disponible");
+                            String motdepasse = userJson.optString("passwordHash", "");
+
+                            JSONObject addressJson = userJson.getJSONObject("address");
+
+                            // Récupérer les informations de l'utilisateur
+                            id = userJson.optString("id", "id non disponible");
+                            String country = addressJson.optString("firstName", "Pays non disponible");
+                            String street = addressJson.optString("street", "Rue non disponible");
+                            String city = addressJson.optString("city", "Ville non disponible");
+                            String postalCode = addressJson.optString("postalCode", "Code postal non disponible");
+                            String supplement = addressJson.optString("supplement", "");
 
                             // Remplir les champs du formulaire avec les données récupérées
                             saisieNom.setText(nom);
                             saisiePrenom.setText(prenom);
                             saisieEmail.setText(email);
                             saisieMotdepasse.setText(motdepasse);
+                            saisiePays.setText(country);
+                            saisieRue.setText(street);
+                            saisieVille.setText(city);
+                            saisieCodepostal.setText(postalCode);
+                            saisieComplement.setText(supplement);
 
                         } catch (Exception e) {
                             e.printStackTrace();
