@@ -64,7 +64,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Corinne Servières"
@@ -73,7 +73,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/account_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="corinne.servieres@iut-rodez.fr "
@@ -104,7 +104,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/account_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="***************"
@@ -137,7 +137,7 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/account_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="464 Boulevard des Tamaris,\n12850 Onet Le château,\nFrance"
@@ -151,10 +151,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/account_modifier"
+        style="@style/nouveau_compte_suivant"
+        android:text="@string/accout_modifier"
+        android:onClick="clicModifier"/>/>
 
 </LinearLayout>

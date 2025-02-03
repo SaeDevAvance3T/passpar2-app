@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/clients_creer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#000000"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:logo="@drawable/logo_passpar2"
+            app:titleTextColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/clients_titre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_titre"
+            android:textColor="@color/white"
+            android:text="@string/account_edit_client" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre2" />
+
+        <EditText
+            android:id="@+id/account_edit_nom"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_nom" />
+
+        <EditText
+            android:id="@+id/account_edit_prenom"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_prenom" />
+
+        <EditText
+            android:id="@+id/account_edit_email"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_email" />
+
+        <EditText
+            android:id="@+id/account_edit_motdepasse"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_motdepasse" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre3" />
+
+        <EditText
+            android:id="@+id/account_edit_pays"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_pays" />
+
+        <EditText
+            android:id="@+id/account_edit_ville"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_ville" />
+
+        <EditText
+            android:id="@+id/account_edit_codepostal"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_codepostal" />
+
+        <EditText
+            android:id="@+id/account_edit_rue"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_rue" />
+
+        <EditText
+            android:id="@+id/account_edit_complement"
+            android:maxLines="1"
+            android:maxLength="35"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/account_edit_complement" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_client_valider"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_client_valider"
+            android:onClick="clicValider"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nouveau_client_annuler"
+            style="@style/bouton_annuler"
+            android:text="@string/nouveau_client_annuler"
+            android:onClick="clicAnnuler"
+            android:layout_marginBottom="45dp" />
+
+    </LinearLayout>
+
+</ScrollView>
