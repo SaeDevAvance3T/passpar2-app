@@ -1,4 +1,68 @@
 <resources>
     <string name="app_name">PassPar2</string>
+
+    <string name="emailaddress">adresse mail</string>
+    <string name="password">mot de passe</string>
+    <string name="forgotten_password">Mot de passe oublié ?</string>
+    <string name="api_check">API appelée</string>
+    <string name="missing_data">Données manquantes. Réessayez</string>
+    <string name="missed_connexion">API introuvable</string>
+    <string name="invalid_email">adresse mail invalide. Réessayez.</string>
+
+    <string name="nouveau_compte_titre">Création de compte</string>
+    <string name="nouveau_compte_titre2">Informations générales</string>
+    <string name="nouveau_compte_titre2_2">Adresse personnelle</string>
+    <string name="nouveau_compte_suivant">Suivant</string>
+    <string name="nouveau_compte_connecter">Se connecter</string>
+    <string name="nouveau_compte_inscrire">S\'inscrire</string>
+    <string name="nouveau_compte_retour">Retour</string>
+
+    <!-- Ensemble des strings pour la partie 1 de la création de compte-->
+    <string name="nouveau_compte_placeholder_nom">Nom</string>
+    <string name="nouveau_compte_placeholder_prenom">Prenom</string>
+    <string name="nouveau_compte_placeholder_mail">Adresse mail</string>
+    <string name="nouveau_compte_placeholder_mdp">Mot de passe</string>
+
+    <!-- Ensemble des strings pour la partie 2 de la création de compte-->
+    <string name="nouveau_compte_placeholder_pays">Pays</string>
+    <string name="nouveau_compte_placeholder_ville">Ville</string>
+    <string name="nouveau_compte_placeholder_code_postal">Code postal</string>
+    <string name="nouveau_compte_placeholder_rue">Rue</string>
+    <string name="nouveau_compte_placeholder_complement">Complément</string>
+
+    <string name="nouveau_compte_onglet_parcours">Parcours</string>
+    <string name="nouveau_compte_onglet_details">Details</string>
+
+    <string name="menu_compte">Mon compte</string>
+    <string name="menu_clients">Mes clients</string>
+    <string name="menu_itineraire">Mes itinéraires</string>
+    <string name="menu_parcours">Mes parcours</string>
+    <string name="gestion_clients_titre">Mes clients</string>
+    <string name="clients_ajouter">Ajouter un client</string>
+
+    <string name="nouveau_client_titre">Créer un nouveau client</string>
+    <string name="nouveau_client_titre2">Informations générales</string>
+    <string name="nouveau_client_placeholder_nom">Nom de l\'entreprise cliente</string>
+    <string name="nouveau_client_placeholder_description">Description</string>
+    <string name="nouveau_client_titre3">Adresse</string>
+    <string name="nouveau_client_placeholder_complement">Complément d\'adresse</string>
+    <string name="nouveau_client_placeholder_rue">Nom de rue</string>
+    <string name="nouveau_client_placeholder_code_postal">Code postal</string>
+    <string name="nouveau_client_placeholder_ville">Ville</string>
+    <string name="nouveau_client_placeholder_pays">Pays</string>
+    <string name="nouveau_client_titre4">Contact</string>
+    <string name="nouveau_client_placeholder_telephonecontact">Telephone du contact</string>
+    <string name="nouveau_client_placeholder_prenomcontact">Prénom du contact</string>
+    <string name="nouveau_client_placeholder_nomcontact">Nom du contact</string>
+    <string name="nouveau_client_valider">Valider</string>
+    <string name="nouveau_client_annuler">Annuler</string>
+
+    <string name="confirm">Valider</string>
+    <string name="check_button">Valider</string>
+    <string name="create_route">Créer un itinéraire</string>
+    <string name="search_text">Rechercher</string>
+    <string name="no_enterprises_founded">Veuillez créer une entreprise</string>
+
     <string name="detail">Détail</string>
+    <string name="detail_client_contacts">Contacts</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.passpar2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +45,7 @@ public class DetailClient extends AppCompatActivity {
     private Contacts_RecyclerView adapter;
     private List<String> contacts;
 
-    private Button boutonRequete;
+    private AppCompatButton boutonRequete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,12 @@ public class DetailClient extends AppCompatActivity {
         contacts.add("Tony Lapeyre");
         contacts.add("Thomas Izard");
         contacts.add("Thomas Lemaire");
+        contacts.add("Tony Lapeyre");
+        contacts.add("Thomas Izard");
+        contacts.add("Thomas Lemaire");
+        contacts.add("Tony Lapeyre");
+        contacts.add("Thomas Izard");
+        contacts.add("Thomas Lemaire");
 
         // Configuration du RecyclerView
         recyclerView = findViewById(R.id.contacts_recycler_view);
@@ -82,7 +89,7 @@ public class DetailClient extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        boutonRequete = findViewById(R.id.button);
+        boutonRequete = findViewById(R.id.detail_client_modifier);
 
         boutonRequete.setOnClickListener(new View.OnClickListener() {
             @Override

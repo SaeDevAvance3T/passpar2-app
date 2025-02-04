@@ -2,5 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#03FFB3</color>
+    <color name="red">#FF0000</color>
+    <color name="vert">#03FFB3</color>
+    <color name="rouge">#FF6060</color>
+    <color name="placeHolder">#BBBBBB</color>
     <color name="background">#222222</color>
 </resources>

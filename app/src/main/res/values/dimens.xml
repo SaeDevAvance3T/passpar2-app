@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- taille des marges -->
+    <dimen name="petite_marge_verticale">5dp</dimen>
+    <dimen name="marge_verticale">15dp</dimen>
+    <dimen name="grande_marge_verticale">32dp</dimen>
+
+    <dimen name="grande_marge_horizontale">32dp</dimen>
+    <dimen name="marge_horizontale">25dp</dimen>
+    <dimen name="petite_marge_horizontale">7dp</dimen>
+    <dimen name="tres_petite_marge_horizontale">5dp</dimen>
+
+    <dimen name="marge_negative">-30dp</dimen>
+
+
+    <dimen name="taille_titre">30dp</dimen>
+    <dimen name="taille_h1">22dp</dimen>
+
+    <dimen name="nouveau_compte_hauteur_saisie">45dp</dimen>
+
+    <dimen name="radius">3dp</dimen>
+
+    <dimen name="padding_texte">20dp</dimen>
+</resources>
