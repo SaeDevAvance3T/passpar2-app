@@ -49,6 +49,7 @@ public class Clients_afficher extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Clients_RecyclerView adapter;
     private List<String> clients;
+    private List<Integer> idClients;
 
     private String url = "https://2bet.fr/api/customers";  // URL de l'API
 
@@ -105,11 +106,14 @@ public class Clients_afficher extends AppCompatActivity {
         // Initialisation de la liste des clients avant de l'utiliser dans l'adapter
         clients = new ArrayList<>();
 
+        // Initialisation de la liste des id des clients avant de l'utiliser dans l'adapter
+        idClients = new ArrayList<>();
+
         // Configuration du RecyclerView
         recyclerView = findViewById(R.id.clients_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new Clients_RecyclerView(clients, position -> {
+        adapter = new Clients_RecyclerView(clients,idClients, position -> {
             // Supprimer un client
             clients.remove(position);
             adapter.notifyItemRemoved(position);
@@ -173,6 +177,7 @@ public class Clients_afficher extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         // Effacer la liste des clients existante
                         clients.clear();
+                        idClients.clear();
 
                         try {
                             // Accéder à la clé 'response' qui contient le tableau des clients
@@ -185,10 +190,12 @@ public class Clients_afficher extends AppCompatActivity {
                                 // Récupérer le nom et la description du client
                                 String name = clientJson.optString("name", "Nom non disponible");
                                 String description = clientJson.optString("description", "Description non disponible");
+                                Integer idClient = clientJson.optInt("id", -1);
 
                                 // Ajouter les clients dans la liste
                                 String clientInfo = name;
                                 clients.add(clientInfo);
+                                idClients.add(idClient);
                             }
 
                             // Mettre à jour l'adapter pour refléter les changements

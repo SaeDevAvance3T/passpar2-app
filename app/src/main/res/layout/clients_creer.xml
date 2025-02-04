@@ -45,7 +45,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisieNomEntreprise"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_nom" />
@@ -53,7 +53,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisieDescriptionEntreprise"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_description" />
@@ -70,7 +70,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisiePays"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_pays" />
@@ -78,7 +78,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisieVille"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_ville" />
@@ -86,7 +86,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisieCodePostal"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_code_postal" />
@@ -94,7 +94,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisieRue"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_rue" />
@@ -102,7 +102,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisieComplement"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_complement" />
@@ -119,7 +119,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisieNomContact"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_nomcontact" />
@@ -127,7 +127,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisiePrenomContact"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_prenomcontact" />
@@ -135,7 +135,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisietelephoneContact"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="50"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_telephonecontact" />
