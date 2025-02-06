@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -52,6 +54,11 @@ public class DetailClient extends AppCompatActivity {
      */
     private static final String URL_API = "https://2bet.fr/api/customers";
 
+    /**
+     * URL de l'API pour les informations du customer
+     */
+    private static final String URL_CUSTOMER = "https://2bet.fr/api/customers";
+
     private ActivityResultLauncher<Intent> lanceurFille;
 
     private RecyclerView recyclerView;
@@ -61,6 +68,10 @@ public class DetailClient extends AppCompatActivity {
     private List<Integer> idContacts;
 
     private AppCompatButton boutonRequete;
+
+    private TextView nameView;
+
+    private TextView descriptionView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +118,9 @@ public class DetailClient extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        nameView = findViewById(R.id.nameView);
+        descriptionView = findViewById(R.id.descriptionView);
+
         // Initialisation de la liste des clients avant de l'utiliser dans l'adapter
         contacts = new ArrayList<>();
 
@@ -125,7 +139,9 @@ public class DetailClient extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        // Appel de la méthode pour récupérer les clients
+        getCustomerDatas();
+
+        // Appel de la méthode pour récupérer les contacts
         getContacts();
 
         findViewById(R.id.detail_client_modifier).setOnClickListener(v -> {
@@ -200,26 +216,83 @@ public class DetailClient extends AppCompatActivity {
                         idContacts.clear();
 
                         try {
-                            // Accéder à la clé 'response' qui contient le tableau des clients
+                            // Accéder à la clé 'response' qui contient le tableau des entreprises
                             JSONArray clientArray = response.getJSONArray("response");
 
-                            // Parcourir la réponse JSON pour extraire les données
+                            // Parcourir la réponse JSON pour extraire les données des entreprises
                             for (int i = 0; i < clientArray.length(); i++) {
-                                JSONObject clientJson = clientArray.getJSONObject(i);
+                                JSONObject clientJson = clientArray.getJSONObject(i); // Récupérer une entreprise
+                                JSONArray contactsArray = clientJson.getJSONArray("contacts"); // Récupérer les contacts de l'entreprise
 
-                                // Récupérer le nom et la description du client
-                                String name = clientJson.optString("name", "Nom non disponible");
-                                String description = clientJson.optString("description", "Description non disponible");
-                                Integer idClient = clientJson.optInt("id", -1);
+                                // Parcourir le tableau des contacts de chaque entreprise
+                                for (int j = 0; j < contactsArray.length(); j++) {
+                                    JSONObject contactJson = contactsArray.getJSONObject(j);
 
-                                // Ajouter les clients dans la liste
-                                String clientInfo = name;
-                                contacts.add(clientInfo);
-                                idContacts.add(idClient);
+                                    // Récupérer le nom et la description du contact
+                                    String firstName = contactJson.optString("firstName", "Prenom non disponible");
+                                    String lastName = contactJson.optString("lastName", "Nom non disponible");
+                                    Integer idClient = contactJson.optInt("id", -1);
+
+                                    // Ajouter les clients dans la liste
+                                    String clientInfo = firstName + " " + lastName;  // Ajout d'un espace entre le prénom et le nom
+                                    contacts.add(clientInfo);
+                                    idContacts.add(idClient);
+                                }
                             }
 
                             // Mettre à jour l'adapter pour refléter les changements
                             adapter.notifyDataSetChanged();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(DetailClient.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        if (error.networkResponse != null) {
+                            // Si la réponse réseau est disponible, récupérer le code d'état et afficher les détails
+                            Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
+                            Log.e("VolleyError", "Response: " + new String(error.networkResponse.data));
+                        } else {
+                            // Si la réponse réseau est nulle, afficher un message d'erreur générique
+                            Log.e("VolleyError", "Erreur réseau inconnue");
+                        }
+                        Toast.makeText(DetailClient.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Ajouter la requête à la file d'attente Volley
+        getFileRequete().add(jsonObjectRequest);
+    }
+
+    private void getCustomerDatas() {
+        // Vérifier la connexion Internet avant de lancer la requête
+        if (!estConnecteInternet()) {
+            return;  // Si pas de connexion, on ne fait rien
+        }
+
+        // Créer la requête GET
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, URL_CUSTOMER, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Accéder à la clé 'response' qui contient le tableau des entreprises
+                            JSONArray clientArray = response.getJSONArray("response");
+
+                            JSONObject clientJson = clientArray.getJSONObject(0); // Récupérer une entreprise
+
+                            // Récupérer le nom et la description du client
+                            String name = clientJson.optString("name", "Nom non disponible");
+                            String description = clientJson.optString("description", "Description non disponible");
+                            // Mettre à jour les informations du client
+                            nameView.setText(name);
+                            descriptionView.setText(description);
 
                         } catch (Exception e) {
                             e.printStackTrace();
