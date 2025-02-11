@@ -71,4 +71,29 @@
         <item name="android:background">@drawable/nouveau_client_annuler</item>
     </style>
 
+<<<<<<< HEAD
+=======
+    <style name="detail_client_modifier" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginRight">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginTop">@dimen/petite_marge_horizontale</item>
+        <item name="android:layout_marginBottom">@dimen/petite_marge_horizontale</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bouton_bas_de_page</item>
+    </style>
+
+    <style name="detail_client_annuler" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginRight">@dimen/grande_marge_verticale</item>
+        <item name="android:layout_marginTop">@dimen/petite_marge_horizontale</item>
+        <item name="android:layout_marginBottom">@dimen/petite_marge_horizontale</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/nouveau_compte_retour</item>
+    </style>
+
+>>>>>>> feature/detail-client
 </resources>
