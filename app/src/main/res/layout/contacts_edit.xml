@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#000000"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:logo="@drawable/logo_passpar2"
+            app:titleTextColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/contacts_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_titre"
+            android:textColor="@color/white"
+            android:text="@string/contacts_edit_title" />
+
+        <EditText
+            android:id="@+id/contacts_lastName"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/contacts_placeholder_lastName" />
+
+        <EditText
+            android:id="@+id/contacts_firstName"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/contacts_placeholder_firstName" />
+
+        <EditText
+            android:id="@+id/contacts_phone"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/contacts_placeholder_phone" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/contacts_validate"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/contacts_validate"
+            android:onClick="clicValider"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/contacts_cancel"
+            style="@style/bouton_annuler"
+            android:text="@string/contacts_cancel"
+            android:onClick="clicAnnuler"
+            android:layout_marginBottom="45dp" />
+
+    </LinearLayout>
+
+</ScrollView>

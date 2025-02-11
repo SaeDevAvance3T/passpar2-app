@@ -58,14 +58,15 @@ public class Contacts_RecyclerView extends RecyclerView.Adapter<Contacts_Recycle
                 .setPositiveButton("Oui", (dialog, which) -> listener.onDeleteClick(position))
                 .setNegativeButton("Non", null)
                 .show());
+
         // Gestion du clic pour modifier un client
-        //holder.editButton.setOnClickListener(v -> {
-        //    // Lancez l'activité de modification avec les données du client
-        //    Intent intent = new Intent(v.getContext(), Clients_edit.class);
-        //    intent.putExtra("id", idclient);
-        //    // Vous pouvez ajouter d'autres données spécifiques si nécessaire
-        //    v.getContext().startActivity(intent);
-        //});
+        holder.editButton.setOnClickListener(v -> {
+            // Lancez l'activité de modification avec les données du client
+            Intent intent = new Intent(v.getContext(), EditContact.class);
+            intent.putExtra("idContact", idcontact.toString());
+            // Vous pouvez ajouter d'autres données spécifiques si nécessaire
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

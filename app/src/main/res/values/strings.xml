@@ -65,4 +65,10 @@
 
     <string name="detail">Détail</string>
     <string name="detail_client_contacts">Contacts</string>
+    <string name="contacts_edit_title">Modifier un contact</string>
+    <string name="contacts_cancel">Annuler</string>
+    <string name="contacts_validate">Valider</string>
+    <string name="contacts_placeholder_phone">Telephone du contact</string>
+    <string name="contacts_placeholder_firstName">Prenom du contact</string>
+    <string name="contacts_placeholder_lastName">Nom du contact</string>
 </resources>
