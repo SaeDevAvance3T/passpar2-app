@@ -54,12 +54,14 @@ public class DetailClient extends AppCompatActivity {
     /**
      * URL de l'API à interroger
      */
-    private static String URL_API = "https://2bet.fr/api/customers";
+    private static String URL_CONTACTS = "https://2bet.fr/api/contacts?customer=";
+
+    private static final String URL_DELETE = "https://2bet.fr/api/contacts/";
 
     /**
      * URL de l'API pour les informations du customer
      */
-    private static final String URL_CUSTOMER = "https://2bet.fr/api/customers";
+    private static final String URL_CUSTOMER = "https://2bet.fr/api/customers/";
 
     private ActivityResultLauncher<Intent> lanceurFille;
 
@@ -141,7 +143,6 @@ public class DetailClient extends AppCompatActivity {
         recyclerView = findViewById(R.id.contacts_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        DetailClient detailClient = new DetailClient();  // Créer l'instance de DetailClient
         adapter = new Contacts_RecyclerView(contacts, idContacts, new Contacts_RecyclerView.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
@@ -149,7 +150,7 @@ public class DetailClient extends AppCompatActivity {
                 idContacts.remove(position);
                 adapter.notifyItemRemoved(position);
             }
-        }, lanceurAdapter,detailClient);
+        }, lanceurAdapter,this);
 
         recyclerView.setAdapter(adapter);
 
@@ -219,9 +220,11 @@ public class DetailClient extends AppCompatActivity {
             return;  // Si pas de connexion, on ne fait rien
         }
 
+        String urlGetContacts = URL_CONTACTS + "1";
+
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, URL_API, null,
+                Request.Method.GET, urlGetContacts, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -236,22 +239,15 @@ public class DetailClient extends AppCompatActivity {
                             // Parcourir la réponse JSON pour extraire les données des entreprises
                             for (int i = 0; i < clientArray.length(); i++) {
                                 JSONObject clientJson = clientArray.getJSONObject(i); // Récupérer une entreprise
-                                JSONArray contactsArray = clientJson.getJSONArray("contacts"); // Récupérer les contacts de l'entreprise
 
-                                // Parcourir le tableau des contacts de chaque entreprise
-                                for (int j = 0; j < contactsArray.length(); j++) {
-                                    JSONObject contactJson = contactsArray.getJSONObject(j);
-
-                                    // Récupérer le nom et la description du contact
-                                    String firstName = contactJson.optString("firstName", "Prenom non disponible");
-                                    String lastName = contactJson.optString("lastName", "Nom non disponible");
-                                    Integer idClient = contactJson.optInt("id", -1);
-
-                                    // Ajouter les clients dans la liste
-                                    String clientInfo = firstName + " " + lastName;  // Ajout d'un espace entre le prénom et le nom
-                                    contacts.add(clientInfo);
-                                    idContacts.add(idClient);
-                                }
+                                // Récupérer le nom et la description du contact
+                                String firstName = clientJson.optString("firstName", "Prenom non disponible");
+                                String lastName = clientJson.optString("lastName", "Nom non disponible");
+                                Integer idClient = clientJson.optInt("id", -1);
+                                // Ajouter les clients dans la liste
+                                String clientInfo = firstName + " " + lastName;  // Ajout d'un espace entre le prénom et le nom
+                                contacts.add(clientInfo);
+                                idContacts.add(idClient);
                             }
 
                             // Mettre à jour l'adapter pour refléter les changements
@@ -289,17 +285,16 @@ public class DetailClient extends AppCompatActivity {
             return;  // Si pas de connexion, on ne fait rien
         }
 
+        String urlCustomerDatas = URL_CUSTOMER + "1";
+
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, URL_CUSTOMER, null,
+                Request.Method.GET, urlCustomerDatas, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            // Accéder à la clé 'response' qui contient le tableau des entreprises
-                            JSONArray clientArray = response.getJSONArray("response");
-
-                            JSONObject clientJson = clientArray.getJSONObject(0); // Récupérer une entreprise
+                            JSONObject clientJson = response.getJSONObject("response"); // Récupérer une entreprise
 
                             // Récupérer le nom et la description du client
                             String name = clientJson.optString("name", "Nom non disponible");
@@ -344,17 +339,17 @@ public class DetailClient extends AppCompatActivity {
         }
     }
 
-    public void deleteContact(int position) {
+    public void deleteContact(String idContact) {
         // Vérifier la connexion Internet avant de lancer la requête
         if (!estConnecteInternet()) {
             return;  // Si pas de connexion, on ne fait rien
         }
 
-        URL_API += position;
+        String urlDeleteContact = URL_DELETE + idContact;
 
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.DELETE, URL_API, null,
+                Request.Method.DELETE, urlDeleteContact, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

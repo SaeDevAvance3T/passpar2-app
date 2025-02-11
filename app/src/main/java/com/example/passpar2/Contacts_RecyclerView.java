@@ -54,7 +54,7 @@ public class Contacts_RecyclerView extends RecyclerView.Adapter<Contacts_Recycle
         holder.deleteButton.setOnClickListener(v -> new AlertDialog.Builder(v.getContext())
                 .setTitle("Supprimer le client")
                 .setMessage("Êtes-vous sûr de vouloir supprimer ce client ?")
-                .setPositiveButton("Oui", (dialog, which) -> detailClient.deleteContact(idcontact))
+                .setPositiveButton("Oui", (dialog, which) -> detailClient.deleteContact(idcontact.toString()))
                 .setNegativeButton("Non", null)
                 .show());
 
