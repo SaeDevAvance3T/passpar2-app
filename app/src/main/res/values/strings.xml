@@ -63,4 +63,5 @@
     <string name="search_text">Rechercher</string>
     <string name="no_enterprises_founded">Veuillez créer une entreprise</string>
     <string name="account_modifier">Modifier</string>
+    <string name="itineraries_create">Créer un itinéraire</string>
 </resources>

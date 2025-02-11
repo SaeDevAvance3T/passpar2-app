@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    tools:context="Accueil_fragment_details">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#000000"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:logo="@drawable/logo_passpar2"
+        app:titleTextColor="#FFFFFF" />
+
+    <!-- Text filters and sort section -->
+    <LinearLayout
+        android:id="@+id/filter_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/toolbar"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/tri_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trier"
+            android:textColor="@color/white"
+            android:paddingEnd="8dp" />
+
+        <TextView
+            android:id="@+id/filtre_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filtrer : Tous"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!-- Search Bar -->
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filter_section"
+        android:layout_margin="16dp"
+        android:background="@color/white"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:hint="Rechercher"
+        android:padding="8dp" />
+
+    <!-- RecyclerView for clients -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itineraries_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/search_bar"
+        android:layout_above="@id/itineraries_create_button"
+        android:layout_margin="16dp"
+        android:background="@color/black"
+        android:scrollbars="vertical" />
+
+    <!-- Ajouter un client button fixed at the bottom -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/itineraries_create_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itineraries_create"
+        style="@style/clients_ajouter"
+        android:backgroundTint="@color/vert"
+        android:textColor="@color/black"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp" />
+
+</RelativeLayout>

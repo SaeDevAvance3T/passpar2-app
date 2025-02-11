@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +56,7 @@ public class NewRouteActivity extends AppCompatActivity implements CheckboxSelec
     /** Contient les entreprises sélectionnées pour l'itinéraire */
     public TextView displayedEnterprises;
 
-
+    private ImageButton arrowBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,19 @@ public class NewRouteActivity extends AppCompatActivity implements CheckboxSelec
 
         CheckboxAdapter adapter = new CheckboxAdapter(this, enterpriseValues, this);
         enterpriseList.setAdapter(adapter);
+
+        arrowBack = findViewById(R.id.arrowBack);
+
+        arrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // création d'une intention pour informer l'activité parente
+                Intent intentionRetour = new Intent();
+                setResult(Activity.RESULT_CANCELED, intentionRetour);
+                finish(); // destruction de l'activité courante
+            }
+        });
+
 
         /*
          * Lorsque l'utilisateur cliquera sur la touche back du téléphone pour revenir

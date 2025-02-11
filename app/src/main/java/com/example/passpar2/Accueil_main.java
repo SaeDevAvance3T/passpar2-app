@@ -122,7 +122,7 @@ public class Accueil_main extends AppCompatActivity {
             // création d'une intention
             Intent intention =
                     new Intent(Accueil_main.this,
-                            NewRouteActivity.class);
+                            Itineraries_afficher.class);
             // lancement de l'activité fille
             startActivity(intention);
             return true;

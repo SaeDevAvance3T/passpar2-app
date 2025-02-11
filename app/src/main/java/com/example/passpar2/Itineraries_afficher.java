@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Clients_afficher extends AppCompatActivity {
+public class Itineraries_afficher extends AppCompatActivity {
 
     /**
      * File d'attente pour les requêtes API (en lien avec l'utilisation de Volley)
@@ -41,10 +41,11 @@ public class Clients_afficher extends AppCompatActivity {
     private RequestQueue fileRequete;
 
     private RecyclerView recyclerView;
-    private Clients_RecyclerView adapter;
-    private List<String> clients;
+    private Itineraries_RecyclerView adapter;
+    private List<String> itineraries;
+    private List<String> idItineraries;
 
-    private String url = "https://2bet.fr/api/customers";  // URL de l'API
+    private String url = "https://2bet.fr/api/itineraries";  // URL de l'API
 
     // Code pour le résultat
     private static final int REQUEST_CODE_AJOUTER_CLIENT = 1;
@@ -54,7 +55,7 @@ public class Clients_afficher extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.clients_afficher);
+        setContentView(R.layout.itineraries_afficher);
 
         lanceurFille = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -77,15 +78,17 @@ public class Clients_afficher extends AppCompatActivity {
         SSLCertificate.disableSSLCertificateValidation();
 
         // Initialisation de la liste des clients avant de l'utiliser dans l'adapter
-        clients = new ArrayList<>();
+        itineraries = new ArrayList<>();
+        idItineraries = new ArrayList<>();
 
         // Configuration du RecyclerView
-        recyclerView = findViewById(R.id.clients_recycler_view);
+        recyclerView = findViewById(R.id.itineraries_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new Clients_RecyclerView(clients, position -> {
+        adapter = new Itineraries_RecyclerView(itineraries, idItineraries, position -> {
             // Supprimer un client
-            clients.remove(position);
+            itineraries.remove(position);
+            idItineraries.remove(position);
             adapter.notifyItemRemoved(position);
         });
 
@@ -94,8 +97,8 @@ public class Clients_afficher extends AppCompatActivity {
         // Appel de la méthode pour récupérer les clients
         fetchClients();
 
-        findViewById(R.id.clients_ajouter_bouton).setOnClickListener(v -> {
-            Intent intention = new Intent(Clients_afficher.this, Clients_creer.class);
+        findViewById(R.id.itineraries_create_button).setOnClickListener(v -> {
+            Intent intention = new Intent(Itineraries_afficher.this, NewRouteActivity.class);
             lanceurFille.launch(intention);
         });
     }
@@ -146,23 +149,24 @@ public class Clients_afficher extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Effacer la liste des clients existante
-                        clients.clear();
+                        itineraries.clear();
+                        idItineraries.clear();
 
                         try {
                             // Accéder à la clé 'response' qui contient le tableau des clients
-                            JSONArray clientArray = response.getJSONArray("response");
+                            JSONArray itinerarieArray = response.getJSONArray("response");
 
                             // Parcourir la réponse JSON pour extraire les données
-                            for (int i = 0; i < clientArray.length(); i++) {
-                                JSONObject clientJson = clientArray.getJSONObject(i);
+                            for (int i = 0; i < itinerarieArray.length(); i++) {
+                                JSONObject itinerarieJson = itinerarieArray.getJSONObject(i);
 
                                 // Récupérer le nom et la description du client
-                                String name = clientJson.optString("name", "Nom non disponible");
-                                String description = clientJson.optString("description", "Description non disponible");
+                                String name = itinerarieJson.optString("name", "Nom non disponible");
+                                String id = itinerarieJson.optString("id", "Id non disponible");
 
                                 // Ajouter les clients dans la liste
-                                String clientInfo = name;
-                                clients.add(clientInfo);
+                                itineraries.add(name);
+                                idItineraries.add(id);
                             }
 
                             // Mettre à jour l'adapter pour refléter les changements
@@ -170,7 +174,7 @@ public class Clients_afficher extends AppCompatActivity {
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(Clients_afficher.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Itineraries_afficher.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -186,7 +190,7 @@ public class Clients_afficher extends AppCompatActivity {
                             // Si la réponse réseau est nulle, afficher un message d'erreur générique
                             Log.e("VolleyError", "Erreur réseau inconnue");
                         }
-                        Toast.makeText(Clients_afficher.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Itineraries_afficher.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -237,7 +241,7 @@ public class Clients_afficher extends AppCompatActivity {
         if (id == R.id.action_account) {
             // création d'une intention
             Intent intention =
-                    new Intent(Clients_afficher.this,
+                    new Intent(Itineraries_afficher.this,
                             AccountActivity.class);
             // lancement de l'activité fille
             startActivity(intention);
@@ -245,21 +249,20 @@ public class Clients_afficher extends AppCompatActivity {
         } else if (id == R.id.action_path) {
             // création d'une intention
             Intent intention =
-                    new Intent(Clients_afficher.this,
+                    new Intent(Itineraries_afficher.this,
                             Accueil_main.class);
             // lancement de l'activité fille
             startActivity(intention);
             return true;
         } else if (id == R.id.action_clients) {
-            Toast.makeText(this, "Déjà sur client", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_iti) {
             // création d'une intention
             Intent intention =
-                    new Intent(Clients_afficher.this,
+                    new Intent(Itineraries_afficher.this,
                             Clients_afficher.class);
             // lancement de l'activité fille
             startActivity(intention);
+            return true;
+        } else if (id == R.id.action_iti) {
             return true;
         }
 
