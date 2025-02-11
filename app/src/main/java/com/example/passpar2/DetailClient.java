@@ -1,5 +1,6 @@
 package com.example.passpar2;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -52,7 +54,7 @@ public class DetailClient extends AppCompatActivity {
     /**
      * URL de l'API à interroger
      */
-    private static final String URL_API = "https://2bet.fr/api/customers";
+    private static String URL_API = "https://2bet.fr/api/customers";
 
     /**
      * URL de l'API pour les informations du customer
@@ -60,6 +62,8 @@ public class DetailClient extends AppCompatActivity {
     private static final String URL_CUSTOMER = "https://2bet.fr/api/customers";
 
     private ActivityResultLauncher<Intent> lanceurFille;
+
+    private ActivityResultLauncher<Intent> lanceurAdapter;
 
     private RecyclerView recyclerView;
     private Contacts_RecyclerView adapter;
@@ -94,6 +98,12 @@ public class DetailClient extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);  // Désactive la flèche de retour
             getSupportActionBar().setTitle("");
         }
+
+        // Initialisation correcte du lanceur
+        lanceurAdapter = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::resultatEditContact
+        );
 
         // Désactiver la vérification du certificat SSL pour les tests
         TrustManager[] trustAllCertificates = new TrustManager[] {
@@ -131,11 +141,15 @@ public class DetailClient extends AppCompatActivity {
         recyclerView = findViewById(R.id.contacts_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new Contacts_RecyclerView(contacts,idContacts, position -> {
-            // Supprimer un client
-            contacts.remove(position);
-            adapter.notifyItemRemoved(position);
-        });
+        DetailClient detailClient = new DetailClient();  // Créer l'instance de DetailClient
+        adapter = new Contacts_RecyclerView(contacts, idContacts, new Contacts_RecyclerView.OnItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                contacts.remove(position);
+                idContacts.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+        }, lanceurAdapter,detailClient);
 
         recyclerView.setAdapter(adapter);
 
@@ -294,6 +308,65 @@ public class DetailClient extends AppCompatActivity {
                             nameView.setText(name);
                             descriptionView.setText(description);
 
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(DetailClient.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        if (error.networkResponse != null) {
+                            // Si la réponse réseau est disponible, récupérer le code d'état et afficher les détails
+                            Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
+                            Log.e("VolleyError", "Response: " + new String(error.networkResponse.data));
+                        } else {
+                            // Si la réponse réseau est nulle, afficher un message d'erreur générique
+                            Log.e("VolleyError", "Erreur réseau inconnue");
+                        }
+                        Toast.makeText(DetailClient.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Ajouter la requête à la file d'attente Volley
+        getFileRequete().add(jsonObjectRequest);
+    }
+
+
+    public void resultatEditContact(ActivityResult resultat) {
+        // on récupère l'intention envoyée par la fille
+        Intent intent = resultat.getData();
+        // si le code retour indique que tout est ok
+        if (resultat.getResultCode() == Activity.RESULT_OK) {
+            getContacts();
+        }
+    }
+
+    public void deleteContact(int position) {
+        // Vérifier la connexion Internet avant de lancer la requête
+        if (!estConnecteInternet()) {
+            return;  // Si pas de connexion, on ne fait rien
+        }
+
+        URL_API += position;
+
+        // Créer la requête GET
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.DELETE, URL_API, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Vérifier la réponse et afficher un message adapté
+                            String status = response.getString("status");
+                            if ("OK".equals(status)) {
+                                Toast.makeText(getApplicationContext(), "Client supprimé avec succès", Toast.LENGTH_SHORT).show();
+                                getContacts();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Erreur lors de la suppression du client", Toast.LENGTH_SHORT).show();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                             Toast.makeText(DetailClient.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();

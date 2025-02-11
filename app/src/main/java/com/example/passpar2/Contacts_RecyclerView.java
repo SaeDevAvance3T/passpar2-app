@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,18 +18,23 @@ import java.util.List;
 
 public class Contacts_RecyclerView extends RecyclerView.Adapter<Contacts_RecyclerView.ClientViewHolder> {
 
+    private final DetailClient detailClient;
     private List<String> contacts;
     private List<Integer> idContacts;
     private OnItemClickListener listener;
+
+    private ActivityResultLauncher<Intent> lanceurAdapter;
 
     public interface OnItemClickListener {
         void onDeleteClick(int position);
     }
 
-    public Contacts_RecyclerView(List<String> contacts,List<Integer> idContacts, OnItemClickListener listener) {
+    public Contacts_RecyclerView(List<String> contacts,List<Integer> idContacts, OnItemClickListener listener, ActivityResultLauncher<Intent> lanceurAdapter, DetailClient detailClient) {
         this.contacts = contacts;
         this.idContacts = idContacts;
         this.listener = listener;
+        this.lanceurAdapter = lanceurAdapter;
+        this.detailClient = detailClient;
     }
 
     @NonNull
@@ -41,21 +48,13 @@ public class Contacts_RecyclerView extends RecyclerView.Adapter<Contacts_Recycle
     public void onBindViewHolder(@NonNull ClientViewHolder holder, int position) {
         String client = contacts.get(position);
         holder.contactName.setText(client);
-        holder.deleteButton.setOnClickListener(v -> listener.onDeleteClick(position));
+
+        Integer idcontact = idContacts.get(position);
 
         holder.deleteButton.setOnClickListener(v -> new AlertDialog.Builder(v.getContext())
                 .setTitle("Supprimer le client")
                 .setMessage("Êtes-vous sûr de vouloir supprimer ce client ?")
-                .setPositiveButton("Oui", (dialog, which) -> listener.onDeleteClick(position))
-                .setNegativeButton("Non", null)
-                .show());
-
-        Integer idcontact = idContacts.get(position);
-
-        holder.editButton.setOnClickListener(v -> new AlertDialog.Builder(v.getContext())
-                .setTitle("Modifier un client")
-                .setMessage("Êtes-vous sûr de vouloir modifier ce client avec l'id : " + idcontact.toString())
-                .setPositiveButton("Oui", (dialog, which) -> listener.onDeleteClick(position))
+                .setPositiveButton("Oui", (dialog, which) -> detailClient.deleteContact(idcontact))
                 .setNegativeButton("Non", null)
                 .show());
 
@@ -64,8 +63,8 @@ public class Contacts_RecyclerView extends RecyclerView.Adapter<Contacts_Recycle
             // Lancez l'activité de modification avec les données du client
             Intent intent = new Intent(v.getContext(), EditContact.class);
             intent.putExtra("idContact", idcontact.toString());
-            // Vous pouvez ajouter d'autres données spécifiques si nécessaire
-            v.getContext().startActivity(intent);
+            // Lancer l'activité avec le lanceur
+            lanceurAdapter.launch(intent);
         });
     }
 

@@ -1,6 +1,7 @@
 
 package com.example.passpar2;
 
+import androidx.activity.result.ActivityResult;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -15,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +55,13 @@ public class EditContact extends AppCompatActivity {
     private String urlAPI = "https://2bet.fr/api/contacts/";
 
     private AppCompatButton boutonValider;
+
+    private TextView lastNameView;
+
+    private TextView firstNameView;
+
+    private TextView phoneView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +104,10 @@ public class EditContact extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        firstNameView = findViewById(R.id.contacts_firstName);
+        lastNameView = findViewById(R.id.contacts_lastName);
+        phoneView = findViewById(R.id.contacts_phone);
+
         boutonValider = findViewById(R.id.contacts_validate);
 
         // Gestion du clic sur le bouton "Valider"
@@ -104,6 +117,8 @@ public class EditContact extends AppCompatActivity {
                 editContact(v);
             }
         });
+
+        getContactDatas();
     }
 
     /**
@@ -139,10 +154,10 @@ public class EditContact extends AppCompatActivity {
         }
     }
 
-    public void editContact(View bouton) {
-        // Vérifier la connexion Internet avant d'envoyer la requête
+    private void getContactDatas() {
+        // Vérifier la connexion Internet avant de lancer la requête
         if (!estConnecteInternet()) {
-            return;
+            return;  // Si pas de connexion, on ne fait rien
         }
 
         Intent intention = getIntent();
@@ -151,6 +166,56 @@ public class EditContact extends AppCompatActivity {
         urlAPI += idContact;
 
         Toast.makeText(getApplicationContext(), urlAPI, Toast.LENGTH_SHORT).show();
+
+        // Créer la requête GET
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, urlAPI, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject responseObject = response.optJSONObject("response");
+
+                            // Récupérer le nom et la description du client
+                            String firstName = responseObject.optString("firstName", "Prenom non disponible");
+                            String lastName = responseObject.optString("lastName", "Nom non disponible");
+                            String phone = responseObject.optString("phone", "Telephone non disponible");
+                            // Mettre à jour les informations du client
+                            firstNameView.setText(firstName);
+                            lastNameView.setText(lastName);
+                            phoneView.setText(phone);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(EditContact.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        if (error.networkResponse != null) {
+                            // Si la réponse réseau est disponible, récupérer le code d'état et afficher les détails
+                            Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
+                            Log.e("VolleyError", "Response: " + new String(error.networkResponse.data));
+                        } else {
+                            // Si la réponse réseau est nulle, afficher un message d'erreur générique
+                            Log.e("VolleyError", "Erreur réseau inconnue");
+                        }
+                        Toast.makeText(EditContact.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Ajouter la requête à la file d'attente Volley
+        getFileRequete().add(jsonObjectRequest);
+    }
+
+    public void editContact(View bouton) {
+        // Vérifier la connexion Internet avant d'envoyer la requête
+        if (!estConnecteInternet()) {
+            return;
+        }
 
         // Récupérer les informations du formulaire
         String firstName = ((EditText) findViewById(R.id.contacts_firstName)).getText().toString().trim();
@@ -167,25 +232,6 @@ public class EditContact extends AppCompatActivity {
                 requeteJson.put("firstName", firstName);
                 requeteJson.put("lastName", lastName);
                 requeteJson.put("phone", phone);
-
-                // Créer l'objet 'contacts' et y ajouter les informations de contact
-                //JSONArray contactsArray = new JSONArray();
-                //JSONObject contact = new JSONObject();
-                //contact.put("firstName", prenomContact);
-                //contact.put("lastName", nomContact);
-                //contact.put("phone", telephoneContact);
-//
-                //contactsArray.put(contact);
-                //requeteJson.put("contacts", contactsArray);
-//
-                //JSONObject address = new JSONObject();
-                //address.put("country", pays);
-                //address.put("city", ville);
-                //address.put("street", rue);
-                //address.put("postalCode", codepostal);
-                //address.put("supplement", complement);
-
-                //requeteJson.put("address", address);
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Erreur lors de la création du JSON", Toast.LENGTH_SHORT).show();
@@ -201,13 +247,13 @@ public class EditContact extends AppCompatActivity {
                             try {
                                 // Vérifier la réponse et afficher un message adapté
                                 String status = reponseJson.getString("status");
-                                if ("UPDATED".equals(status)) {
+                                if ("OK".equals(status)) {
                                     // Créer un Intent pour renvoyer les données à MainActivity
                                     Intent intentionRetour = new Intent();
                                     // Renvoyer le résultat avec les données et terminer l'activité
                                     setResult(Activity.RESULT_OK, intentionRetour);
                                     finish();
-                                    Toast.makeText(getApplicationContext(), "Client créé avec succès", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "CLient modifié avec succés", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Erreur lors de la création du client", Toast.LENGTH_SHORT).show();
                                 }
