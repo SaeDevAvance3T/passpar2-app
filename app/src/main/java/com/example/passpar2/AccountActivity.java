@@ -37,7 +37,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class AccountActivity extends AppCompatActivity {
+public class AccountActivity extends MenuActivity {
 
     /**
      * File d'attente pour les requêtes API (en lien avec l'utilisation de Volley)

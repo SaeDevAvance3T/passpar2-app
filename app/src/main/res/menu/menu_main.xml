@@ -2,11 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_account"
-        android:title="Compte" />
+        android:title="@string/menu_compte" />
+    <item
+        android:id="@+id/action_clients"
+        android:title="@string/menu_clients" />
     <item
         android:id="@+id/action_iti"
-        android:title="Itinéraire" />
+        android:title="@string/menu_itineraire" />
     <item
         android:id="@+id/action_path"
-        android:title="Parcours" />
+        android:title="@string/menu_parcours" />
 </menu>
