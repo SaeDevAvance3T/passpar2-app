@@ -71,6 +71,8 @@ public class DetailClient extends AppCompatActivity {
 
     private TextView descriptionView;
 
+    private String idCustomer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +116,10 @@ public class DetailClient extends AppCompatActivity {
         // Configuration du RecyclerView
         recyclerView = findViewById(R.id.contacts_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //Récupération de l'id du client
+        Intent intentionMere = getIntent();
+        idCustomer = intentionMere.getStringExtra("idCustomer");
 
         adapter = new Contacts_RecyclerView(contacts, idContacts, new Contacts_RecyclerView.OnItemClickListener() {
             @Override
@@ -192,7 +198,7 @@ public class DetailClient extends AppCompatActivity {
             return;  // Si pas de connexion, on ne fait rien
         }
 
-        String urlGetContacts = URL_CONTACTS + "1";
+        String urlGetContacts = URL_CONTACTS + idCustomer;
 
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -257,7 +263,7 @@ public class DetailClient extends AppCompatActivity {
             return;  // Si pas de connexion, on ne fait rien
         }
 
-        String urlCustomerDatas = URL_CUSTOMER + "1";
+        String urlCustomerDatas = URL_CUSTOMER + idCustomer;
 
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(

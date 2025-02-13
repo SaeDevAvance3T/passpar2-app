@@ -5,11 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
     android:background="@color/black">
-=======
-    tools:context=".DetailClient">
->>>>>>> feature/detail-client
 
     <LinearLayout
         android:id="@+id/onglet_correction"

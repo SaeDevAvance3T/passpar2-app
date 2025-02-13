@@ -13,7 +13,8 @@
         <item name="android:background">@color/vert</item>
     </style>
 
-    <style name="Theme.PassPar2" parent="Theme.Material3.DayNight.NoActionBar" />
+    <style name="Theme.PassPar2" parent="Theme.Material3.DayNight.NoActionBar">
+    </style>
 
     <!-- Style nouveau_compte -->
     <style name="nouveau_compte_suivant" parent="Widget.AppCompat.Button">
@@ -71,8 +72,6 @@
         <item name="android:background">@drawable/nouveau_client_annuler</item>
     </style>
 
-<<<<<<< HEAD
-=======
     <style name="detail_client_modifier" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -94,6 +93,4 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/nouveau_compte_retour</item>
     </style>
-
->>>>>>> feature/detail-client
 </resources>

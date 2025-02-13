@@ -7,8 +7,5 @@
     <color name="vert">#03FFB3</color>
     <color name="rouge">#FF6060</color>
     <color name="placeHolder">#BBBBBB</color>
-<<<<<<< HEAD
-=======
     <color name="background">#222222</color>
->>>>>>> feature/detail-client
 </resources>

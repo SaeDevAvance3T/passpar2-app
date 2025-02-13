@@ -44,12 +44,18 @@ public class Clients_afficher extends AppCompatActivity {
     private Clients_RecyclerView adapter;
     private List<String> clients;
 
+    private List<Integer> idCustomers;
+
     private String url = "https://2bet.fr/api/customers";  // URL de l'API
+
+    private String URL_DELETE = "https://2bet.fr/api/customers/";
 
     // Code pour le résultat
     private static final int REQUEST_CODE_AJOUTER_CLIENT = 1;
 
     private ActivityResultLauncher<Intent> lanceurFille;
+
+    private ActivityResultLauncher<Intent> lanceurAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +85,24 @@ public class Clients_afficher extends AppCompatActivity {
         // Initialisation de la liste des clients avant de l'utiliser dans l'adapter
         clients = new ArrayList<>();
 
+        // Initialisation de la liste des id des clients avant de l'utiliser dans l'adapter
+        idCustomers = new ArrayList<>();
+
         // Configuration du RecyclerView
         recyclerView = findViewById(R.id.clients_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new Clients_RecyclerView(clients, position -> {
+        // Initialisation correcte du lanceur
+        lanceurAdapter = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::resultEditCustomer
+        );
+
+        adapter = new Clients_RecyclerView(clients,idCustomers, position -> {
             // Supprimer un client
             clients.remove(position);
             adapter.notifyItemRemoved(position);
-        });
+        },lanceurAdapter,this);
 
         recyclerView.setAdapter(adapter);
 
@@ -98,6 +113,15 @@ public class Clients_afficher extends AppCompatActivity {
             Intent intention = new Intent(Clients_afficher.this, Clients_creer.class);
             lanceurFille.launch(intention);
         });
+    }
+
+    public void resultEditCustomer(ActivityResult resultat) {
+        // on récupère l'intention envoyée par la fille
+        Intent intent = resultat.getData();
+        // si le code retour indique que tout est ok
+        if (resultat.getResultCode() == Activity.RESULT_OK) {
+            fetchClients();
+        }
     }
 
     /**
@@ -147,7 +171,7 @@ public class Clients_afficher extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         // Effacer la liste des clients existante
                         clients.clear();
-
+                        idCustomers.clear();
                         try {
                             // Accéder à la clé 'response' qui contient le tableau des clients
                             JSONArray clientArray = response.getJSONArray("response");
@@ -159,10 +183,12 @@ public class Clients_afficher extends AppCompatActivity {
                                 // Récupérer le nom et la description du client
                                 String name = clientJson.optString("name", "Nom non disponible");
                                 String description = clientJson.optString("description", "Description non disponible");
+                                Integer idClient = clientJson.optInt("id", -1);
 
                                 // Ajouter les clients dans la liste
                                 String clientInfo = name;
                                 clients.add(clientInfo);
+                                idCustomers.add(idClient);
                             }
 
                             // Mettre à jour l'adapter pour refléter les changements
@@ -194,6 +220,55 @@ public class Clients_afficher extends AppCompatActivity {
         getFileRequete().add(jsonObjectRequest);
     }
 
+    public void deleteCustomer(String idCustomer) {
+        // Vérifier la connexion Internet avant de lancer la requête
+        if (!estConnecteInternet()) {
+            return;  // Si pas de connexion, on ne fait rien
+        }
+
+        String urlDeleteCustomer = URL_DELETE + idCustomer;
+        Toast.makeText(getApplicationContext(), urlDeleteCustomer, Toast.LENGTH_SHORT).show();
+
+        // Créer la requête GET
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.DELETE, urlDeleteCustomer, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Vérifier la réponse et afficher un message adapté
+                            String status = response.getString("status");
+                            if ("OK".equals(status)) {
+                                Toast.makeText(getApplicationContext(), "Client supprimé avec succès", Toast.LENGTH_SHORT).show();
+                                fetchClients();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Erreur lors de la suppression du client", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(Clients_afficher.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        if (error.networkResponse != null) {
+                            // Si la réponse réseau est disponible, récupérer le code d'état et afficher les détails
+                            Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
+                            Log.e("VolleyError", "Response: " + new String(error.networkResponse.data));
+                        } else {
+                            // Si la réponse réseau est nulle, afficher un message d'erreur générique
+                            Log.e("VolleyError", "Erreur réseau inconnue");
+                        }
+                        Toast.makeText(Clients_afficher.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Ajouter la requête à la file d'attente Volley
+        getFileRequete().add(jsonObjectRequest);
+    }
 
     private void resultatAjoutClient(ActivityResult resultat) {
         // on récupère l'intention envoyée par la fille
