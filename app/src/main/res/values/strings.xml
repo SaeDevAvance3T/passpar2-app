@@ -5,4 +5,5 @@
     <string name="create_route">Créer un itinéraire</string>
     <string name="search_text">Rechercher</string>
     <string name="no_enterprises_founded">Veuillez créer une entreprise</string>
+    <string name="available_enterprises">Clients disponibles :</string>
 </resources>
