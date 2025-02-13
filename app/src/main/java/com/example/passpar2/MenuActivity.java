@@ -42,8 +42,8 @@ public class MenuActivity extends AppCompatActivity {
             }
             return true;
         } else if (id == R.id.action_iti) {
-            if (!(this instanceof NewRouteActivity)) {
-                startActivity(new Intent(this, NewRouteActivity.class));
+            if (!(this instanceof Itineraries_afficher)) {
+                startActivity(new Intent(this, Itineraries_afficher.class));
             }else {
                 Toast.makeText(this, this.getString(R.string.menu_message_already_itineraries), Toast.LENGTH_SHORT).show();
             }

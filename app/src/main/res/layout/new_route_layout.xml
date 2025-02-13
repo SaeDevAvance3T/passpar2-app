@@ -18,6 +18,7 @@
             android:paddingVertical="10dp">
 
             <ImageButton
+                android:id="@+id/arrowBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/black"
@@ -76,7 +77,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

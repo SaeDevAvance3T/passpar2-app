@@ -103,6 +103,12 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                                     // Démarrer une nouvelle activité et passer les données
                                     Intent intent = new Intent(AuthenticationActivity.this, Accueil_main.class);
+
+                                    //intent.putExtra("id", id);
+                                    //intent.putExtra("firstName", firstName);
+                                    //intent.putExtra("lastName", lastName);
+                                    //intent.putExtra("email", email);
+
                                     startActivity(intent);
                                     finish(); // Facultatif : ferme l'activité actuelle
                                     Toast.makeText(getApplicationContext(), "Connexion réussie !", Toast.LENGTH_SHORT).show();

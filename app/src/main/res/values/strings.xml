@@ -94,4 +94,5 @@
     <string name="customers_edit_title">Modifier un client</string>
 
     <string name="available_enterprises">Clients disponibles :</string>
+    <string name="itineraries_create">Créer un itinéraire</string>
 </resources>

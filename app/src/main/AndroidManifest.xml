@@ -70,5 +70,8 @@
         <activity android:name=".EditCustomer"
             android:exported="true"
             android:screenOrientation="portrait"/>
+        <activity android:name=".Itineraries_afficher"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

@@ -2,10 +2,6 @@ package com.example.passpar2;
 
 import static android.widget.Toast.LENGTH_LONG;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +11,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,17 +30,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 public class NewRouteActivity extends MenuActivity implements CheckboxSelectionListener {
 
@@ -80,7 +70,7 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
     private CheckboxAdapter adapter;
     public TextView textChoice;
 
-
+    private ImageButton arrowBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,30 +91,29 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
 
         selectedEnterprises = new ArrayList<>();
 
-        // Désactiver la vérification du certificat SSL pour les tests
-        TrustManager[] trustAllCertificates = new TrustManager[]{
-                new X509TrustManager() {
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                    }
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                    }
-                }
-        };
-
-        // Installer un gestionnaire de confiance pour tous les certificats
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCertificates, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Appeler la méthode pour désactiver la validation SSL
+        SSLCertificate.disableSSLCertificateValidation();
 
         getEnterpriseList();
+
+        //if (enterpriseValues.size() == 0) {
+
+        //}
+
+        CheckboxAdapter adapter = new CheckboxAdapter(this, enterpriseValues, this);
+        enterpriseList.setAdapter(adapter);
+
+        arrowBack = findViewById(R.id.arrowBack);
+
+        arrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // création d'une intention pour informer l'activité parente
+                Intent intentionRetour = new Intent();
+                setResult(Activity.RESULT_CANCELED, intentionRetour);
+                finish(); // destruction de l'activité courante
+            }
+        });
 
         /*
          * Lorsque l'utilisateur cliquera sur la touche back du téléphone pour revenir
