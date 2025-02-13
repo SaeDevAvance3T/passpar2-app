@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/clients_creer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#000000"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:logo="@drawable/logo_passpar2"
+            app:titleTextColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/customers_edit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_titre"
+            android:textColor="@color/white"
+            android:text="@string/customers_edit_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre2" />
+
+        <EditText
+            android:id="@+id/customers_edit_name"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_nom" />
+
+        <EditText
+            android:id="@+id/customers_edit_description"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_description" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marge_verticale"
+            android:layout_gravity="center"
+            android:textSize="@dimen/taille_h1"
+            android:textColor="@color/white"
+            android:text="@string/nouveau_client_titre3" />
+
+        <EditText
+            android:id="@+id/customers_edit_country"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_pays" />
+
+        <EditText
+            android:id="@+id/customers_edit_city"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_ville" />
+
+        <EditText
+            android:id="@+id/customers_edit_postalcode"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_code_postal" />
+
+        <EditText
+            android:id="@+id/customers_edit_street"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_rue" />
+
+        <EditText
+            android:id="@+id/customers_edit_supplement"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
+            style="@style/nouveau_compte_saisie"
+            android:hint="@string/nouveau_client_placeholder_complement" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/customers_edit_validate"
+            style="@style/nouveau_compte_suivant"
+            android:text="@string/nouveau_client_valider"
+            android:onClick="clicValider"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/customers_edit_cancel"
+            style="@style/bouton_annuler"
+            android:text="@string/nouveau_client_annuler"
+            android:onClick="clicAnnuler"
+            android:layout_marginBottom="45dp" />
+
+    </LinearLayout>
+
+</ScrollView>

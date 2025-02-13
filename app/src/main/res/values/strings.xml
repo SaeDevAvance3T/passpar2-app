@@ -88,4 +88,7 @@
     <string name="menu_message_already_itineraries">Déjà sur la page \"Itinéraires\"</string>
     <string name="menu_message_already_path">Déjà sur la page \"Parcours\"</string>
     <string name="menu_message_already_account">Déjà sur la page \"Compte\"</string>
+
+    <string name="detail_client_modifier">Modifier</string>
+    <string name="customers_edit_title">Modifier un client</string>
 </resources>

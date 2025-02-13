@@ -90,7 +90,7 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/customer_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="464 Boulevard des Tamaris,\n12850 Onet Le château,\nFrance"
@@ -125,7 +125,7 @@
             android:id="@+id/detail_client_modifier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/nouveau_client_valider"
+            android:text="@string/detail_client_modifier"
             style="@style/detail_client_modifier" />
 
         <androidx.appcompat.widget.AppCompatButton
