@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Clients_afficher extends AppCompatActivity {
+public class Clients_afficher extends MenuActivity {
 
     /**
      * File d'attente pour les requêtes API (en lien avec l'utilisation de Volley)
@@ -296,49 +296,4 @@ public class Clients_afficher extends AppCompatActivity {
             fetchClients();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Charge le menu de l'Activity
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics des items
-        int id = item.getItemId();
-
-        if (id == R.id.action_account) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Clients_afficher.this,
-                            AccountActivity.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_path) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Clients_afficher.this,
-                            Accueil_main.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_clients) {
-            Toast.makeText(this, "Déjà sur client", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_iti) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Clients_afficher.this,
-                            Clients_afficher.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }

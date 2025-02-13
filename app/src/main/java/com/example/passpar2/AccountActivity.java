@@ -178,43 +178,4 @@ public class AccountActivity extends MenuActivity {
         // Ajouter la requête à la file d'attente
         getFileRequete().add(jsonObjectRequest);
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Charger le menu
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics des items
-        int id = item.getItemId();
-
-        if (id == R.id.action_account) {
-            return true;
-        } else if (id == R.id.action_path) {
-            Toast.makeText(this, "Parcours sélectionné", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_clients) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(AccountActivity.this,
-                            Clients_afficher.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_iti) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(AccountActivity.this,
-                            NewRouteActivity.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

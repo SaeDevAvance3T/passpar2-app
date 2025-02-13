@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class NewRouteActivity extends AppCompatActivity implements CheckboxSelectionListener {
+public class NewRouteActivity extends MenuActivity implements CheckboxSelectionListener {
 
     /** Contient l'URL appelant l'API  */
     private final String URL_ENTERPRISES = "blablabla";
@@ -195,36 +195,5 @@ public class NewRouteActivity extends AppCompatActivity implements CheckboxSelec
             displayedEnterprises.setText("");
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics des items
-        int id = item.getItemId();
-
-        if (id == R.id.action_account) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(NewRouteActivity.this,
-                            AccountActivity.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_path) {
-            Toast.makeText(this, "Parcours sélectionné", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_clients) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(NewRouteActivity.this,
-                            Clients_afficher.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_iti) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

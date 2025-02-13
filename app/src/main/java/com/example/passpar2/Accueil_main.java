@@ -25,7 +25,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
  * affichent seulement un texte
  * @author C. Servières
  */
-public class Accueil_main extends AppCompatActivity {
+public class Accueil_main extends MenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,49 +85,5 @@ public class Accueil_main extends AppCompatActivity {
          * ).attach();
          *
          */
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Charge le menu de l'Activity
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics des items
-        int id = item.getItemId();
-
-        if (id == R.id.action_account) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Accueil_main.this,
-                            AccountActivity.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_path) {
-            Toast.makeText(this, "Parcours sélectionné", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_clients) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Accueil_main.this,
-                            Clients_afficher.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_iti) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Accueil_main.this,
-                            NewRouteActivity.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

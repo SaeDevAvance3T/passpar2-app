@@ -36,7 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Clients_creer extends AppCompatActivity {
+public class Clients_creer extends MenuActivity {
 
     /**
      * File d'attente pour les requêtes API (en lien avec l'utilisation de Volley)
@@ -110,40 +110,6 @@ public class Clients_creer extends AppCompatActivity {
             Toast.makeText(this, "Pas de connexion Internet", Toast.LENGTH_SHORT).show();
             return false;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Charge le menu de l'Activity
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics des items
-        int id = item.getItemId();
-
-        if (id == R.id.action_account) {
-            Toast.makeText(this, "Compte sélectionné", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_path) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Clients_creer.this,
-                            Accueil_main.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_clients) {
-            Toast.makeText(this, "Déjà sur client", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_iti) {
-            Toast.makeText(this, "Itinéraires sélectionné", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**
