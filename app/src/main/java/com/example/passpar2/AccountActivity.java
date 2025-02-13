@@ -95,25 +95,6 @@ public class AccountActivity extends MenuActivity {
         editor.putInt("userId", 12);  // Enregistrer l'ID de l'utilisateur
         editor.apply();  // Appliquer les changements
 
-        ImageView eyeIcon = findViewById(R.id.eye_icon);  // Votre icône d'œil (assurez-vous qu'elle est dans votre layout)
-        viewPassword = findViewById(R.id.account_password);
-
-        eyeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (motdepasseVisible) {
-                    // Masquer le mot de passe
-                    viewPassword.setText("***************");  // Afficher des astérisques
-                    eyeIcon.setImageResource(R.drawable.icon_eye_off);  // Icône œil barré
-                } else {
-                    // Afficher le mot de passe
-                    viewPassword.setText(motdepasse);  // Afficher le mot de passe en clair
-                    eyeIcon.setImageResource(R.drawable.icon_eye);  // Icône œil
-                }
-                motdepasseVisible = !motdepasseVisible;
-            }
-        });
-
         requestData();
     }
 
