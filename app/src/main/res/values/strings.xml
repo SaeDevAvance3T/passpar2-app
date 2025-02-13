@@ -72,4 +72,16 @@
     <string name="contacts_placeholder_phone">Telephone du contact</string>
     <string name="contacts_placeholder_firstName">Prenom du contact</string>
     <string name="contacts_placeholder_lastName">Nom du contact</string>
+
+    <string name="accout_modifier">Modifier\n</string>
+    <string name="account_edit_client">Modifier vos informations</string>
+    <string name="account_edit_complement">Complement d\'adresse</string>
+    <string name="account_edit_rue">Rue</string>
+    <string name="account_edit_codepostal">Code postal *</string>
+    <string name="account_edit_ville">Ville *</string>
+    <string name="account_edit_pays">Pays *</string>
+    <string name="account_edit_motdepasse">Mot de passe *</string>
+    <string name="account_edit_email">Email *</string>
+    <string name="account_edit_prenom">Prenom *</string>
+    <string name="account_edit_nom">Nom *</string>
 </resources>

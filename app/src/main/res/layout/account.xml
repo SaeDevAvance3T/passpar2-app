@@ -64,7 +64,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/nomPrenom"
+                android:id="@+id/account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Corinne Servières"
@@ -106,18 +106,19 @@
                 <TextView
                     android:id="@+id/account_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:text="***************"
                     android:textColor="#FFFFFF" />
 
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_weight="1"
-                android:src="@drawable/icon_eye" />
+            <ImageView
+                android:id="@+id/eye_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/icon_eye_off"
+                android:contentDescription="Afficher/Masquer mot de passe" />
 
         </LinearLayout>
 
@@ -156,6 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/nouveau_compte_suivant"
-        android:text="@string/account_modifier" />
+        android:text="@string/accout_modifier"
+        android:onClick="clicModifier"/>
 
 </LinearLayout>

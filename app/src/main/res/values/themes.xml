@@ -13,8 +13,7 @@
         <item name="android:background">@color/vert</item>
     </style>
 
-    <style name="Theme.PassPar2" parent="Theme.Material3.DayNight.NoActionBar">
-    </style>
+    <style name="Theme.PassPar2" parent="Theme.Material3.DayNight.NoActionBar" />
 
     <!-- Style nouveau_compte -->
     <style name="nouveau_compte_suivant" parent="Widget.AppCompat.Button">

@@ -1,6 +1,7 @@
 package com.example.passpar2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -94,12 +95,14 @@ public class AuthenticationActivity extends AppCompatActivity {
                                     String lastName = responseData.getString("lastName");
                                     String email = responseData.getString("email");
 
+                                    // Enregistrer l'ID dans SharedPreferences
+                                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putInt("userId", id);  // Enregistrer l'ID de l'utilisateur
+                                    editor.apply();  // Appliquer les changements
+
                                     // Démarrer une nouvelle activité et passer les données
                                     Intent intent = new Intent(AuthenticationActivity.this, Accueil_main.class);
-                                    //intent.putExtra("id", id);
-                                    //intent.putExtra("firstName", firstName);
-                                    //intent.putExtra("lastName", lastName);
-                                    //intent.putExtra("email", email);
                                     startActivity(intent);
                                     finish(); // Facultatif : ferme l'activité actuelle
                                     Toast.makeText(getApplicationContext(), "Connexion réussie !", Toast.LENGTH_SHORT).show();
