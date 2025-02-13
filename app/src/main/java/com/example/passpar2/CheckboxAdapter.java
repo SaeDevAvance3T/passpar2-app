@@ -6,20 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class CheckboxAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> items;
-    private Set<Integer> selectedPositions = new HashSet<>(); // Stocke les positions cochées
+    private HashMap<Integer, String> items;
+    private Set<Integer> selectedKeys = new HashSet<>(); // Stocke les clés cochées
     private CheckboxSelectionListener selectionListener;
 
-    public CheckboxAdapter(Context context, List<String> items, CheckboxSelectionListener selectionListener) {
+    public CheckboxAdapter(Context context, HashMap<Integer, String> items, CheckboxSelectionListener selectionListener) {
         this.context = context;
         this.items = items;
         this.selectionListener = selectionListener;
@@ -47,22 +48,23 @@ public class CheckboxAdapter extends BaseAdapter {
         }
 
         CheckBox checkBox = convertView.findViewById(R.id.checkbox);
-        checkBox.setText(items.get(position));
+        int key = (int) items.keySet().toArray()[position];
+        checkBox.setText(items.get(key));
 
         // Rétablir l'état précédent si l'utilisateur fait défiler la liste
-        checkBox.setChecked(selectedPositions.contains(position));
+        checkBox.setChecked(selectedKeys.contains(key));
 
         // Gérer le clic sur la Checkbox
         checkBox.setOnClickListener(v -> {
             if (checkBox.isChecked()) {
-                selectedPositions.add(position);
+                selectedKeys.add(key);
             } else {
-                selectedPositions.remove(position);
+                selectedKeys.remove(key);
             }
 
             // Envoyer la mise à jour à l’activité principale
             if (selectionListener != null) {
-                selectionListener.onCheckboxSelectionChanged(selectedPositions);
+                selectionListener.onCheckboxSelectionChanged(selectedKeys);
             }
         });
 

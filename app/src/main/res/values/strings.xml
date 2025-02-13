@@ -62,6 +62,7 @@
     <string name="create_route">Créer un itinéraire</string>
     <string name="search_text">Rechercher</string>
     <string name="no_enterprises_founded">Veuillez créer une entreprise</string>
+
     <string name="account_modifier">Modifier</string>
 
     <string name="detail">Détail</string>
@@ -91,4 +92,6 @@
 
     <string name="detail_client_modifier">Modifier</string>
     <string name="customers_edit_title">Modifier un client</string>
+
+    <string name="available_enterprises">Clients disponibles :</string>
 </resources>
