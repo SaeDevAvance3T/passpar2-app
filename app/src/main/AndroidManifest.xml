@@ -27,6 +27,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MenuActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".AccountActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
