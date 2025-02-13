@@ -25,13 +25,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,20 +62,27 @@ public class DetailClient extends AppCompatActivity {
 
     private List<Integer> idContacts;
 
-    private AppCompatButton boutonRequete;
+    private AppCompatButton boutonModifier;
 
     private TextView nameView;
 
     private TextView descriptionView;
 
+    private TextView addressView;
+
+    private String name;
+    private String description;
+    private String country;
+    private String street;
+    private String supplement;
+    private String postalCode;
+    private String city;
+    private String idAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_client);
-
-        lanceurFille = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                this::editContacts);
 
         // Configuration de la Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -93,6 +97,10 @@ public class DetailClient extends AppCompatActivity {
             getSupportActionBar().setTitle("");
         }
 
+        lanceurFille = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::refreshCustomer);
+
         // Initialisation correcte du lanceur
         lanceurAdapter = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -104,6 +112,7 @@ public class DetailClient extends AppCompatActivity {
 
         nameView = findViewById(R.id.nameView);
         descriptionView = findViewById(R.id.descriptionView);
+        addressView = findViewById(R.id.customer_address);
 
         // Initialisation de la liste des clients avant de l'utiliser dans l'adapter
         contacts = new ArrayList<>();
@@ -131,26 +140,31 @@ public class DetailClient extends AppCompatActivity {
         // Appel de la méthode pour récupérer les contacts
         getContacts();
 
-        findViewById(R.id.detail_client_modifier).setOnClickListener(v -> {
-            Intent intention = new Intent(DetailClient.this, Clients_edit.class);
-            lanceurFille.launch(intention);
-        });
+        boutonModifier = findViewById(R.id.detail_client_modifier);
 
-        boutonRequete = findViewById(R.id.detail_client_modifier);
-
-        boutonRequete.setOnClickListener(new View.OnClickListener() {
+        //Ecouteur de clic sur le bouton modifier
+        boutonModifier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // création d'une intention
+                Intent intention = new Intent(DetailClient.this, EditCustomer.class);
 
-                // redirigé vers authentification
-                getContacts();
-                Toast.makeText(getApplicationContext(), "Redirection vers authentification", Toast.LENGTH_SHORT).show();
+                // Envoie des informations dans l'intention
+                intention.putExtra("name", name);
+                intention.putExtra("description", description);
+                intention.putExtra("country", country);
+                intention.putExtra("street", street);
+                intention.putExtra("postalCode", postalCode);
+                intention.putExtra("city", city);
+                intention.putExtra("supplement", supplement);
+
+                intention.putExtra("idAddress", idAddress);
+
+                intention.putExtra("idCustomer", "12");
+
+                lanceurFille.launch(intention); // Lancement activité fille
             }
         });
-
-    }
-
-    private <O> void editContacts(O o) {
     }
 
     /**
@@ -183,6 +197,15 @@ public class DetailClient extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Pas de connexion Internet", Toast.LENGTH_SHORT).show();
             return false;
+        }
+    }
+
+    public void refreshCustomer(ActivityResult resultat) {
+        // on récupère l'intention envoyée par la fille
+        Intent intent = resultat.getData();
+        // si le code retour indique que tout est ok
+        if (resultat.getResultCode() == Activity.RESULT_OK) {
+            getCustomerDatas();
         }
     }
 
@@ -257,7 +280,7 @@ public class DetailClient extends AppCompatActivity {
             return;  // Si pas de connexion, on ne fait rien
         }
 
-        String urlCustomerDatas = URL_CUSTOMER + "1";
+        String urlCustomerDatas = URL_CUSTOMER + "12";
 
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -269,11 +292,22 @@ public class DetailClient extends AppCompatActivity {
                             JSONObject clientJson = response.getJSONObject("response"); // Récupérer une entreprise
 
                             // Récupérer le nom et la description du client
-                            String name = clientJson.optString("name", "Nom non disponible");
-                            String description = clientJson.optString("description", "Description non disponible");
+                            name = clientJson.optString("name", "Nom non disponible");
+                            description = clientJson.optString("description", "Description non disponible");
+
+                            JSONObject addressJson = clientJson.getJSONObject("address");
+                            country = addressJson.optString("country", "Pays non disponible");
+                            street = addressJson.optString("street", "Rue non disponible");
+                            city = addressJson.optString("city", "Ville non disponible");
+                            postalCode = addressJson.optString("postalCode", "Code postal non disponible");
+                            supplement = addressJson.optString("supplement", "Code postal non disponible");
+
+                            idAddress = addressJson.optString("id", "Id non disponible");
+
                             // Mettre à jour les informations du client
                             nameView.setText(name);
                             descriptionView.setText(description);
+                            addressView.setText(street + ",\n" + postalCode + " " + city + ",\n" + country + ",\n" + supplement);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -358,25 +392,5 @@ public class DetailClient extends AppCompatActivity {
 
         // Ajouter la requête à la file d'attente Volley
         getFileRequete().add(jsonObjectRequest);
-    }
-
-    /**
-     * Met à jour la liste des contacts selon celle renvoyée par l'API
-     * @param reponse Objet JSON contenant la réponse de l'API
-     */
-    public void updateListeContact(JSONObject reponse) {
-        try {
-            StringBuilder resultatFormate = new StringBuilder();
-            if (reponse.has("nom")) {
-                resultatFormate.append("Nom : ").append(reponse.getString("nom"));
-            } else {
-                resultatFormate.append("Nom non disponible");
-            }
-            //zoneResultat.setText(resultatFormate.toString());
-            //zoneResultat.setText(reponse.toString());
-        } catch (JSONException erreur) {
-         Log.e("JSONError", "Erreur lors de l'analyse du JSON", erreur);
-            Toast.makeText(this, "Erreur lors de l'analyse du JSON", Toast.LENGTH_LONG).show();
-        }
     }
 }

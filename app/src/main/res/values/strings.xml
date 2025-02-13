@@ -71,4 +71,6 @@
     <string name="contacts_placeholder_phone">Telephone du contact</string>
     <string name="contacts_placeholder_firstName">Prenom du contact</string>
     <string name="contacts_placeholder_lastName">Nom du contact</string>
+    <string name="detail_client_modifier">Modifier</string>
+    <string name="customers_edit_title">Modifier un client</string>
 </resources>
