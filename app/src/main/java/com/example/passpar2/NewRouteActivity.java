@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -257,10 +259,12 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                             new com.android.volley.Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject reponse) {
-                                    // la zone de résultat est renseignée avec le résultat
-                                    // de la requête
-                                    Toast.makeText(NewRouteActivity.this, "Itinéraire crée", LENGTH_LONG).show();
-                                    // Intent intention = new Intent(NewRouteActivity.this, );
+                                    // Créer un Intent pour renvoyer les données à MainActivity
+                                    Intent intentionRetour = new Intent();
+                                    // Renvoyer le résultat avec les données et terminer l'activité
+                                    setResult(Activity.RESULT_OK, intentionRetour);
+                                    finish();
+                                    Toast.makeText(getApplicationContext(), "Itineraire créé avec succès", Toast.LENGTH_SHORT).show();
                                 }
                             },
                             // Ecouteur en cas d'erreur

@@ -8,4 +8,5 @@
     <color name="rouge">#FF6060</color>
     <color name="placeHolder">#BBBBBB</color>
     <color name="background">#222222</color>
+    <color name="error">#FF0000</color>
 </resources>

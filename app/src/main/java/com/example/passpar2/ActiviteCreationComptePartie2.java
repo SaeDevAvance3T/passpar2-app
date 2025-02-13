@@ -26,6 +26,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 public class ActiviteCreationComptePartie2 extends AppCompatActivity {
 
     private String nom;
@@ -70,17 +72,7 @@ public class ActiviteCreationComptePartie2 extends AppCompatActivity {
         boutonInscrire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pays = ((EditText) findViewById(R.id.saisiePays)).getText().toString().trim();
-                String ville = ((EditText) findViewById(R.id.saisieVille)).getText().toString().trim();
-                String codepostal = ((EditText) findViewById(R.id.saisieCodePostal)).getText().toString().trim();
-                String rue = ((EditText) findViewById(R.id.saisieRue)).getText().toString().trim();
-                String complement = ((EditText) findViewById(R.id.saisieComplement)).getText().toString().trim();
-                if (!pays.isEmpty() && !ville.isEmpty() && !codepostal.isEmpty() && !rue.isEmpty() && !complement.isEmpty()){
-                    register(v);
-                    //Toast.makeText(getApplicationContext(), "Appel API pour connection (bloqué actuellement)", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getApplicationContext(), "Les informations sont incomplètes", Toast.LENGTH_SHORT).show();
-                }
+                register(v);
             }
         });
 
@@ -131,15 +123,74 @@ public class ActiviteCreationComptePartie2 extends AppCompatActivity {
             return;
         }
 
-        // Récupérer les informations du formulaire
-        String pays = ((EditText) findViewById(R.id.saisiePays)).getText().toString().trim();
-        String ville = ((EditText) findViewById(R.id.saisieVille)).getText().toString().trim();
-        String codepostal = ((EditText) findViewById(R.id.saisieCodePostal)).getText().toString().trim();
-        String rue = ((EditText) findViewById(R.id.saisieRue)).getText().toString().trim();
-        String complement = ((EditText) findViewById(R.id.saisieComplement)).getText().toString().trim();
+        // Récupération des informations saisies par l'utilisateur
+        EditText etPays = findViewById(R.id.saisiePays);
+        EditText etVille = findViewById(R.id.saisieVille);
+        EditText etCodePostal = findViewById(R.id.saisieCodePostal);
+        EditText etRue = findViewById(R.id.saisieRue);
+        EditText etComplement = findViewById(R.id.saisieComplement);
 
-        // Vérifier si toutes les informations sont remplies
-        if (!pays.isEmpty() && !ville.isEmpty() && !codepostal.isEmpty() && !rue.isEmpty() && !complement.isEmpty()) {
+        String pays = etPays.getText().toString().trim();
+        String ville = etVille.getText().toString().trim();
+        String codepostal = etCodePostal.getText().toString().trim();
+        String rue = etRue.getText().toString().trim();
+        String complement = etComplement.getText().toString().trim();
+
+        boolean isValid = true;
+
+        // Récupération des couleurs depuis resources
+        int defaultColor = getResources().getColor(R.color.white);
+        int errorColor = getResources().getColor(R.color.error);
+
+        // Regex pour valider le code postal (5 chiffres)
+        Pattern codePostalPattern = Pattern.compile("^\\d{5}$");
+
+        // Réinitialisation des couleurs des champs
+        etPays.setTextColor(defaultColor);
+        etVille.setTextColor(defaultColor);
+        etCodePostal.setTextColor(defaultColor);
+        etRue.setTextColor(defaultColor);
+        etComplement.setTextColor(defaultColor);
+
+        etPays.setHintTextColor(defaultColor);
+        etVille.setHintTextColor(defaultColor);
+        etCodePostal.setHintTextColor(defaultColor);
+        etRue.setHintTextColor(defaultColor);
+        etComplement.setHintTextColor(defaultColor);
+
+        // Vérification des champs et mise en rouge si vide
+        if (pays.isEmpty()) {
+            etPays.setTextColor(errorColor);
+            etPays.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        if (ville.isEmpty()) {
+            etVille.setTextColor(errorColor);
+            etVille.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        if (codepostal.isEmpty() || !codePostalPattern.matcher(codepostal).matches()) {
+            etCodePostal.setTextColor(errorColor);
+            etCodePostal.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        if (rue.isEmpty()) {
+            etRue.setTextColor(errorColor);
+            etRue.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        if (complement.isEmpty()) {
+            etComplement.setTextColor(errorColor);
+            etComplement.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        // Si tout est valide, passer à l'activité suivante
+        if (isValid) {
             // Créer l'objet JSON pour la requête
             JSONObject requeteJson = new JSONObject();
             try {

@@ -52,6 +52,8 @@ public class Itineraries_afficher extends MenuActivity {
 
     private ActivityResultLauncher<Intent> lanceurFille;
 
+    private ActivityResultLauncher<Intent> lanceurCreateItinerarie;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +61,7 @@ public class Itineraries_afficher extends MenuActivity {
 
         lanceurFille = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                this::resultatAjoutClient);
+                this::resultCreateItinerarie);
 
         // Configuration de la Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -95,12 +97,21 @@ public class Itineraries_afficher extends MenuActivity {
         recyclerView.setAdapter(adapter);
 
         // Appel de la méthode pour récupérer les clients
-        fetchClients();
+        fetchItineraries();
 
         findViewById(R.id.itineraries_create_button).setOnClickListener(v -> {
             Intent intention = new Intent(Itineraries_afficher.this, NewRouteActivity.class);
             lanceurFille.launch(intention);
         });
+    }
+
+    private void resultCreateItinerarie(ActivityResult activityResult) {
+        // on récupère l'intention envoyée par la fille
+        Intent intent = activityResult.getData();
+        // si le code retour indique que tout est ok
+        if (activityResult.getResultCode() == Activity.RESULT_OK) {
+            fetchItineraries();
+        }
     }
 
     /**
@@ -136,7 +147,7 @@ public class Itineraries_afficher extends MenuActivity {
         }
     }
 
-    private void fetchClients() {
+    private void fetchItineraries() {
         // Vérifier la connexion Internet avant de lancer la requête
         if (!estConnecteInternet()) {
             return;  // Si pas de connexion, on ne fait rien
@@ -196,77 +207,6 @@ public class Itineraries_afficher extends MenuActivity {
 
         // Ajouter la requête à la file d'attente Volley
         getFileRequete().add(jsonObjectRequest);
-    }
-
-
-    private void resultatAjoutClient(ActivityResult resultat) {
-        // on récupère l'intention envoyée par la fille
-        Intent intent = resultat.getData();
-        // si le code retour indique que tout est ok
-        if (resultat.getResultCode() == Activity.RESULT_OK) {
-            // on récupère la valeur d’un extra, par exemple
-            //String nomEntreprise = intent.getStringExtra("nomEntreprise");
-            //String description = intent.getStringExtra("description");
-            //String pays = intent.getStringExtra("pays");
-            //String ville = intent.getStringExtra("ville");
-            //String codepostal = intent.getStringExtra("codepostal");
-            //String rue = intent.getStringExtra("rue");
-            //String complement = intent.getStringExtra("complement");
-            //String nomContact = intent.getStringExtra("nomContact");
-            //String prenomContact = intent.getStringExtra("prenomContact");
-            //String telephoneContact = intent.getStringExtra("telephoneContact");
-            //Toast.makeText(this, nomEntreprise + description + pays + ville + codepostal + rue + complement + nomContact + prenomContact + telephoneContact
-            //        , Toast.LENGTH_SHORT).show();
-//
-            //clients.add(prenomContact + " " + nomContact);
-            //adapter.notifyItemInserted(clients.size() - 1);
-
-            // Recharger la liste des clients depuis l'API pour être sûr que les données sont à jour
-            fetchClients();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Charge le menu de l'Activity
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics des items
-        int id = item.getItemId();
-
-        if (id == R.id.action_account) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Itineraries_afficher.this,
-                            AccountActivity.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_path) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Itineraries_afficher.this,
-                            Accueil_main.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_clients) {
-            // création d'une intention
-            Intent intention =
-                    new Intent(Itineraries_afficher.this,
-                            Clients_afficher.class);
-            // lancement de l'activité fille
-            startActivity(intention);
-            return true;
-        } else if (id == R.id.action_iti) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

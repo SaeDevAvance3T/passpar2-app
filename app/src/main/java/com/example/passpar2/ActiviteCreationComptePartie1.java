@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -55,30 +56,72 @@ public class ActiviteCreationComptePartie1 extends AppCompatActivity {
         boutonSuivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Récupération des informations saisies par l'utilisateur
-                String nom = ((EditText) findViewById(R.id.saisieNom)).getText().toString().trim();
-                String prenom = ((EditText) findViewById(R.id.saisiePrenom)).getText().toString().trim();
-                String mail = ((EditText) findViewById(R.id.saisieMail)).getText().toString().trim();
-                String motdepasse = ((EditText) findViewById(R.id.saisieMdp)).getText().toString().trim();
+                // Récupération des informations saisies par l'utilisateur
+                EditText etNom = findViewById(R.id.saisieNom);
+                EditText etPrenom = findViewById(R.id.saisiePrenom);
+                EditText etMail = findViewById(R.id.saisieMail);
+                EditText etMdp = findViewById(R.id.saisieMdp);
 
-                //Si données complètes
-                if (!nom.isEmpty() && !prenom.isEmpty() && !mail.isEmpty() && !motdepasse.isEmpty()
-                        && Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").matcher(mail).matches()){
-                    // création d'une intention
+                String nom = etNom.getText().toString().trim();
+                String prenom = etPrenom.getText().toString().trim();
+                String mail = etMail.getText().toString().trim();
+                String motdepasse = etMdp.getText().toString().trim();
+
+                // Regex pour valider l'email
+                Pattern emailPattern = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+
+                boolean isValid = true;
+
+                // Récupération des couleurs depuis resources
+                int defaultColor = getResources().getColor(R.color.white);
+                int errorColor = getResources().getColor(R.color.error);
+
+                etNom.setTextColor(defaultColor);
+                etPrenom.setTextColor(defaultColor);
+                etMail.setTextColor(defaultColor);
+                etMdp.setTextColor(defaultColor);
+
+                etNom.setHintTextColor(defaultColor);
+                etPrenom.setHintTextColor(defaultColor);
+                etMail.setHintTextColor(defaultColor);
+                etMdp.setHintTextColor(defaultColor);
+
+                if (nom.isEmpty()) {
+                    etNom.setTextColor(errorColor);
+                    etNom.setHintTextColor(errorColor);
+                    isValid = false;
+                }
+
+                if (prenom.isEmpty()) {
+                    etPrenom.setTextColor(errorColor);
+                    etPrenom.setHintTextColor(errorColor);
+                    isValid = false;
+                }
+
+                if (mail.isEmpty() || !emailPattern.matcher(mail).matches()) {
+                    etMail.setTextColor(errorColor);
+                    etMail.setHintTextColor(errorColor);
+                    isValid = false;
+                }
+
+                if (motdepasse.isEmpty()) {
+                    etMdp.setTextColor(errorColor);
+                    etMdp.setHintTextColor(errorColor);
+                    isValid = false;
+                }
+
+                // Si tout est bon, on passe à l'activité suivante
+                if (isValid) {
                     Intent intention = new Intent(ActiviteCreationComptePartie1.this, ActiviteCreationComptePartie2.class);
-
-                    // Envoie des informations dans l'intention
                     intention.putExtra("nom", nom);
                     intention.putExtra("prenom", prenom);
                     intention.putExtra("mail", mail);
                     intention.putExtra("motdepasse", motdepasse);
-
-                    startActivity(intention); // Lancement activité fille
+                    startActivity(intention);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Les informations sont incomplètes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Une ou plusieurs informations sont incomplètes", Toast.LENGTH_SHORT).show();
                 }
             }
-
         });
 
     }

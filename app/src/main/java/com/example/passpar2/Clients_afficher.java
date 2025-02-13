@@ -275,23 +275,6 @@ public class Clients_afficher extends MenuActivity {
         Intent intent = resultat.getData();
         // si le code retour indique que tout est ok
         if (resultat.getResultCode() == Activity.RESULT_OK) {
-            // on récupère la valeur d’un extra, par exemple
-            //String nomEntreprise = intent.getStringExtra("nomEntreprise");
-            //String description = intent.getStringExtra("description");
-            //String pays = intent.getStringExtra("pays");
-            //String ville = intent.getStringExtra("ville");
-            //String codepostal = intent.getStringExtra("codepostal");
-            //String rue = intent.getStringExtra("rue");
-            //String complement = intent.getStringExtra("complement");
-            //String nomContact = intent.getStringExtra("nomContact");
-            //String prenomContact = intent.getStringExtra("prenomContact");
-            //String telephoneContact = intent.getStringExtra("telephoneContact");
-            //Toast.makeText(this, nomEntreprise + description + pays + ville + codepostal + rue + complement + nomContact + prenomContact + telephoneContact
-            //        , Toast.LENGTH_SHORT).show();
-//
-            //clients.add(prenomContact + " " + nomContact);
-            //adapter.notifyItemInserted(clients.size() - 1);
-
             // Recharger la liste des clients depuis l'API pour être sûr que les données sont à jour
             fetchClients();
         }
