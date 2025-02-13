@@ -37,7 +37,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class AccountActivity extends AppCompatActivity {
+public class AccountActivity extends MenuActivity {
 
     /**
      * File d'attente pour les requêtes API (en lien avec l'utilisation de Volley)
@@ -68,25 +68,6 @@ public class AccountActivity extends AppCompatActivity {
 
         // Appeler la méthode pour désactiver la validation SSL
         SSLCertificate.disableSSLCertificateValidation();
-
-        ImageView eyeIcon = findViewById(R.id.eye_icon);  // Votre icône d'œil (assurez-vous qu'elle est dans votre layout)
-        viewPassword = findViewById(R.id.account_password);
-
-        eyeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (motdepasseVisible) {
-                    // Masquer le mot de passe
-                    viewPassword.setText("***************");  // Afficher des astérisques
-                    eyeIcon.setImageResource(R.drawable.icon_eye_off);  // Icône œil barré
-                } else {
-                    // Afficher le mot de passe
-                    viewPassword.setText(motdepasse);  // Afficher le mot de passe en clair
-                    eyeIcon.setImageResource(R.drawable.icon_eye);  // Icône œil
-                }
-                motdepasseVisible = !motdepasseVisible;
-            }
-        });
 
         requestData();
     }

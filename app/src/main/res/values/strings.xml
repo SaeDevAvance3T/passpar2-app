@@ -80,8 +80,12 @@
     <string name="account_edit_codepostal">Code postal *</string>
     <string name="account_edit_ville">Ville *</string>
     <string name="account_edit_pays">Pays *</string>
-    <string name="account_edit_motdepasse">Mot de passe *</string>
+    <string name="account_edit_motdepasse">Renseigner pour modifier</string>
     <string name="account_edit_email">Email *</string>
     <string name="account_edit_prenom">Prenom *</string>
     <string name="account_edit_nom">Nom *</string>
+    <string name="menu_message_already_customers">Déjà sur la page \"Clients\"</string>
+    <string name="menu_message_already_itineraries">Déjà sur la page \"Itinéraires\"</string>
+    <string name="menu_message_already_path">Déjà sur la page \"Parcours\"</string>
+    <string name="menu_message_already_account">Déjà sur la page \"Compte\"</string>
 </resources>

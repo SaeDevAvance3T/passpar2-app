@@ -44,7 +44,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class EditAccount extends AppCompatActivity {
+public class EditAccount extends MenuActivity {
 
     /**
      * File d'attente pour les requêtes API (en lien avec l'utilisation de Volley)
@@ -140,7 +140,6 @@ public class EditAccount extends AppCompatActivity {
                             String nom = userJson.optString("lastName", "Nom non disponible");
                             String prenom = userJson.optString("firstName", "Prénom non disponible");
                             String email = userJson.optString("email", "Email non disponible");
-                            String motdepasse = userJson.optString("passwordHash", "");
 
                             JSONObject addressJson = userJson.getJSONObject("address");
 
@@ -156,7 +155,6 @@ public class EditAccount extends AppCompatActivity {
                             saisieNom.setText(nom);
                             saisiePrenom.setText(prenom);
                             saisieEmail.setText(email);
-                            saisieMotdepasse.setText(motdepasse);
                             saisiePays.setText(country);
                             saisieRue.setText(street);
                             saisieVille.setText(city);
@@ -250,7 +248,7 @@ public class EditAccount extends AppCompatActivity {
         String city = ((EditText) findViewById(R.id.account_edit_ville)).getText().toString().trim();
         String supplement = ((EditText) findViewById(R.id.account_edit_complement)).getText().toString().trim();
         //Vérifier si toutes les informations sont remplies
-        if (!firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !password.isEmpty()
+        if (!firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty()
                 && !country.isEmpty() && !street.isEmpty() && !postalCode.isEmpty()
                 && !city.isEmpty() && !supplement.isEmpty()) {
 
@@ -294,7 +292,7 @@ public class EditAccount extends AppCompatActivity {
                                     // Renvoyer le résultat avec les données et terminer l'activité
                                     setResult(Activity.RESULT_OK, intentionRetour);
                                     finish();
-                                    Toast.makeText(getApplicationContext(), "Client créé avec succès", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Compte modifié avec succès", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Erreur lors de la création du client", Toast.LENGTH_SHORT).show();
                                 }
