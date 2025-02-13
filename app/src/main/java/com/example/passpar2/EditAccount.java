@@ -290,6 +290,7 @@ public class EditAccount extends MenuActivity {
                 address.put("supplement", supplement);
 
                 requeteJson.put("address", address);
+                Log.e("requeteJson", requeteJson.toString());
 
             } catch (JSONException e) {
                 e.printStackTrace();
