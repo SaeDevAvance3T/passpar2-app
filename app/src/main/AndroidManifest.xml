@@ -73,5 +73,11 @@
         <activity android:name=".Itineraries_afficher"
             android:exported="true"
             android:screenOrientation="portrait"/>
+        <activity android:name=".CreateContact"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".EditRoute"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

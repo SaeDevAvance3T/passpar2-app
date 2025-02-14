@@ -23,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -47,10 +48,14 @@ public class Itineraries_afficher extends MenuActivity {
 
     private String url = "https://2bet.fr/api/itineraries";  // URL de l'API
 
+    private String URL_DELETE = "https://2bet.fr/api/itineraries/";
+
     // Code pour le résultat
     private static final int REQUEST_CODE_AJOUTER_CLIENT = 1;
 
     private ActivityResultLauncher<Intent> lanceurFille;
+
+    private ActivityResultLauncher<Intent> lanceurAdapter;
 
     private ActivityResultLauncher<Intent> lanceurCreateItinerarie;
 
@@ -87,12 +92,17 @@ public class Itineraries_afficher extends MenuActivity {
         recyclerView = findViewById(R.id.itineraries_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new Itineraries_RecyclerView(itineraries, idItineraries, position -> {
+        // Initialisation correcte du lanceur
+        lanceurAdapter = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::resultEditCustomer
+        );
+
+        adapter = new Itineraries_RecyclerView(itineraries,idItineraries, position -> {
             // Supprimer un client
             itineraries.remove(position);
-            idItineraries.remove(position);
             adapter.notifyItemRemoved(position);
-        });
+        },lanceurAdapter,this);
 
         recyclerView.setAdapter(adapter);
 
@@ -103,6 +113,15 @@ public class Itineraries_afficher extends MenuActivity {
             Intent intention = new Intent(Itineraries_afficher.this, NewRouteActivity.class);
             lanceurFille.launch(intention);
         });
+    }
+
+    private void resultEditCustomer(ActivityResult activityResult) {
+        // on récupère l'intention envoyée par la fille
+        Intent intent = activityResult.getData();
+        // si le code retour indique que tout est ok
+        if (activityResult.getResultCode() == Activity.RESULT_OK) {
+            fetchItineraries();
+        }
     }
 
     private void resultCreateItinerarie(ActivityResult activityResult) {
@@ -207,6 +226,43 @@ public class Itineraries_afficher extends MenuActivity {
 
         // Ajouter la requête à la file d'attente Volley
         getFileRequete().add(jsonObjectRequest);
+    }
+
+    public void deleteItenarie(String idItinerarie) {
+        // Vérifier la connexion Internet avant de lancer la requête
+        if (!estConnecteInternet()) {
+            return;  // Si pas de connexion, on ne fait rien
+        }
+
+        String urlDeleteItinerarie = URL_DELETE + idItinerarie;
+
+        // Utiliser StringRequest au lieu de JsonObjectRequest
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.DELETE, urlDeleteItinerarie,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Même si la réponse est vide, on considère la suppression comme réussie
+                        Toast.makeText(getApplicationContext(), "Itinéraire supprimé avec succès", Toast.LENGTH_SHORT).show();
+                        fetchItineraries(); // Rafraîchir la liste après suppression
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        if (error.networkResponse != null) {
+                            Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
+                            Log.e("VolleyError", "Response: " + new String(error.networkResponse.data));
+                        } else {
+                            Log.e("VolleyError", "Erreur réseau inconnue");
+                        }
+                        Toast.makeText(Itineraries_afficher.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+// Ajouter la requête à la file d'attente Volley
+        getFileRequete().add(stringRequest);
     }
 
 }

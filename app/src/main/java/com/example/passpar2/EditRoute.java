@@ -18,8 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,24 +30,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 
-public class NewRouteActivity extends MenuActivity implements CheckboxSelectionListener {
+public class EditRoute extends MenuActivity implements CheckboxSelectionListener {
 
     /** Contient l'URL appelant l'API  */
     private final String URL_ENTERPRISES = "https://2bet.fr/api/customers?user=";
 
-    private final String URL_ITINERARY = "https://2bet.fr/api/itineraries";
-
-    /** Clé pour le nombre transmis par l'activité fille */
-    public final static String CLE_NOMBRE = "NOMBRE";
-
-    public static final String EXTRA_ENTERPRISE = "enterprise";
+    private final String URL_ITINERARY = "https://2bet.fr/api/itineraries/";
 
     /**
      * File d'attente pour les requêtes Web (en lien avec l'utilisation de Volley)
@@ -63,22 +56,23 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
     /**  Contient les entreprise sélectionnées par l'utilisateur avec les checkboxs */
     private ArrayList<Integer> selectedEnterprises;
 
-    private HashMap<Integer,String> enterpriseValues;
-
     public ListView enterpriseList;
 
     /** Contient les entreprises sélectionnées pour l'itinéraire */
     public TextView displayedEnterprises;
 
-    private CheckboxAdapter adapter;
+    private CheckboxAdapterEdit adapter;
     public TextView textChoice;
 
     private ImageButton arrowBack;
 
+    private Set<Integer> itineraryCustomerIds = new HashSet<>(); // Stocke les customerId récupérés de l'itinéraire
+    private Map<Integer, String> enterpriseValues = new HashMap<>(); // Stocke les entreprises récupérées
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_route_layout);
+        setContentView(R.layout.edit_route);
 
         itineraryName = findViewById(R.id.itinerary_name);
 
@@ -97,13 +91,11 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
         // Appeler la méthode pour désactiver la validation SSL
         SSLCertificate.disableSSLCertificateValidation();
 
+        requestDatas();
+
         getEnterpriseList();
 
-        //if (enterpriseValues.size() == 0) {
-
-        //}
-
-        CheckboxAdapter adapter = new CheckboxAdapter(this, enterpriseValues, this);
+        adapter = new CheckboxAdapterEdit(this, enterpriseValues, selectedEnterprises, this);
         enterpriseList.setAdapter(adapter);
 
         arrowBack = findViewById(R.id.arrowBack);
@@ -117,34 +109,6 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                 finish(); // destruction de l'activité courante
             }
         });
-
-        /*
-         * Lorsque l'utilisateur cliquera sur la touche back du téléphone pour revenir
-         * vers l'activité parente, on souhaite qu'un traitement bien précis soit réalisé.
-         * Il faut donc ajouter un callBack (une méthode de rappel) qui sera appelée lorsque
-         * l'utilisateur cliquera sur back. Le callBack est ajouté à un "distributeur" qui
-         * gère les appuis sur la touche back.
-         */
-        //getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-        //    @Override
-        //    /**
-        //     * La méthode handleOnBackPressed sera appelée automatiquement lorsque
-        //     * l'utilisateur cliquera sur la touche back du téléphone.
-        //     * On souhaite, à titre d'illustration :
-        //     * - renvoyer à l'activité principale le nombre 9999999 (et pas celui saisi
-        //     * par l'utilisateur)
-        //     * - de plus on considère que le retour est "normal", le code retour renvoyé
-        //     * à l'activité principale sera donc RESULT_OK
-        //     */
-        //    public void handleOnBackPressed() {
-        //        // création d'une intention pour informer l'activté parente
-        //        Intent intentionRetour = new Intent();
-        //        // retour à l'activité parente et destruction de l'activité fille
-        //        intentionRetour.putExtra(NewRouteActivity.CLE_NOMBRE, 999999);
-        //        setResult(Activity.RESULT_OK, intentionRetour);
-        //        finish(); // destruction de l'activité courante
-        //    }
-        //});
     }
 
     public void getEnterpriseList() {
@@ -169,35 +133,33 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Effacer la liste des clients existante
-                        enterpriseValues.clear();
-                        displayedEnterprises.setTextColor(Color.parseColor("#FFFFFF"));
-                        displayedEnterprises.setText("");
-                        Log.d("MainActivity", "réponse récupérée: " + response);
                         try {
-                            // Accéder à la clé 'response' qui contient le tableau des clients
+                            // Effacer la liste des entreprises existantes
+                            enterpriseValues.clear();
+
                             JSONArray enterpriseArray = response.getJSONArray("response");
 
-                            // Parcourir la réponse JSON pour extraire les données
                             for (int i = 0; i < enterpriseArray.length(); i++) {
-                                JSONObject clientJson = enterpriseArray.getJSONObject(i);
+                                JSONObject enterpriseJson = enterpriseArray.getJSONObject(i);
 
-                                // Récupérer le nom et la description du client
-                                String id = clientJson.optString("id", "Id non disponible");
-                                Log.d("MainActivity", "id récupéré: " + id);
-                                String name = clientJson.optString("name", "Nom de l'entreprise non disponible");
-                                Log.d("MainActivity", "nom récupéré: " + name);
+                                int id = enterpriseJson.optInt("id", -1); // Récupérer l'ID
+                                String name = enterpriseJson.optString("name", "Nom non disponible");
 
-                                // Ajouter les clients dans la liste
-                                enterpriseValues.put(Integer.parseInt(id), name);
+                                if (id != -1) {
+                                    enterpriseValues.put(id, name);
+                                }
                             }
-                            adapter = new CheckboxAdapter(NewRouteActivity.this, enterpriseValues, NewRouteActivity.this);
+
+                            Log.d("getEnterpriseList", "Entreprises récupérées : " + enterpriseValues);
+
+                            // Initialiser l'adapter et mettre à jour les cases cochées
+                            adapter = new CheckboxAdapterEdit(EditRoute.this, enterpriseValues, itineraryCustomerIds);
                             enterpriseList.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
-                            Log.d("MainActivity", "hashmap: " + enterpriseValues);
+
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(NewRouteActivity.this, "Erreur lors de la récupération des entreprises", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditRoute.this, "Erreur lors de la récupération des entreprises", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -213,7 +175,7 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                             // Si la réponse réseau est nulle, afficher un message d'erreur générique
                             Log.e("VolleyError", "Erreur réseau inconnue");
                         }
-                        Toast.makeText(NewRouteActivity.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditRoute.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
                         displayedEnterprises.setText("Aucun client disponible");
                         displayedEnterprises.setTextColor(Color.parseColor("#FF0000"));
                     }
@@ -226,17 +188,14 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
      *
      * @param view
      */
-    public void checkClick(View view) {
+    public void editItinerary(View view) {
 
+        Log.i("selectedEnterprises", "JSON envoyé : " + selectedEnterprises);
         if (selectedEnterprises.size() != 0) {
             if (!itineraryName.getText().toString().isEmpty()) {
 
                 boolean toutOk;
-                /*
-                 * préparation du nouveau client, à ajouter, en tant qu'objet Json
-                 * Les informations le concernant sont renseignées avec des valeurs par défaut,
-                 * sauf le nom du magasin qui est celui renseigné par l'utilisateur
-                 */
+
                 toutOk = true;
                 JSONObject sentObject = new JSONObject();
                 try {
@@ -245,7 +204,7 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                     sentObject.put("userId", userId);
                     sentObject.put("name", itineraryName.getText().toString());
                     sentObject.put("itinerary", new JSONArray(selectedEnterprises));
-                    Log.i("NewRouteActivity", "JSON envoyé : " + sentObject.toString());
+                    Log.i("EditRouteActivity", "JSON envoyé : " + sentObject.toString());
 
                 } catch (JSONException e) {
                     // l'exception ne doit pas se produire
@@ -259,10 +218,16 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                      * l'objet Json à transmettre avec la méthode POST, en fait le body de la
                      * requête
                      */
-                    JsonObjectRequest requeteVolley = new JsonObjectRequest(Request.Method.POST,
-                            URL_ITINERARY, sentObject,
+
+                    Intent intention = getIntent();
+                    String itineraryId = intention.getStringExtra("itineraryId");
+
+                    String urlPutItineraryDatas = URL_ITINERARY + itineraryId;
+
+                    JsonObjectRequest requeteVolley = new JsonObjectRequest(Request.Method.PUT,
+                            urlPutItineraryDatas, sentObject,
                             // Ecouteur pour la réception de la réponse de la requête
-                            new com.android.volley.Response.Listener<JSONObject>() {
+                            new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject reponse) {
                                     // Créer un Intent pour renvoyer les données à MainActivity
@@ -270,11 +235,11 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                                     // Renvoyer le résultat avec les données et terminer l'activité
                                     setResult(Activity.RESULT_OK, intentionRetour);
                                     finish();
-                                    Toast.makeText(getApplicationContext(), "Itineraire créé avec succès", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Itineraire modifié avec succès", Toast.LENGTH_SHORT).show();
                                 }
                             },
                             // Ecouteur en cas d'erreur
-                            new com.android.volley.Response.ErrorListener() {
+                            new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
                                     error.printStackTrace();
@@ -286,7 +251,7 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                                         // Si la réponse réseau est nulle, afficher un message d'erreur générique
                                         Log.e("VolleyError", "Erreur réseau inconnue");
                                     }
-                                    Toast.makeText(NewRouteActivity.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditRoute.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             // on ajoute un header, contenant la clé d'authentification
@@ -302,7 +267,7 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                     getFileRequete().add(requeteVolley);
                 }
             } else {
-                Toast.makeText(NewRouteActivity.this, "Erreur: pas de nom d'itinéraire", LENGTH_LONG).show();
+                Toast.makeText(EditRoute.this, "Erreur: pas de nom d'itinéraire", LENGTH_LONG).show();
                 Log.i("NewRouteActivity", "Erreur: pas de nom d'itinéraire");
                 itineraryLabel.setTextColor(Color.parseColor("#FF0000"));
             }
@@ -313,10 +278,74 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
             } else {
                 itineraryLabel.setTextColor(Color.parseColor("#FFFFFF"));
             }
-            Toast.makeText(NewRouteActivity.this, "Erreur: aucune entreprise sélectionnée", LENGTH_LONG).show();
+            Toast.makeText(EditRoute.this, "Erreur: aucune entreprise sélectionnée", LENGTH_LONG).show();
             Log.e("NewRouteActivity", "Erreur: aucune entreprise sélectionnée");
             textChoice.setTextColor(Color.parseColor("#FF0000"));
         }
+    }
+
+    private void requestDatas() {
+        // Vérifier la connexion Internet avant de lancer la requête
+        if (!estConnecteInternet()) {
+            return;  // Si pas de connexion, on ne fait rien
+        }
+
+        Intent intention = getIntent();
+        String itineraryId = intention.getStringExtra("itineraryId");
+
+        String urlGetItineraryDatas = URL_ITINERARY + itineraryId;
+
+        // Créer la requête GET
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, urlGetItineraryDatas, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Vider la liste avant d'ajouter de nouvelles données
+                            itineraryCustomerIds.clear();
+
+                            // Accéder à la clé "response" qui contient l'itinéraire
+                            JSONObject responseData = response.getJSONObject("response");
+                            String name = responseData.optString("name", "Nom non disponible");
+                            JSONArray itineraryArray = responseData.getJSONArray("itinerary");
+
+                            for (int i = 0; i < itineraryArray.length(); i++) {
+                                JSONObject itineraryItem = itineraryArray.getJSONObject(i);
+                                int customerId = itineraryItem.getInt("customerId"); // Extraire customerId
+                                itineraryCustomerIds.add(customerId); // L'ajouter au Set
+                            }
+
+                            Log.d("requestDatas", "Customer IDs récupérés : " + itineraryCustomerIds);
+
+                            itineraryName.setText(name);
+                            // Une fois les customerId récupérés, appeler getEnterpriseList()
+                            getEnterpriseList();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(EditRoute.this, "Erreur lors de la récupération des clients", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        if (error.networkResponse != null) {
+                            // Si la réponse réseau est disponible, récupérer le code d'état et afficher les détails
+                            Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
+                            Log.e("VolleyError", "Response: " + new String(error.networkResponse.data));
+                        } else {
+                            // Si la réponse réseau est nulle, afficher un message d'erreur générique
+                            Log.e("VolleyError", "Erreur réseau inconnue");
+                        }
+                        Toast.makeText(EditRoute.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Ajouter la requête à la file d'attente Volley
+        getFileRequete().add(jsonObjectRequest);
     }
 
     /**
@@ -355,7 +384,7 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
             displayedEnterprises.setText("");
         }
 
-        Log.d("MainActivity", "contenu de selectedEnterprises : " + selectedEnterprises);
+        Log.i("MainActivity", "contenu de selectedEnterprises : " + selectedEnterprises);
     }
 
 

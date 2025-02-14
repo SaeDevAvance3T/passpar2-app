@@ -92,4 +92,18 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/nouveau_compte_retour</item>
     </style>
+
+    <style name="nouveau_client_checkbox" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nouveau_compte_hauteur_saisie</item>
+        <item name="android:layout_marginLeft">@dimen/grande_marge_horizontale</item>
+        <item name="android:layout_marginRight">@dimen/grande_marge_horizontale</item>
+        <item name="android:layout_marginTop">@dimen/marge_verticale</item>
+        <item name="android:layout_marginBottom">@dimen/marge_verticale</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/placeHolder</item>
+        <item name="android:paddingLeft">@dimen/padding_texte</item>
+        <item name="android:paddingRight">@dimen/padding_texte</item>
+        <item name="android:background">@drawable/nouveau_compte_checkbox_custom</item>
+    </style>
 </resources>

@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -113,8 +114,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                                     finish(); // Facultatif : ferme l'activité actuelle
                                     Toast.makeText(getApplicationContext(), "Connexion réussie !", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Échec de l'authentification !", Toast.LENGTH_SHORT).show();
-                                    //responseArea.setText("Échec de l'authentification.");
+                                    String errorMessage = response.getString("response");
+                                    responseArea.setText(errorMessage);
                                 }
                             } catch (JSONException e) {
                                 Toast.makeText(getApplicationContext(), "Erreur lors de la lecture de la réponse !", Toast.LENGTH_SHORT).show();
@@ -125,7 +126,31 @@ public class AuthenticationActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            responseArea.setText("Erreur API : " + error.getMessage());
+                            String errorMessage = "Erreur inconnue";
+
+                            // Vérifier si le serveur a renvoyé une réponse (ex: erreur 500 avec JSON)
+                            if (error.networkResponse != null && error.networkResponse.data != null) {
+                                try {
+                                    // Convertir les données brutes en String
+                                    String responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                                    JSONObject errorJson = new JSONObject(responseBody);
+
+                                    // Extraire le message d'erreur (champ "response")
+                                    if (errorJson.has("response")) {
+                                        errorMessage = errorJson.getString("response");
+                                    } else {
+                                        errorMessage = "Erreur serveur, veuillez réessayer.";
+                                    }
+                                } catch (JSONException e) {
+                                    errorMessage = "Erreur lors de la lecture de la réponse serveur.";
+                                }
+                            } else {
+                                // Cas où le serveur ne répond pas ou problème réseau
+                                errorMessage = "Problème de connexion, veuillez vérifier votre réseau.";
+                            }
+
+                            // Afficher l'erreur à l'utilisateur
+                            responseArea.setText(errorMessage);
                         }
                     }) {
 

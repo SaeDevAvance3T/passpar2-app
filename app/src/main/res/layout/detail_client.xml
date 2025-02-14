@@ -122,6 +122,14 @@
         android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/detail_client_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_client_add"
+            style="@style/nouveau_compte_suivant"
+            android:layout_marginTop="8dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/detail_client_modifier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

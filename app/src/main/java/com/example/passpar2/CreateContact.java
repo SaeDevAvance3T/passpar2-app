@@ -1,29 +1,18 @@
 package com.example.passpar2;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,24 +25,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.regex.Pattern;
 
-public class Clients_creer extends MenuActivity {
+public class CreateContact extends MenuActivity {
 
     /**
      * File d'attente pour les requêtes API (en lien avec l'utilisation de Volley)
      */
     private RequestQueue fileRequete;
 
-    private String urlAPI = "https://2bet.fr/api/customers";
+    private String urlAPI = "https://2bet.fr/api/contacts/customer/";
 
     private AppCompatButton boutonValider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.clients_creer);
+        setContentView(R.layout.contact_create);
 
         // Configuration de la Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -71,13 +59,13 @@ public class Clients_creer extends MenuActivity {
         // Appeler la méthode pour désactiver la validation SSL
         SSLCertificate.disableSSLCertificateValidation();
 
-        boutonValider = findViewById(R.id.nouveau_client_valider);
+        boutonValider = findViewById(R.id.create_contact_validate);
 
         // Gestion du clic sur le bouton "Valider"
         boutonValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createCustomer(v);
+                createContact(v);
             }
         });
     }
@@ -115,64 +103,74 @@ public class Clients_creer extends MenuActivity {
         }
     }
 
-    public void createCustomer(View bouton) {
+    public void createContact(View bouton) {
         // Vérifier la connexion Internet avant d'envoyer la requête
         if (!estConnecteInternet()) {
             return;
         }
 
+        //Récupération de l'id du client
+        Intent intentionMere = getIntent();
+        String idCustomer = intentionMere.getStringExtra("idCustomer");
+
+        String urlCreation = urlAPI + idCustomer;
+
         // Récupérer les informations du formulaire
-        String nomEntreprise = ((EditText) findViewById(R.id.nouveau_client_saisieNomEntreprise)).getText().toString().trim();
-        String description = ((EditText) findViewById(R.id.nouveau_client_saisieDescriptionEntreprise)).getText().toString().trim();
-        String pays = ((EditText) findViewById(R.id.nouveau_client_saisiePays)).getText().toString().trim();
-        String ville = ((EditText) findViewById(R.id.nouveau_client_saisieVille)).getText().toString().trim();
-        String codepostal = ((EditText) findViewById(R.id.nouveau_client_saisieCodePostal)).getText().toString().trim();
-        String rue = ((EditText) findViewById(R.id.nouveau_client_saisieRue)).getText().toString().trim();
-        String complement = ((EditText) findViewById(R.id.nouveau_client_saisieComplement)).getText().toString().trim();
-        String nomContact = ((EditText) findViewById(R.id.nouveau_client_saisieNomContact)).getText().toString().trim();
-        String prenomContact = ((EditText) findViewById(R.id.nouveau_client_saisiePrenomContact)).getText().toString().trim();
-        String telephoneContact = ((EditText) findViewById(R.id.nouveau_client_saisietelephoneContact)).getText().toString().trim();
+        String nomContact = ((EditText) findViewById(R.id.create_contact_lastName)).getText().toString().trim();
+        String prenomContact = ((EditText) findViewById(R.id.create_contact_firstName)).getText().toString().trim();
+        String telephoneContact = ((EditText) findViewById(R.id.create_contact_phone)).getText().toString().trim();
+
+        boolean isValid = true;
+
+        // Récupération des couleurs depuis resources
+        int defaultColor = getResources().getColor(R.color.white);
+        int errorColor = getResources().getColor(R.color.error);
+
+        // Réinitialisation des couleurs des champs
+        EditText etNomContact = findViewById(R.id.create_contact_lastName);
+        EditText etPrenomContact = findViewById(R.id.create_contact_firstName);
+        EditText etTelephoneContact = findViewById(R.id.create_contact_phone);
+
+        etNomContact.setTextColor(defaultColor);
+        etPrenomContact.setTextColor(defaultColor);
+        etTelephoneContact.setTextColor(defaultColor);
+
+        etNomContact.setHintTextColor(defaultColor);
+        etPrenomContact.setHintTextColor(defaultColor);
+        etTelephoneContact.setHintTextColor(defaultColor);
+
+        // Regex pour valider le numéro de téléphone français (10 chiffres)
+        Pattern telephonePattern = Pattern.compile("^0[1-9]\\d{8}$");
 
         // Vérifier si toutes les informations sont remplies
-        if (!nomEntreprise.isEmpty() && !description.isEmpty() && !pays.isEmpty() && !ville.isEmpty()
-                && !codepostal.isEmpty() && !rue.isEmpty()
-                && !nomContact.isEmpty() && !prenomContact.isEmpty() && !telephoneContact.isEmpty()) {
+        if (nomContact.isEmpty()) {
+            etNomContact.setTextColor(errorColor);
+            etNomContact.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        if (prenomContact.isEmpty()) {
+            etPrenomContact.setTextColor(errorColor);
+            etPrenomContact.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        if (telephoneContact.isEmpty() || !telephonePattern.matcher(telephoneContact).matches()) {
+            etTelephoneContact.setTextColor(errorColor);
+            etTelephoneContact.setHintTextColor(errorColor);
+            isValid = false;
+        }
+
+        // Si tout est valide
+        if (isValid) {
 
             // Créer l'objet JSON pour la requête
             JSONObject requeteJson = new JSONObject();
             try {
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
-
-                // Ajouter les informations de l'entreprise
-                requeteJson.put("name", nomEntreprise);
-                requeteJson.put("description", description);
-                requeteJson.put("userId", userId);
-
-                // Créer l'objet 'contacts' et y ajouter les informations de contact
-                JSONArray contactsArray = new JSONArray();
-                JSONObject contact = new JSONObject();
-                contact.put("firstName", prenomContact);
-                contact.put("lastName", nomContact);
-                contact.put("phone", telephoneContact);
-
-                contactsArray.put(contact);
-                requeteJson.put("contacts", contactsArray);
-
-                JSONObject address = new JSONObject();
-                address.put("country", pays);
-                address.put("city", ville);
-                address.put("street", rue);
-                address.put("postalCode", codepostal);
-                address.put("supplement", complement);
-
-                requeteJson.put("address", address);
-
-                CheckBox checkBoxProspect = findViewById(R.id.nouveau_client_checkbox_prospect);
-                boolean isProspect = checkBoxProspect.isChecked(); // Vérifie si la checkbox est cochée
-
-                requeteJson.put("isProspect", isProspect);
-                Log.i("creationClient",requeteJson.toString());
+                // Ajouter les informations du contact
+                requeteJson.put("firstName", prenomContact);
+                requeteJson.put("lastName", nomContact);
+                requeteJson.put("phone", telephoneContact);
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Erreur lors de la création du JSON", Toast.LENGTH_SHORT).show();
@@ -181,7 +179,7 @@ public class Clients_creer extends MenuActivity {
 
             // Créer la requête POST avec l'objet JSON
             JsonObjectRequest requeteVolley = new JsonObjectRequest(
-                    Request.Method.POST, urlAPI, requeteJson,
+                    Request.Method.POST, urlCreation, requeteJson,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject reponseJson) {
@@ -196,7 +194,7 @@ public class Clients_creer extends MenuActivity {
                                     finish();
                                     Toast.makeText(getApplicationContext(), "Client créé avec succès", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Erreur lors de la création du client", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Erreur lors de la création du contact", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 Toast.makeText(getApplicationContext(), "Erreur lors du traitement de la réponse.", Toast.LENGTH_SHORT).show();

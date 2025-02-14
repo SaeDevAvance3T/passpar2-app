@@ -58,6 +58,14 @@
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_description" />
 
+        <CheckBox
+            android:id="@+id/nouveau_client_checkbox_prospect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nouveau_client_checkbox_prospect"
+            android:buttonTint="@color/white"
+            style="@style/nouveau_client_checkbox"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -135,7 +143,7 @@
         <EditText
             android:id="@+id/nouveau_client_saisietelephoneContact"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="10"
             android:inputType="text"
             style="@style/nouveau_compte_saisie"
             android:hint="@string/nouveau_client_placeholder_telephonecontact" />

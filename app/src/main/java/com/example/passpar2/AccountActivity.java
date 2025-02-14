@@ -152,6 +152,7 @@ public class AccountActivity extends MenuActivity {
                             String street = addressJson.optString("street", "Rue non disponible");
                             String city = addressJson.optString("city", "Ville non disponible");
                             String postalCode = addressJson.optString("postalCode", "Code postal non disponible");
+                            String supplement = addressJson.optString("supplement", "Complement non disponible");
 
                             // Remplir les champs du formulaire avec les données récupérées
                             TextView viewName = findViewById(R.id.account_name);
@@ -160,7 +161,7 @@ public class AccountActivity extends MenuActivity {
 
                             viewName.setText(nom + " " + prenom);
                             viewEmail.setText(email);
-                            viewAddress.setText(street + ",\n" + postalCode + " " + city + ",\n" + country);
+                            viewAddress.setText(street + ",\n" + postalCode + " " + city + ",\n" + country + "\n" + supplement);
                         } catch (Exception e) {
                             e.printStackTrace();
                             Toast.makeText(AccountActivity.this, "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();

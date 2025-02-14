@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -64,6 +65,8 @@ public class DetailClient extends MenuActivity {
 
     private AppCompatButton boutonModifier;
 
+    private AppCompatButton boutonAjouter;
+
     private TextView nameView;
 
     private TextView descriptionView;
@@ -81,6 +84,7 @@ public class DetailClient extends MenuActivity {
     private String city;
     private String idAddress;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +173,21 @@ public class DetailClient extends MenuActivity {
                 intention.putExtra("idCustomer", "12");
 
                 lanceurFille.launch(intention); // Lancement activité fille
+            }
+        });
+
+        boutonAjouter = findViewById(R.id.detail_client_add);
+
+        //Ecouteur de clic sur le bouton modifier
+        boutonAjouter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // création d'une intention
+                Intent intention = new Intent(DetailClient.this, CreateContact.class);
+
+                intention.putExtra("idCustomer", idCustomer);
+
+                lanceurAdapter.launch(intention); // Lancement activité fille
             }
         });
     }

@@ -42,18 +42,18 @@
 
     <string name="nouveau_client_titre">Créer un nouveau client</string>
     <string name="nouveau_client_titre2">Informations générales</string>
-    <string name="nouveau_client_placeholder_nom">Nom de l\'entreprise cliente</string>
-    <string name="nouveau_client_placeholder_description">Description</string>
+    <string name="nouveau_client_placeholder_nom">Nom de l\'entreprise cliente *</string>
+    <string name="nouveau_client_placeholder_description">Description *</string>
     <string name="nouveau_client_titre3">Adresse</string>
     <string name="nouveau_client_placeholder_complement">Complément d\'adresse</string>
-    <string name="nouveau_client_placeholder_rue">Nom de rue</string>
-    <string name="nouveau_client_placeholder_code_postal">Code postal</string>
-    <string name="nouveau_client_placeholder_ville">Ville</string>
-    <string name="nouveau_client_placeholder_pays">Pays</string>
+    <string name="nouveau_client_placeholder_rue">Nom de rue *</string>
+    <string name="nouveau_client_placeholder_code_postal">Code postal *</string>
+    <string name="nouveau_client_placeholder_ville">Ville *</string>
+    <string name="nouveau_client_placeholder_pays">Pays *</string>
     <string name="nouveau_client_titre4">Contact</string>
-    <string name="nouveau_client_placeholder_telephonecontact">Telephone du contact</string>
-    <string name="nouveau_client_placeholder_prenomcontact">Prénom du contact</string>
-    <string name="nouveau_client_placeholder_nomcontact">Nom du contact</string>
+    <string name="nouveau_client_placeholder_telephonecontact">Telephone du contact *</string>
+    <string name="nouveau_client_placeholder_prenomcontact">Prénom du contact *</string>
+    <string name="nouveau_client_placeholder_nomcontact">Nom du contact *</string>
     <string name="nouveau_client_valider">Valider</string>
     <string name="nouveau_client_annuler">Annuler</string>
 
@@ -74,7 +74,6 @@
     <string name="contacts_placeholder_firstName">Prenom du contact</string>
     <string name="contacts_placeholder_lastName">Nom du contact</string>
 
-    <string name="accout_modifier">Modifier\n</string>
     <string name="account_edit_client">Modifier vos informations</string>
     <string name="account_edit_complement">Complement d\'adresse</string>
     <string name="account_edit_rue">Rue</string>
@@ -95,4 +94,8 @@
 
     <string name="available_enterprises">Clients disponibles :</string>
     <string name="itineraries_create">Créer un itinéraire</string>
+    <string name="nouveau_client_checkbox_prospect">Cocher s\'il s\'agit d\'un prospect</string>
+    <string name="nouveau_contact_titre">Créer un nouveau contact</string>
+    <string name="detail_client_add">Ajouter un contact</string>
+    <string name="edit_route">Modifier un itinéraire</string>
 </resources>

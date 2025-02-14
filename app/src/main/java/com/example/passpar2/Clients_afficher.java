@@ -183,10 +183,14 @@ public class Clients_afficher extends MenuActivity {
                                 // Récupérer le nom et la description du client
                                 String name = clientJson.optString("name", "Nom non disponible");
                                 String description = clientJson.optString("description", "Description non disponible");
+                                boolean isProspect = clientJson.optBoolean("isProspect", false);
                                 Integer idClient = clientJson.optInt("id", -1);
 
                                 // Ajouter les clients dans la liste
                                 String clientInfo = name;
+                                if (isProspect){
+                                    clientInfo += " *";
+                                }
                                 clients.add(clientInfo);
                                 idCustomers.add(idClient);
                             }

@@ -82,7 +82,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/nouveau_compte_connecter"
-            style="@style/nouveau_compte_suivant"
+            style="@style/nouveau_compte_retour"
             android:text="@string/nouveau_compte_connecter"
             android:layout_marginBottom="45dp"
             android:onClick="clicRechercherEnChaine"/>

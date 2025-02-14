@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,18 +18,23 @@ import java.util.List;
 
 public class Itineraries_RecyclerView extends RecyclerView.Adapter<Itineraries_RecyclerView.ItinerariesViewHolder> {
 
+    private final Itineraries_afficher itinerariesAfficher;
     private List<String> itineraries;
     private List<String> idItineraries;
     private OnItemClickListener listener;
+
+    private ActivityResultLauncher<Intent> lanceurAdapter;
 
     public interface OnItemClickListener {
         void onDeleteClick(int position);
     }
 
-    public Itineraries_RecyclerView(List<String> itineraries,List<String> idItineraries, OnItemClickListener listener) {
+    public Itineraries_RecyclerView(List<String> itineraries, List<String> idItineraries, OnItemClickListener listener, ActivityResultLauncher<Intent> lanceurAdapter, Itineraries_afficher itinerariesAfficher) {
         this.itineraries = itineraries;
         this.idItineraries = idItineraries;
         this.listener = listener;
+        this.lanceurAdapter = lanceurAdapter;
+        this.itinerariesAfficher = itinerariesAfficher;
     }
 
     @NonNull
@@ -41,31 +48,24 @@ public class Itineraries_RecyclerView extends RecyclerView.Adapter<Itineraries_R
     public void onBindViewHolder(@NonNull ItinerariesViewHolder holder, int position) {
         String itinerarie = itineraries.get(position);
         holder.itinerarieName.setText(itinerarie);
-        holder.deleteButton.setOnClickListener(v -> listener.onDeleteClick(position));
-
-        holder.deleteButton.setOnClickListener(v -> new AlertDialog.Builder(v.getContext())
-                .setTitle("Supprimer le client")
-                .setMessage("Êtes-vous sûr de vouloir supprimer ce client ?")
-                .setPositiveButton("Oui", (dialog, which) -> listener.onDeleteClick(position))
-                .setNegativeButton("Non", null)
-                .show());
 
         String idItinerarie = idItineraries.get(position);
 
-        holder.editButton.setOnClickListener(v -> new AlertDialog.Builder(v.getContext())
-                .setTitle("Modifier un client")
-                .setMessage("Êtes-vous sûr de vouloir modifier ce client avec l'id : " + idItinerarie)
-                .setPositiveButton("Oui", (dialog, which) -> listener.onDeleteClick(position))
+        holder.deleteButton.setOnClickListener(v -> new AlertDialog.Builder(v.getContext())
+                .setTitle("Supprimer l'itineraire")
+                .setMessage("Êtes-vous sûr de vouloir supprimer cet itineraire ?")
+                .setPositiveButton("Oui", (dialog, which) -> itinerariesAfficher.deleteItenarie(idItinerarie))
                 .setNegativeButton("Non", null)
                 .show());
-        // Gestion du clic pour modifier un client
-        //holder.editButton.setOnClickListener(v -> {
-        //    // Lancez l'activité de modification avec les données du client
-        //    Intent intent = new Intent(v.getContext(), Clients_edit.class);
-        //    intent.putExtra("id", idclient);
-        //    // Vous pouvez ajouter d'autres données spécifiques si nécessaire
-        //    v.getContext().startActivity(intent);
-        //});
+
+        // Gestion du clic pour supprimer un itineraire
+        holder.editButton.setOnClickListener(v -> {
+            // Lancez l'activité de modification avec les données du client
+            Intent intent = new Intent(v.getContext(), EditRoute.class);
+            intent.putExtra("itineraryId", idItinerarie);
+            // Lancer l'activité avec le lanceur
+            lanceurAdapter.launch(intent);
+        });
     }
 
     @Override
