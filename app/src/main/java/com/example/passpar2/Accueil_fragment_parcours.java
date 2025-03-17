@@ -1,61 +1,67 @@
 package com.example.passpar2;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-/**
- * Classe qui gère un fragment.
- * Le fragment comporte 2 boutons : l'un pour générer un nombre aléatoire, l'autre
- * pour effacer le nombre généré
- * @author C. Servières
- */
-public class Accueil_fragment_parcours extends Fragment implements View.OnClickListener {
-    /** Zone pour afficher le nombre aléatoire généré */
-    private TextView zoneResultat;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 
-    /**
-     * Cette méthode est une "factory" : son rôle est de créer une nouvelle instance
-     * du fragment de type FragmentUn.
-     * @return A new instance of fragment FragmentUn.
-     */
+public class Accueil_fragment_parcours extends Fragment {
+
+    private MapView mapView;
+
     public static Accueil_fragment_parcours newInstance() {
-        Accueil_fragment_parcours fragment = new Accueil_fragment_parcours();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);  // Désactive la gestion du menu dans le fragment
+        return new Accueil_fragment_parcours();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // On récupère la vue (le layout) associée au fragment un
-        View vueDuFragment = inflater.inflate(R.layout.accueil_fragment_parcours, container, false);
+        // Charger la configuration OSM
+        Configuration.getInstance().load(requireContext(),
+                requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE));
 
-        return vueDuFragment;
+        // Inflater la vue du fragment
+        View view = inflater.inflate(R.layout.accueil_fragment_parcours, container, false);
+
+        // Récupérer la MapView
+        mapView = view.findViewById(R.id.map);
+
+        // Configurer la carte
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
+        mapView.getController().setZoom(12.0);
+
+        // Centrer la carte sur Paris (par exemple)
+        GeoPoint startPoint = new GeoPoint(48.8566, 2.3522);
+        mapView.getController().setCenter(startPoint);
+
+        // Ajouter un marqueur
+        Marker marker = new Marker(mapView);
+        marker.setPosition(startPoint);
+        marker.setTitle("Je suis ici !");
+        mapView.getOverlays().add(marker);
+
+        return view;
     }
 
     @Override
-    public void onClick(View view) {
-        // Gestion des clics si nécessaire
+    public void onResume() {
+        super.onResume();
+        mapView.onResume(); // Obligatoire pour OSM
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+    public void onPause() {
+        super.onPause();
+        mapView.onPause(); // Obligatoire pour OSM
     }
 }
