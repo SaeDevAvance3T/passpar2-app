@@ -74,39 +74,28 @@ public class EditRoute extends MenuActivity implements CheckboxSelectionListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_route);
 
-        itineraryName = findViewById(R.id.itinerary_name);
-
-        itineraryLabel = findViewById(R.id.itinerary_label);
-
         enterpriseList = findViewById(R.id.enterpriselist);
-
         displayedEnterprises = findViewById(R.id.displayed_enterprises);
 
-        textChoice = findViewById(R.id.text_choice);
-
         enterpriseValues = new HashMap<>();
+        itineraryCustomerIds = new HashSet<>();
 
-        selectedEnterprises = new ArrayList<>();
-
-        // Appeler la méthode pour désactiver la validation SSL
+        // Désactiver la validation SSL (si nécessaire)
         SSLCertificate.disableSSLCertificateValidation();
 
-        requestDatas();
-
+        // Charger la liste des entreprises
         getEnterpriseList();
 
-        adapter = new CheckboxAdapterEdit(this, enterpriseValues, selectedEnterprises, this);
+        // Initialiser l'adapter avec des données vides pour éviter le crash
+        adapter = new CheckboxAdapterEdit(this, enterpriseValues, itineraryCustomerIds, this);
         enterpriseList.setAdapter(adapter);
 
-        arrowBack = findViewById(R.id.arrowBack);
-
-        arrowBack.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.arrowBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // création d'une intention pour informer l'activité parente
                 Intent intentionRetour = new Intent();
                 setResult(Activity.RESULT_CANCELED, intentionRetour);
-                finish(); // destruction de l'activité courante
+                finish();
             }
         });
     }
@@ -120,6 +109,7 @@ public class EditRoute extends MenuActivity implements CheckboxSelectionListener
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
+        Log.d("userId", "userId : " + userId);
 
         String urlGetEntreprise = URL_ENTERPRISES + userId;
 
@@ -153,7 +143,7 @@ public class EditRoute extends MenuActivity implements CheckboxSelectionListener
                             Log.d("getEnterpriseList", "Entreprises récupérées : " + enterpriseValues);
 
                             // Initialiser l'adapter et mettre à jour les cases cochées
-                            adapter = new CheckboxAdapterEdit(EditRoute.this, enterpriseValues, itineraryCustomerIds);
+                            adapter = new CheckboxAdapterEdit(EditRoute.this, enterpriseValues, itineraryCustomerIds,EditRoute.this);
                             enterpriseList.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
