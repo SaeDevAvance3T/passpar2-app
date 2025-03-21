@@ -1,0 +1,26 @@
+name: PassPar2-app App with Gradle
+
+on:
+  push:
+    branches: [ "*" ]  # Lors d'un push sur n'importe quelle branche
+  pull_request:
+    branches: [ "*" ]  # Lors d'une demande de pull sur n'importe quelle branche
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Le job s'exécute sur la dernière version d'Ubuntu disponible
+
+    steps:
+    - uses: actions/checkout@v4  # Action pour récupérer le code source du dépôt
+    - name: Set up JDK 17  # Configuration de la version 17 de Java
+      uses: actions/setup-java@v4  # Action pour configurer Java
+      with:
+        java-version: '17'  # Spécifie la version de Java
+        distribution: 'corretto'  # Utilisation de la distribution Amazon Corretto de Java
+
+    - name: Setup Gradle  # Action pour configurer Gradle dans l'environnement GitHub Actions
+      uses: gradle/actions/setup-gradle@v4  # Utilisation de l'action Gradle officielle
+
+    - name: Build with Gradle Wrapper  # Exécution de la commande de build avec le wrapper Gradle
+      run: ./gradlew build  # Lancer la commande de build Gradle
+      working-directory: app  # Répertoire de travail où se trouve le projet Gradle
