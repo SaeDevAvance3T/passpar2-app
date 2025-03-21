@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4  # Action pour récupérer le code source du dépôt
-    - name: Set up JDK 23  # Configuration de la version 23 de Java
+    - name: Set up JDK 17  # Configuration de la version 17 de Java
       uses: actions/setup-java@v4  # Action pour configurer Java
       with:
-        java-version: '23'  # Spécifie la version de Java
+        java-version: '17'  # Spécifie la version de Java
         distribution: 'corretto'  # Utilisation de la distribution Amazon Corretto de Java
 
     - name: Setup Gradle  # Action pour configurer Gradle dans l'environnement GitHub Actions
