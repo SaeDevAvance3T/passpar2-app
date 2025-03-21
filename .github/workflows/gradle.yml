@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "*" ]  # Déclenche le workflow sur un push sur n'importe quelle branche
   pull_request:
-    branches: [ "*" ]  # Déclenche le workflow lors d'une pull request sur n'importe quelle branche
+    branches: [ "*" ]  # Déclenche le workflow lors d'une pull request sur n'importe quelle branch
 
 jobs:
   build:
