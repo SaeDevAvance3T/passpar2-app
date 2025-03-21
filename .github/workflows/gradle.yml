@@ -1,25 +1,40 @@
-name: PassPar2-app App with Gradle
+name: PassPar2-app App with Gradle  # Nom du workflow
 
 on:
   push:
-    branches: [ "*" ]  # Lors d'un push sur n'importe quelle branche
+    branches: [ "*" ]  # Déclenche le workflow sur un push sur n'importe quelle branche
   pull_request:
-    branches: [ "*" ]  # Lors d'une demande de pull sur n'importe quelle branche
+    branches: [ "*" ]  # Déclenche le workflow lors d'une pull request sur n'importe quelle branche
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Le job s'exécute sur la dernière version d'Ubuntu disponible
+    runs-on: ubuntu-latest  # Utilise la dernière version d'Ubuntu comme environnement de build
 
     steps:
-    - uses: actions/checkout@v4  # Action pour récupérer le code source du dépôt
-    - name: Set up JDK 17  # Configuration de la version 17 de Java
-      uses: actions/setup-java@v4  # Action pour configurer Java
+    - name: Checkout repository
+      uses: actions/checkout@v4  # Clone le code source du dépôt dans l'environnement GitHub Actions
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4  # Installe Java
       with:
-        java-version: '17'  # Spécifie la version de Java
-        distribution: 'corretto'  # Utilisation de la distribution Amazon Corretto de Java
+        java-version: '17'  # Utilise Java 17
+        distribution: 'corretto'  # Choisit la distribution Corretto (Amazon)
 
-    - name: Setup Gradle  # Action pour configurer Gradle dans l'environnement GitHub Actions
-      uses: gradle/actions/setup-gradle@v4  # Utilisation de l'action Gradle officielle
+    - name: Ensure Gradle Wrapper is executable
+      run: chmod +x gradlew  # Rend le script Gradle Wrapper exécutable
 
-    - name: Build with Gradle Wrapper  # Exécution de la commande de build avec le wrapper Gradle
-      run: ./gradlew build  # Lancer la commande de build Gradle
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v3  # Active un cache pour accélérer les builds en évitant de retélécharger les dépendances
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4  # Configure Gradle et initialise l'environnement
+
+    - name: Build Android app with Gradle
+      run: ./gradlew assembleDebug --info --stacktrace  # Compile l'application Android en mode Debug
