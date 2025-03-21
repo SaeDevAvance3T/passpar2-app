@@ -23,4 +23,3 @@ jobs:
 
     - name: Build with Gradle Wrapper  # Exécution de la commande de build avec le wrapper Gradle
       run: ./gradlew build  # Lancer la commande de build Gradle
-      working-directory: app  # Répertoire de travail où se trouve le projet Gradle
