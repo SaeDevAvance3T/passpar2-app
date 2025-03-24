@@ -69,6 +69,15 @@ public class AccountActivity extends MenuActivity {
         // Appeler la méthode pour désactiver la validation SSL
         SSLCertificate.disableSSLCertificateValidation();
 
+        findViewById(R.id.arrowBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentionRetour = new Intent();
+                setResult(Activity.RESULT_CANCELED, intentionRetour);
+                finish();
+            }
+        });
+
         requestData();
     }
 

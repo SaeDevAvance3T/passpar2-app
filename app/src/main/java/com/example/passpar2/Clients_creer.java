@@ -46,7 +46,7 @@ public class Clients_creer extends MenuActivity {
      */
     private RequestQueue fileRequete;
 
-    private String urlAPI = "https://2bet.fr/api/customers";
+    private String urlAPI = "https://2bet.fr/api/customers/user/";
 
     private AppCompatButton boutonValider;
 
@@ -141,13 +141,9 @@ public class Clients_creer extends MenuActivity {
             // Créer l'objet JSON pour la requête
             JSONObject requeteJson = new JSONObject();
             try {
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
-
                 // Ajouter les informations de l'entreprise
                 requeteJson.put("name", nomEntreprise);
                 requeteJson.put("description", description);
-                requeteJson.put("userId", userId);
 
                 // Créer l'objet 'contacts' et y ajouter les informations de contact
                 JSONArray contactsArray = new JSONArray();
@@ -179,9 +175,14 @@ public class Clients_creer extends MenuActivity {
                 return;
             }
 
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
+
+            String usedUrl = urlAPI + userId;
+
             // Créer la requête POST avec l'objet JSON
             JsonObjectRequest requeteVolley = new JsonObjectRequest(
-                    Request.Method.POST, urlAPI, requeteJson,
+                    Request.Method.POST, usedUrl, requeteJson,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject reponseJson) {

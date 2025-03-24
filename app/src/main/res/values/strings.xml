@@ -98,4 +98,14 @@
     <string name="nouveau_contact_titre">Créer un nouveau contact</string>
     <string name="detail_client_add">Ajouter un contact</string>
     <string name="edit_route">Modifier un itinéraire</string>
+    <string name="itinerary_details">Details de l\'itineraire</string>
+    <string name="itinerary_entreprises">Liste des clients/prospects :</string>
+    <string name="use_as_course_button">Mettre en tant que parcours</string>
+    <string name="course_details">Détails du parcours</string>
+    <string name="course_name">Nom du parcours</string>
+    <string name="nouveau_compte_onglet_selection">Sélection</string>
+    <string name="pause_course_button">Mettre en pause le parcours</string>
+    <string name="stop_course_button">Stopper le parcours</string>
+    <string name="saved_courses">Voir les parcours sauvegardés</string>
+    <string name="retake_course">Reprendre le parcours</string>
 </resources>

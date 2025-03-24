@@ -44,7 +44,7 @@ public class DetailClient extends MenuActivity {
     /**
      * URL de l'API à interroger
      */
-    private static String URL_CONTACTS = "https://2bet.fr/api/contacts?customer=";
+    private static String URL_CONTACTS = "https://2bet.fr/api/contacts/customer/";
 
     private static final String URL_DELETE = "https://2bet.fr/api/contacts/";
 

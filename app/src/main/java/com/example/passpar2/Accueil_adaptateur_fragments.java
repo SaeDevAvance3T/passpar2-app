@@ -15,13 +15,20 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
  */
 public class Accueil_adaptateur_fragments extends FragmentStateAdapter {
     /** Nombre de fragments gérés par cet adaptateur */
-    private static final int NB_FRAGMENT = 2;
+    private static final int NB_FRAGMENT = 3;
+
+    //Id de l'itineraire sélectionné pour le parcours le cas échéant
+    private String itineraryId;
+
+    private String courseId;
     /**
      * Constructeur de base
      * @param activite activité qui contient le ViewPager qui gèrera les fragments
      */
-    public Accueil_adaptateur_fragments(FragmentActivity activite) {
+    public Accueil_adaptateur_fragments(FragmentActivity activite,String itineraryId) {
         super(activite);
+        this.itineraryId = itineraryId;
+        //this.courseId = courseId;
     }
 
     @Override
@@ -35,9 +42,11 @@ public class Accueil_adaptateur_fragments extends FragmentStateAdapter {
          */
         switch(position) {
             case 0 :
-                return Accueil_fragment_parcours.newInstance();
+                return Accueil_fragment_parcours.newInstance(itineraryId);
             case 1 :
                 return Accueil_fragment_details.newInstance();
+            case 2 :
+                return Accueil_fragment_en_cours.newInstance();
             default :
                 return null;
         }

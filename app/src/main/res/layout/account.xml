@@ -34,11 +34,12 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/arrowBack"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:src="@drawable/icon_left" />
+                android:src="@drawable/ic_arrow_left"
+                app:tint="@android:color/white" />
 
             <TextView
                 android:layout_width="match_parent"

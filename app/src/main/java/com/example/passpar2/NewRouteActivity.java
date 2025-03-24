@@ -21,9 +21,11 @@ import android.widget.Toast;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -42,9 +44,9 @@ import java.util.StringJoiner;
 public class NewRouteActivity extends MenuActivity implements CheckboxSelectionListener {
 
     /** Contient l'URL appelant l'API  */
-    private final String URL_ENTERPRISES = "https://2bet.fr/api/customers?user=";
+    private final String URL_ENTERPRISES = "https://2bet.fr/api/customers/user/";
 
-    private final String URL_ITINERARY = "https://2bet.fr/api/itineraries";
+    private final String URL_ITINERARY = "https://2bet.fr/api/itineraries/user/";
 
     /** Clé pour le nombre transmis par l'activité fille */
     public final static String CLE_NOMBRE = "NOMBRE";
@@ -74,6 +76,8 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
     public TextView textChoice;
 
     private ImageButton arrowBack;
+
+    private boolean isRequestInProgress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,50 +231,45 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
      * @param view
      */
     public void checkClick(View view) {
+        if (isRequestInProgress) {
+            // Si une requête est déjà en cours, on ne fait rien
+            return;
+        }
 
         if (selectedEnterprises.size() != 0) {
             if (!itineraryName.getText().toString().isEmpty()) {
-
-                boolean toutOk;
-                /*
-                 * préparation du nouveau client, à ajouter, en tant qu'objet Json
-                 * Les informations le concernant sont renseignées avec des valeurs par défaut,
-                 * sauf le nom du magasin qui est celui renseigné par l'utilisateur
-                 */
-                toutOk = true;
+                boolean toutOk = true;
                 JSONObject sentObject = new JSONObject();
                 try {
-                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                    int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
-                    sentObject.put("userId", userId);
                     sentObject.put("name", itineraryName.getText().toString());
                     sentObject.put("itinerary", new JSONArray(selectedEnterprises));
                     Log.i("NewRouteActivity", "JSON envoyé : " + sentObject.toString());
-
                 } catch (JSONException e) {
                     // l'exception ne doit pas se produire
                     toutOk = false;
                 }
+
                 if (toutOk) {
-                    /*
-                     * Préparation de la requête Volley. La réponse attendue est de type
-                     * JsonObject
-                     * REMARQUE : bien noter la présence du 3ème argument du constructeur qui est
-                     * l'objet Json à transmettre avec la méthode POST, en fait le body de la
-                     * requête
-                     */
+                    // Marquer la requête comme en cours
+                    isRequestInProgress = true;
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                    int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
+                    String usedUrl = URL_ITINERARY + userId;
+
                     JsonObjectRequest requeteVolley = new JsonObjectRequest(Request.Method.POST,
-                            URL_ITINERARY, sentObject,
+                            usedUrl, sentObject,
                             // Ecouteur pour la réception de la réponse de la requête
                             new com.android.volley.Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject reponse) {
-                                    // Créer un Intent pour renvoyer les données à MainActivity
+                                    // Renvoyer les données à MainActivity
                                     Intent intentionRetour = new Intent();
-                                    // Renvoyer le résultat avec les données et terminer l'activité
                                     setResult(Activity.RESULT_OK, intentionRetour);
                                     finish();
                                     Toast.makeText(getApplicationContext(), "Itineraire créé avec succès", Toast.LENGTH_SHORT).show();
+                                    // Réinitialiser l'état de la requête après réponse
+                                    isRequestInProgress = false;
                                 }
                             },
                             // Ecouteur en cas d'erreur
@@ -279,26 +278,34 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                                 public void onErrorResponse(VolleyError error) {
                                     error.printStackTrace();
                                     if (error.networkResponse != null) {
-                                        // Si la réponse réseau est disponible, récupérer le code d'état et afficher les détails
                                         Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
                                         Log.e("VolleyError", "Response: " + new String(error.networkResponse.data));
                                     } else {
-                                        // Si la réponse réseau est nulle, afficher un message d'erreur générique
                                         Log.e("VolleyError", "Erreur réseau inconnue");
                                     }
                                     Toast.makeText(NewRouteActivity.this, "Erreur de connexion", Toast.LENGTH_SHORT).show();
+                                    // Réinitialiser l'état de la requête après une erreur
+                                    isRequestInProgress = false;
                                 }
                             })
-                            // on ajoute un header, contenant la clé d'authentification
                     {
                         @Override
                         public Map getHeaders() throws AuthFailureError {
                             HashMap<String, String> headers = new HashMap<>();
-                            headers.put("Content-Type", "application/json");  // Ajout du Content-Type
+                            headers.put("Content-Type", "application/json");
                             return headers;
                         }
                     };
-                    // ajout de la requête dans la file d'attente Volley
+
+                    // Par exemple, 30 secondes pour le timeout
+                    int timeout = 30000; // 30 secondes
+
+                    RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                    requeteVolley.setRetryPolicy(policy);
+
+
+                    // Ajout de la requête dans la file d'attente Volley
+                    Log.i("CreateItinerary", "URL_ITINERARY");
                     getFileRequete().add(requeteVolley);
                 }
             } else {
@@ -307,12 +314,6 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
                 itineraryLabel.setTextColor(Color.parseColor("#FF0000"));
             }
         } else {
-            if (itineraryName.getText().toString().isEmpty()) {
-                itineraryLabel.setTextColor(Color.parseColor("#FF0000"));
-                Log.e("NewRouteActivity", "Erreur: pas de nom d'itinéraire");
-            } else {
-                itineraryLabel.setTextColor(Color.parseColor("#FFFFFF"));
-            }
             Toast.makeText(NewRouteActivity.this, "Erreur: aucune entreprise sélectionnée", LENGTH_LONG).show();
             Log.e("NewRouteActivity", "Erreur: aucune entreprise sélectionnée");
             textChoice.setTextColor(Color.parseColor("#FF0000"));
@@ -328,8 +329,10 @@ public class NewRouteActivity extends MenuActivity implements CheckboxSelectionL
      */
     private RequestQueue getFileRequete() {
         if (fileRequete == null) {
+            Log.d("CreateItinerary", " " + fileRequete);
             fileRequete = Volley.newRequestQueue(this);
         }
+        Log.d("CreateItinerary", " " + fileRequete);
         // sinon
         return fileRequete;
     }

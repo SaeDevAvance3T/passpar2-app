@@ -40,7 +40,7 @@ import java.util.StringJoiner;
 public class EditRoute extends MenuActivity implements CheckboxSelectionListener {
 
     /** Contient l'URL appelant l'API  */
-    private final String URL_ENTERPRISES = "https://2bet.fr/api/customers?user=";
+    private final String URL_ENTERPRISES = "https://2bet.fr/api/customers/user/";
 
     private final String URL_ITINERARY = "https://2bet.fr/api/itineraries/";
 

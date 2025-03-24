@@ -1,38 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/black"
+    android:orientation="vertical"
     tools:context="Accueil_fragment_parcours">
 
-    <LinearLayout
-        android:id="@+id/accueil_fragment_parcours"
-        android:orientation="vertical"
+    <!-- Carte -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="500dp"
+        android:layout_margin="8dp" />
 
-        <!-- MapView avec hauteur FIXE pour empêcher le bug -->
-        <org.osmdroid.views.MapView
-            android:id="@+id/map"
+    <!-- Panneau d'informations client -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/black"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/client_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/client_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/distance_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Boutons -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/nouveau_compte_suivant"
-            style="@style/nouveau_compte_suivant"
-            android:background="@color/vert"
-            android:text="@string/nouveau_compte_suivant" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mark_visit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marquer la visite"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:layout_marginEnd="10dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/nouveau_compte_connecter"
-            style="@style/nouveau_compte_suivant"
-            android:text="@string/nouveau_compte_connecter"
-            android:layout_marginBottom="45dp"
-            android:onClick="clicRechercherEnChaine" />
-
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel_visit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Annuler la visite"
+                android:backgroundTint="@color/background"
+                android:textColor="@color/white"
+                android:padding="10dp" />
+        </LinearLayout>
     </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

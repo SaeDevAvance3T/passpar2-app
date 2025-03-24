@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ public class Itineraries_afficher extends MenuActivity {
     private List<String> itineraries;
     private List<String> idItineraries;
 
-    private String url = "https://2bet.fr/api/itineraries";  // URL de l'API
+    private String url = "https://2bet.fr/api/itineraries/user/";  // URL de l'API
 
     private String URL_DELETE = "https://2bet.fr/api/itineraries/";
 
@@ -172,9 +173,14 @@ public class Itineraries_afficher extends MenuActivity {
             return;  // Si pas de connexion, on ne fait rien
         }
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("userId", -1);  // -1 est la valeur par défaut si l'ID n'est pas trouvé
+
+        String usedUrl = url + userId;
+
         // Créer la requête GET
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, url, null,
+                Request.Method.GET, usedUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

@@ -49,18 +49,24 @@ public class Accueil_main extends MenuActivity {
          * on récupère un accès sur le ViewPager défini dans la vue
          * ainsi que sur le TabLayout qui gèrera les onglets
          */
+        String itineraryId = getIntent().getStringExtra("itineraryId");
+        String courseId = getIntent().getStringExtra("courseId");
         ViewPager2 gestionnairePagination = findViewById(R.id.activity_main_viewpager);
+        gestionnairePagination.setAdapter(new Accueil_adaptateur_fragments(this, itineraryId));
+
+        gestionnairePagination.setOffscreenPageLimit(3); // Garde tous les fragments en mémoire
         TabLayout gestionnaireOnglet = findViewById(R.id.tab_layout);
         /*
          * on associe au ViewPager un adaptateur (c'est lui qui organise le
          * défilement entre les fragments à afficher)
          */
-        gestionnairePagination.setAdapter(new Accueil_adaptateur_fragments(this)) ;
+
         /*
          * On regroupe dans un tableau les intitulés des boutons d'onglet
          */
         String[] titreOnglet = {getString(R.string.nouveau_compte_onglet_parcours),
-                getString(R.string.nouveau_compte_onglet_details)};
+                getString(R.string.nouveau_compte_onglet_selection),getString(R.string.nouveau_compte_onglet_details)};
+        //,getString(R.string.nouveau_compte_onglet_details)
         /*
          * On crée une instance de type TabLayoutMediator qui fera le lien entre
          * le gestionnaire de pagination et le gestionnaire des onglets
@@ -85,5 +91,6 @@ public class Accueil_main extends MenuActivity {
          * ).attach();
          *
          */
+
     }
 }
